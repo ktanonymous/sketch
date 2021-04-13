@@ -25,7 +25,7 @@ class Users(models.Model):
 
 class ResponseLogs(models.Model):
     id = models.AutoField(verbose_name = 'id', primary_key = True)
-    user_id = models.ForeignKey(Users, verbose_name = 'user_ID', blank = True, null = True, on_delete = models.SET_NULL)
+    user_id = models.ForeignKey(Users, verbose_name = 'user_ID', blank = True, null = True, on_delete = models.SET_NULL, db_column = 'user_id')
     session_id = models.CharField(verbose_name = 'session_id', max_length = 255)
     http_method = models.CharField(verbose_name = 'http_method', max_length = 20)
     url = models.CharField(verbose_name = 'url', max_length = 255)
@@ -41,7 +41,7 @@ class ResponseLogs(models.Model):
 
 class RequestLogs(models.Model):
     id = models.AutoField(verbose_name = 'id', primary_key = True)
-    user_id = models.ForeignKey(Users, verbose_name = 'user_ID', blank = True, null = True, on_delete = models.SET_NULL)
+    user_id = models.ForeignKey(Users, verbose_name = 'user_ID', blank = True, null = True, on_delete = models.SET_NULL, db_column = 'user_id')
     session_id = models.CharField(verbose_name = 'session_id', max_length = 255)
     http_method = models.CharField(verbose_name = 'http_method', max_length = 20)
     url = models.CharField(verbose_name = 'url', max_length = 255)

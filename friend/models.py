@@ -5,8 +5,8 @@ from django.utils import timezone
 
 class Friends(models.Model):
     id = models.AutoField(verbose_name = 'id', primary_key=True)
-    follow_user_id = models.ForeignKey(Users, related_name = 'follow_userid', verbose_name = 'follow_user_id', blank = True, on_delete = models.CASCADE)
-    followed_user_id = models.ForeignKey(Users, related_name = 'followed_userid', verbose_name = 'followed_user_id', blank = True, on_delete = models.CASCADE)
+    follow_user_id = models.ForeignKey(Users, related_name = 'follow_userid', verbose_name = 'follow_user_id', blank = True, on_delete = models.CASCADE, db_column = 'follow_user_id')
+    followed_user_id = models.ForeignKey(Users, related_name = 'followed_userid', verbose_name = 'followed_user_id', blank = True, on_delete = models.CASCADE, db_column = 'followed_user_id')
     created_at = models.DateTimeField(verbose_name = 'created_at', default = timezone.now)
     updated_at = models.DateTimeField(verbose_name = 'updated_at', default = timezone.now)
 
