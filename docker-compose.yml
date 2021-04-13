@@ -5,8 +5,8 @@ services:
         container_name: 'db'
         image: mysql:5.7
         # restart: always
-        # volumes: # DBのデータはマウントさせる必要があるのか？
-            # - ./mysql:/var/lib/mysql
+        volumes: # DBのデータはマウントさせる必要があるのか？
+            - ./mysql:/var/lib/mysql
         # ports:
         #     - ''
         environment:
