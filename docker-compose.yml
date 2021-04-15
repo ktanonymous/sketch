@@ -5,8 +5,10 @@ services:
         container_name: 'db'
         image: mysql:5.7
         # restart: always
-        volumes:
+        volumes: # DBのデータはマウントさせる必要があるのか？
             - ./mysql:/var/lib/mysql
+        # ports:
+        #     - ''
         environment:
             MYSQL_ROOT_PASSWORD: django
             MYSQL_DATABASE: django
@@ -14,7 +16,7 @@ services:
             MYSQL_PASSWORD: django
             TZ: 'Asia/Tokyo'
         command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
-
+    
     python:
         container_name: 'python'
         build: .
