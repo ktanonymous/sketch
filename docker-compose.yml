@@ -3,7 +3,9 @@ version: '3'
 services:
     db:
         container_name: 'db'
-        image: mysql:5.7
+        build:
+            context: ./
+            dockerfile: DBDockerfile
         volumes:
             - ./mysql:/var/lib/mysql
         env_file: .env
@@ -13,7 +15,9 @@ services:
     
     python:
         container_name: 'python'
-        build: .
+        build:
+            context: ./
+            dockerfile: PyDockerfile
         command: python3 manage.py runserver 0.0.0.0:8000
         depends_on:
             - db
