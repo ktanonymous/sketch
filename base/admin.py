@@ -1,24 +1,19 @@
 from django.contrib import admin
 from .models import Users, RequestLogs, ResponseLogs
 
-from django.contrib.auth.admin import UserAdmin
-
-admin.site.register(Users, UserAdmin)
 admin.site.register(RequestLogs)
 admin.site.register(ResponseLogs)
 
 
 
-
-'''
 #以下追記
-
+from django import forms
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 
-from customauth.models import Users
+from base.models import Users
 
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
@@ -28,7 +23,7 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = Users
-        fields = ('email', 'date_of_birth')
+        fields = ('email', 'first_name')
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -56,7 +51,7 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = Users
-        fields = ('email', 'password', 'date_of_birth', 'is_active', 'is_admin')
+        fields = ('email', 'password', 'first_name', 'is_active', 'is_admin')
 
 
 class UserAdmin(BaseUserAdmin):
@@ -67,11 +62,11 @@ class UserAdmin(BaseUserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('email', 'date_of_birth', 'is_admin')
+    list_display = ('email', 'first_name', 'is_admin')
     list_filter = ('is_admin',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Personal info', {'fields': ('date_of_birth',)}),
+        ('Personal info', {'fields': ('first_name',)}),
         ('Permissions', {'fields': ('is_admin',)}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
@@ -79,7 +74,7 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'date_of_birth', 'password1', 'password2'),
+            'fields': ('email', 'first_name', 'password1', 'password2'),
         }),
     )
     search_fields = ('email',)
@@ -88,8 +83,7 @@ class UserAdmin(BaseUserAdmin):
 
 
 # Now register the new UserAdmin...
-admin.site.register(MyUser, UserAdmin)
+admin.site.register(Users, UserAdmin)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
 admin.site.unregister(Group)
-'''
