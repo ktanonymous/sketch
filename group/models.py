@@ -8,10 +8,10 @@ class Groups(models.Model):
     name = models.CharField(verbose_name='グループ名', max_length=20)
     icon_path = models.CharField(verbose_name='icon_path', max_length=255)
     calender_path = models.CharField(verbose_name='calender_path', max_length=255)
-    created_at = models.DateTimeField(verbose_name='created_at', default=timezone.now)
-    updated_at = models.DateTimeField(verbose_name='updated_at', default=timezone.now)
+    created_at = models.DateTimeField(verbose_name='created_at', auto_now_add=True)
+    updated_at = models.DateTimeField(verbose_name='updated_at', auto_now=True)
 
-    user_id = models.ManyToManyField(Users, verbose_name='user_id', db_table='Users_Groups')
+    user_id = models.ManyToManyField(Users, verbose_name='user_id', db_table='Users_Groups', related_name='+')
 
     class Meta(object):
         verbose_name_plural = 'Groups'
