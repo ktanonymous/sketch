@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'base.apps.BaseConfig',
     'friend.apps.FriendConfig',
-    'group.apps.GroupConfig',
 ]
 
 MIDDLEWARE = [
@@ -119,7 +118,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = False
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -129,4 +128,4 @@ STATIC_URL = '/static/'
 
 # addtional variables
 
-AUTH_USER_MODEL = 'base.Users'
+AUTH_USER_MODEL = 'base.User'

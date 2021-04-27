@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import Friends
+from .models import Friend
 # Register your models here.
-admin.site.register(Friends)
+admin.site.register(Friend)
