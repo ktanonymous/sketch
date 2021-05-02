@@ -64,3 +64,17 @@ class AdustingSchedule(models.Model):
 
     def __str__(self):
         return 'イベント名：' + 'name'
+
+        
+class Event(models.Model):
+    id = models.AutoField(verbose_name='id', primary_key=True)
+    name = models.CharField(verbose_name='イベント名', max_length=30)
+    date_start = models.DateTimeField(verbose_name='開始日時')
+    date_end = models.DateTimeField(verbose_name='終了日時')
+    user_id = models.IntegerField(verbose_name='user_id')
+
+    class Meta(object):
+        verbose_name_plural = 'Events'
+
+    def __str__(self):
+        return self.name + ' (user_id: ' + str(self.user_id) + ' )'

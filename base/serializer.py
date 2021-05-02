@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import User
-from ..friend.models import Friend
+from .models import Friend
+from .models import Event
 
 class UsersSerializers(serializers.ModelSerializers):
     class Meta:
@@ -19,4 +20,14 @@ class FriendsSerializers(serializers.ModelSerializers):
             'id',
             'follow_user_id',
             # 'followed_user_id',
+        )
+
+class EventsSerializers(serializers.ModelSerializers):
+    class Meta:
+        model = Event
+        fields = (
+            'id',
+            'name',
+            'date_start',
+            'date_end',
         )
