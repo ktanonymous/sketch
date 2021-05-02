@@ -43,9 +43,11 @@
 
 * 開発作業の反映
     * `docker-compose.yml`、`Dockerfile`、`requirements.txt`のいずれかを編集した場合
+
         ```
         docker-compose up -d --build
         ```
+    
     * それ以外
         ホストのカレントディレクトリとコンテナの`/code/`をマウントしているので、特に何もしなくても反映されます。  
 
