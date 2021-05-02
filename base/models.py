@@ -44,7 +44,7 @@ class Information(models.Model):
     message = models.CharField(verbose_name='メッセージ', max_length=255)
     user_id = models.ForeignKey(User, verbose_name='user_id', on_delete=models.CASCADE)
     created_at = models.DateTimeField(verbose_name='created_at', auto_now_add=True)
-    adjusting_schedules_id = models.ForeinKey(Adjusting_schedule, verbosename='adjusting_schedules_id', brank='True', null='True',on_delete=models.CASCADE)
+    adjusting_schedules_id = models.ForeinKey(AdjustingSchedule, verbosename='adjusting_schedules_id', brank='True', null='True',on_delete=models.CASCADE)
     events_id = models.ForeinKey(Event, verbosename='adjusting_schedules_id', brank='True', null='True', on_delete=models.CASCADE)
     
     class Meta(object):
