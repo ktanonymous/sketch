@@ -1,7 +1,10 @@
 from django.shortcuts import render
-from rest_framwork import status
-from rest_framework.view import APIView
-from rest_framework.response import Response
+from rest_framework import status, generics
 
 from .models import User, Friend, Event, Information, AdjustingSchedule
-# Create your views here.
+from .serializer import UserSerializer, FriendSerializer, EventSerializer, AdjustingScheduleSerializer, InformationSerializer
+
+
+class FriendAPI(generics.CreateAPIView):
+    queryset = Friend.objects.all()
+    serializer_class = FriendSerializer
