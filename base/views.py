@@ -19,7 +19,6 @@ class GetUserView(generics.RetrieveAPIView):
     permission_classes = (
         AllowAny,  # TODO: 本当はAllowAny良くないので後で直すべし
     )
-    serializer_class = UserSerializer
 
     def get(self, request):
         id = request.data['id']
