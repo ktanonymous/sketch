@@ -30,6 +30,15 @@ class FriendSerializer(ModelSerializer):
         )
 
 
+class RetrieveUserSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            'username',
+            'email',
+        )
+
+
 class EventSerializer(ModelSerializer):
     class Meta:
         model = Event

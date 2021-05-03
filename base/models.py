@@ -7,7 +7,6 @@ from .managers import UserManager
 class User(AbstractBaseUser, PermissionsMixin):
     username_validator = UnicodeUsernameValidator
 
-    # id = models.AutoField(verbose_name='ユーザーID', primary_key=True)
     username = models.CharField(verbose_name='ユーザー名', max_length=10, validators=[username_validator])
     email = models.EmailField(verbose_name='メールアドレス', max_length=255, unique=True)
     password = models.CharField(verbose_name='パスワード', max_length=255)
