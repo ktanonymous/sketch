@@ -1,10 +1,11 @@
+from django.shortcuts import render
 from rest_framework import status, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from .models import User, Friend, Event, Information, AdjustingSchedule
-from .serializers import UserSerializer, RetrieveUserSerializer
+from .serializers import UserSerializer, RetrieveUserSerializer, FriendSerializer, EventSerializer, AdjustingScheduleSerializer, InformationSerializer
 
 
 class UserRegistrationView(generics.CreateAPIView):
@@ -35,11 +36,18 @@ class RetriveUserView(generics.RetrieveAPIView):
     serializer_class = RetrieveUserSerializer
 
 
+class CreateFriendView(generics.CreateAPIView):
+    queryset = Friend.objects.all()
+    serializer_class = FriendSerializer
+
+
 class GetFriendListView(generics.ListAPIView):
     permission_classes = (
         AllowAny,  # TODO: 本当はAllowAny良くないので後で直すべし
     )
-    serializer_class = UserSerializer
+    serializer_class = FriendSerializer
 
     def get_queryset(self):
-        return super().get_queryset()
+        id = self.kwargs['pk']
+        queryset = Friend.objects.filter(followed_user_id=id)
+        return queryset
