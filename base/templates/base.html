@@ -1,0 +1,41 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="author" content="Takahiro Suzuki, Kota Syoji, Wataru Takamoto">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="日程調整を簡潔にすることを目標にしたアプリ「すけっち」のプロトタイプです。\n初学者達3人で力を合わせて作ったので，拙い点が多々ございますがご了承下さい。">
+        
+        <link href="{% static 'css/mystyle.css' %}" rel="stylesheet" type="text/css"/>
+
+        <title>すけっち｜{% block title %}{% endblock %}</title>
+
+        {% block head %}{% endblock %}
+    </head>
+<body>
+    <header style="width: 100%; margin: 0px;">
+        <!-- TODO: 現在のページのハイライト機能の実装をする -->
+        <div id="header-box">
+            
+            <div class="top-menu" style="background-image: url({% static 'img/background_image.jpg' %})">
+                <strong style='color: black;'>すけっち</strong>
+            </div>
+            <div class="top-menu"></div>
+            <div class="top-menu"><a href="{% url 'base:index' %}">HOME</a></div>
+            <div class="top-menu"><a href="#!">日程調整</a></div>
+            <div class="top-menu"><a href="#!">友達申請</a></div>
+            <div class="top-menu"><a href="{% url 'base:friends' %}">友達リスト</a></div>
+            <div class="top-menu"><a href="#!">ログアウト</a></div>
+        </div>
+    </header>
+
+    {% block content %}{% endblock %}
+
+    <footer style="background-color: black; position: absolute; bottom: 0; width: 100%; text-align: center;">
+        <p style="color: white; font-size: 18px; margin: 8px 8px;">&copy; 2021 Takahiro Suzuki, Kota Shoji, Wataru Takemoto.</p>
+    </footer>
+</body>
+
+</html>

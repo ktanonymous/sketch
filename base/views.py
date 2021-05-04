@@ -53,8 +53,11 @@ class GetFriendListView(generics.ListAPIView):
         queryset = Friend.objects.filter(followed_user_id=id)
         return queryset
 
-class HomeView(generic.TemplateView):
-    template_name = 'home.html'
+class IndexView(generic.TemplateView):
+    template_name = 'index.html'
  
 class WelcomeView(generic.TemplateView):
     template_name = 'welcome.html'
+    
+class FriendsListView(generic.TemplateView):
+    template_name = 'friends_list.html'

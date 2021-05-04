@@ -2,4 +2,3 @@ Django==3.1
 mysqlclient==1.4.6
 djangorestframework==3.11.2
 django-allauth==0.44.0
-# mysql-connector-python # どちらか一つで十分？
