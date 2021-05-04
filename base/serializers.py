@@ -1,26 +1,41 @@
-from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer
 from .models import User, Friend, Event, AdjustingSchedule, Information
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'id',
             'username',
             'email',
             'password',
         )
+    
+    def create(self, validated_data):
+        user = User()
+        user.email = validated_data['email']
+        user.username = validated_data['username']
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
 
-class FriendSerializer(serializers.ModelSerializer):
+
+class RetrieveUserSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            'username',
+            'email',
+        )
+
+class FriendSerializer(ModelSerializer):
     class Meta:
         model = Friend
         fields = (
-            'id',
             'follow_user_id',
             'followed_user_id',
         )
 
-class EventSerializer(serializers.ModelSerializer):
+class EventSerializer(ModelSerializer):
     class Meta:
         model = Event
         fields = (
@@ -31,7 +46,7 @@ class EventSerializer(serializers.ModelSerializer):
             'user_id'
         )
 
-class AdjustingScheduleSerializer(serializers.ModelSerializer):
+class AdjustingScheduleSerializer(ModelSerializer):
     class Meta:
         model = AdjustingSchedule
         fields = (
@@ -54,7 +69,7 @@ class AdjustingScheduleSerializer(serializers.ModelSerializer):
             'current_user_num',
         )
 
-class InformationSerializer(serializers.ModelSerializer):
+class InformationSerializer(ModelSerializer):
     class Meta:
         model = Information
         fields = (

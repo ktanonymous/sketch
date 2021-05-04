@@ -7,7 +7,6 @@ from .managers import UserManager
 class User(AbstractBaseUser, PermissionsMixin):
     username_validator = UnicodeUsernameValidator
 
-    # id = models.AutoField(verbose_name='ユーザーID', primary_key=True)
     username = models.CharField(verbose_name='ユーザー名', max_length=10, validators=[username_validator])
     email = models.EmailField(verbose_name='メールアドレス', max_length=255, unique=True)
     password = models.CharField(verbose_name='パスワード', max_length=255)
@@ -65,7 +64,7 @@ class AdjustingSchedule(models.Model):
     def __str__(self):
         return 'イベント名：' + 'name'
 
-        
+
 class Event(models.Model):
     id = models.AutoField(verbose_name='id', primary_key=True)
     name = models.CharField(verbose_name='イベント名', max_length=30)
@@ -79,6 +78,7 @@ class Event(models.Model):
     def __str__(self):
         return self.name + ' (user_id: ' + str(self.user_id) + ' )'
 
+
 class Information(models.Model):
     id = models.AutoField(verbose_name='id', primary_key=True)
     message = models.CharField(verbose_name='メッセージ', max_length=255)
@@ -86,7 +86,7 @@ class Information(models.Model):
     created_at = models.DateTimeField(verbose_name='created_at', auto_now_add=True)
     adjusting_schedules_id = models.ForeignKey(AdjustingSchedule, verbose_name='adjusting_schedules_id', blank=True, null=True, on_delete=models.CASCADE)
     events_id = models.ForeignKey(Event, verbose_name='events_id', blank=True, null=True, on_delete=models.CASCADE)
-    
+
     class Meta(object):
         verbose_name_plural = 'Informations'
 
