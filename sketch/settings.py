@@ -146,8 +146,10 @@ STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'base.User'
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
-#追加
 SITE_ID = 1
 
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'

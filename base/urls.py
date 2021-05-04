@@ -7,17 +7,19 @@ from .views import (
     RetriveUserView,
     CreateFriendView,
     GetFriendListView,
-    HomeView,
+    IndexView,
     WelcomeView,
+    FriendsListView,
 )
 
-
+app_name = 'base'
 urlpatterns = [
     path('user/registration', UserRegistrationView.as_view()),
     path('user/get', GetUserView.as_view()),
     path('user/retrieve/<int:pk>', RetriveUserView.as_view()),
     path('friend/create', CreateFriendView.as_view()),
     path('friend/list/<int:pk>', GetFriendListView.as_view()),
-    path('home/', HomeView.as_view(), name='home'),
+    path('index/', IndexView.as_view(), name='index'),
+    path('friends/', FriendsListView.as_view(), name='friends'),
     path('welcome/', WelcomeView.as_view(), name='welcome'),
 ]

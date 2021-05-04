@@ -1,0 +1,21 @@
+#header-box{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 100%;
+    margin: 0px;
+}
+
+.top-menu{
+    text-align: center;
+    padding: 12px 20px;
+    margin: 0px;
+    border: 1px solid;
+    flex-basis: auto;
+    flex-grow: 1;
+}
+
+/* .mybtn{
+    padding: 10px 30px;
+    margin: 3px;
+} */
