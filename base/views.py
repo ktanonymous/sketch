@@ -7,6 +7,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from .models import User, Friend, Event, Information, AdjustingSchedule
 from .serializers import UserSerializer, RetrieveUserSerializer, FriendSerializer, EventSerializer, AdjustingScheduleSerializer, InformationSerializer
 
+from django.views import generic
 
 class UserRegistrationView(generics.CreateAPIView):
     permission_classes = (
@@ -51,3 +52,9 @@ class GetFriendListView(generics.ListAPIView):
         id = self.kwargs['pk']
         queryset = Friend.objects.filter(followed_user_id=id)
         return queryset
+
+class HomeView(generic.TemplateView):
+    template_name = 'home.html'
+ 
+class WelcomeView(generic.TemplateView):
+    template_name = 'welcome.html'
