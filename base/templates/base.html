@@ -2,33 +2,38 @@
 
 <!DOCTYPE html>
 <html lang="ja">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="author" content="Takahiro Suzuki, Kota Syoji, Wataru Takamoto">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="日程調整を簡潔にすることを目標にしたアプリ「すけっち」のプロトタイプです。\n初学者達3人で力を合わせて作ったので，拙い点が多々ございますがご了承下さい。">
-        
-        <link href="{% static 'css/mystyle.css' %}" rel="stylesheet" type="text/css"/>
 
-        <title>すけっち｜{% block title %}{% endblock %}</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Takahiro Suzuki, Kota Syoji, Wataru Takamoto">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="日程調整を簡潔にすることを目標にしたアプリ「すけっち」のプロトタイプです。\n初学者達3人で力を合わせて作ったので，拙い点が多々ございますがご了承下さい。">
 
-        {% block head %}{% endblock %}
-    </head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link href="{% static 'css/mystyle.css' %}" rel="stylesheet" type="text/css" />
+
+    <title>すけっち｜{% block title %}{% endblock %}</title>
+
+    {% block head %}{% endblock %}
+</head>
+
 <body>
     <header style="width: 100%; margin: 0px;">
         <!-- TODO: 現在のページのハイライト機能の実装をする -->
-        <div id="header-box">
-            
-            <div class="top-menu" style="background-image: url({% static 'img/background_image.jpg' %})">
-                <strong style='color: black;'>すけっち</strong>
+        <nav>
+            <div id="header-box">
+                <div class="top-menu" style="background-image: url({% static 'img/background_image.jpg' %})">
+                    <strong style='color: black;'>すけっち</strong>
+                </div>
+                <div class="top-menu"></div>
+                <div class="top-menu" style="{% block is_home %}{% endblock %}"><a href="{% url 'base:index' %}">HOME</a></div>
+                <div class="top-menu" style="{% block is_adjusting %}{% endblock %}"><a href="#!">日程調整</a></div>
+                <div class="top-menu" style="{% block is_friend_application %}{% endblock %}"><a href="{% url 'base:friend_application' %}">友達申請</a></div>
+                <div class="top-menu" style="{% block is_friends_list %}{% endblock %}"><a href="{% url 'base:friends' %}">友達リスト</a></div>
+                <div class="top-menu"><a href="#!">ログアウト</a></div>
             </div>
-            <div class="top-menu"></div>
-            <div class="top-menu"><a href="{% url 'base:index' %}">HOME</a></div>
-            <div class="top-menu"><a href="#!">日程調整</a></div>
-            <div class="top-menu"><a href="#!">友達申請</a></div>
-            <div class="top-menu"><a href="{% url 'base:friends' %}">友達リスト</a></div>
-            <div class="top-menu"><a href="#!">ログアウト</a></div>
-        </div>
+        </nav>
     </header>
 
     {% block content %}{% endblock %}
@@ -36,6 +41,10 @@
     <footer style="background-color: black; position: absolute; bottom: 0; width: 100%; text-align: center;">
         <p style="color: white; font-size: 18px; margin: 8px 8px;">&copy; 2021 Takahiro Suzuki, Kota Shoji, Wataru Takemoto.</p>
     </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 
 </html>

@@ -5,9 +5,16 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from .models import User, Friend, Event, Information, AdjustingSchedule
-from .serializers import UserSerializer, RetrieveUserSerializer, FriendSerializer, EventSerializer, AdjustingScheduleSerializer, InformationSerializer
-
+from .serializers import (
+    UserSerializer,
+    RetrieveUserSerializer,
+    FriendSerializer,
+    EventSerializer,
+    AdjustingScheduleSerializer,
+    InformationSerializer,
+)
 from django.views import generic
+
 
 class UserRegistrationView(generics.CreateAPIView):
     permission_classes = (
@@ -53,11 +60,31 @@ class GetFriendListView(generics.ListAPIView):
         queryset = Friend.objects.filter(followed_user_id=id)
         return queryset
 
+
 class IndexView(generic.TemplateView):
     template_name = 'index.html'
- 
+
+
 class WelcomeView(generic.TemplateView):
     template_name = 'welcome.html'
-    
-class FriendsListView(generic.TemplateView):
+
+
+class FriendsListView(generic.ListView):
+    model = Friend
     template_name = 'friends_list.html'
+    paginate_by = 3
+
+    # def get_queryset(self, request):
+    #     id = request.data['id']
+    #     # ログインユーザーの情報を使いたい場合にはself.request.userみたいな感じにやる
+    #     friends = Friend.objects.filter(followed_user_id=id)
+    #     return friends
+
+    def get_queryset(self):
+        # ログインユーザーの情報を使いたい場合にはself.request.userみたいな感じにやる
+        friends = Friend.objects.filter(followed_user_id=2)
+        return friends
+
+
+class FriendApplicationView(generic.TemplateView):
+    template_name = 'friend_application.html'
