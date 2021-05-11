@@ -6,8 +6,11 @@ from .models import Information
 from .models import AdjustingSchedule
 # Register your models here.
 
+class FriendAdmin(admin.ModelAdmin):
+    readonly_fields = ('id',)
+
 admin.site.register(User)
-admin.site.register(Friend)
+admin.site.register(Friend, FriendAdmin)
 admin.site.register(Event)
 admin.site.register(Information)
 admin.site.register(AdjustingSchedule)

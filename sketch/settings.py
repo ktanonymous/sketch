@@ -69,7 +69,7 @@ ROOT_URLCONF = 'sketch.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates', 'allauth')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,10 +77,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-
-                #追加
-                'django.template.context_processors.request',
-
             ],
         },
     },
@@ -154,9 +150,9 @@ SITE_ID = 1
 
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 #LOGIN_URL = '/base/home/' 
-LOGIN_REDIRECT_URL = '/base/home'
+LOGIN_REDIRECT_URL = '/base/index'
 #ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
