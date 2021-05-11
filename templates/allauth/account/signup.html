@@ -5,7 +5,6 @@
 <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}" style="text-align:center">
   {% csrf_token %}
   {{form.as_p}}
-  
  <!--
   {% for item in form %}
   <div class="form-group">
