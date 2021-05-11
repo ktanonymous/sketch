@@ -10,6 +10,7 @@ from .views import (
     IndexView,
     WelcomeView,
     FriendsListView,
+    FriendApplicationView
 )
 
 app_name = 'base'
@@ -21,5 +22,6 @@ urlpatterns = [
     path('friend/list/<int:pk>', GetFriendListView.as_view()),
     path('index/', IndexView.as_view(), name='index'),
     path('friends/', FriendsListView.as_view(), name='friends'),
+    path('friends/application', FriendApplicationView.as_view(), name='friend_application'),
     path('welcome/', WelcomeView.as_view(), name='welcome'),
 ]
