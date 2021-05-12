@@ -66,7 +66,7 @@ class IndexView(generic.ListView):
     template_name = 'index.html'
 
     def get_queryset(self):
-        informations = Information.objects.filter(user_id=2)
+        informations = Information.objects.filter(user_id=self.request.user.id)
         return informations
 
 
@@ -87,7 +87,7 @@ class FriendsListView(generic.ListView):
 
     def get_queryset(self):
         # ログインユーザーの情報を使いたい場合にはself.request.userみたいな感じにやる
-        friends = Friend.objects.filter(followed_user_id=2)
+        friends = Friend.objects.filter(followed_user_id=self.request.user.id)
         return friends
 
 
