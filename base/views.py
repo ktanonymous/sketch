@@ -61,8 +61,13 @@ class GetFriendListView(generics.ListAPIView):
         return queryset
 
 
-class IndexView(generic.TemplateView):
+class IndexView(generic.ListView):
+    model = Information
     template_name = 'index.html'
+
+    def get_queryset(self):
+        informations = Information.objects.filter(user_id=2)
+        return informations
 
 
 class WelcomeView(generic.TemplateView):

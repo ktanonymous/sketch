@@ -2,9 +2,49 @@
 
 {% block title %}HOME{% endblock %}
 
+{% block is_home %}background-color: skyblue;{% endblock %}
+
 {% block content %}
-<h1>
-    埋め込んだよ
-</h1>
-<p>たかぴーだお</p>
+
+<div id="content-box">
+
+    <section class="box">
+        <h1>お知らせ</h1>
+        <table class="table-box">
+            <tbody class="table-display">
+                {% for information in information_list %}
+                    {% if information.adjusting_schedules_id %}
+                        <tr>
+                            <th>{{ information.created_at }}</th>
+                            <td>{{ information.message }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <th>{{ information.created_at }}</th>
+                            <td>予定 {{ information.events_id }} が確定しました。</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <section class="box">
+        <h1>予定一覧</h1>
+        <table class="table-box">
+            <tbody class="table-display">
+                {% for information in information_list %}
+                {% if information.events_id %}
+                    <tr>
+                        <th>{{ information.events_id }}</th>
+                        <td>{{ information.message }}</td>
+                    </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+</div>
+
 {% endblock %}
