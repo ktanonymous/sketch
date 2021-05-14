@@ -5,6 +5,15 @@
 {% block is_friend_application %}background-color: skyblue;{% endblock %}
 
 {% block content %}
-<h1>友達リスト</h1>
+
+<h1>メールアドレス</h1>
+
+<form method="Post" action="{% url 'base:index' %}">
+    {% csrf_token %}
+    <table class="table">
+        {{ form.as_table }}
+    </table>
+    <button type="submit">送信</button>
+</form>
 
 {% endblock %}

@@ -48,6 +48,14 @@
     overflow-y: scroll;
 }
 
+#address-box{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 60%;
+    margin: 0px;
+}
+
 /* .mybtn{
     padding: 10px 30px;
     margin: 3px;

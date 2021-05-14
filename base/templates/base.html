@@ -26,12 +26,12 @@
                 <div class="top-menu" style="background-image: url({% static 'img/background_image.jpg' %})">
                     <strong style='color: black;'>すけっち</strong>
                 </div>
-                <div class="top-menu"></div>
+                <div class="top-menu"><strong style="color: red;">{{ user.username }}さん</strong></div>
                 <div class="top-menu" style="{% block is_home %}{% endblock %}"><a href="{% url 'base:index' %}">HOME</a></div>
                 <div class="top-menu" style="{% block is_adjusting %}{% endblock %}"><a href="#!">日程調整</a></div>
                 <div class="top-menu" style="{% block is_friend_application %}{% endblock %}"><a href="{% url 'base:friend_application' %}">友達申請</a></div>
                 <div class="top-menu" style="{% block is_friends_list %}{% endblock %}"><a href="{% url 'base:friends' %}">友達リスト</a></div>
-                <div class="top-menu"><a href="#!">ログアウト</a></div>
+                <div class="top-menu"><a href="{% url 'account_logout' %}">ログアウト</a></div>
             </div>
         </nav>
     </header>
