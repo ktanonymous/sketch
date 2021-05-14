@@ -1,4 +1,8 @@
+import sys
+
 from django import forms
+
+from .models import User, Friend
 
 
 class FriendApplicationForm(forms.Form):
@@ -41,3 +45,11 @@ class FriendApplicationForm(forms.Form):
         self.fields['email3'].widget.attrs['placeholder'] = 'example@example.com'
         self.fields['email4'].widget.attrs['placeholder'] = 'example@example.com'
         self.fields['email5'].widget.attrs['placeholder'] = 'example@example.com'
+
+    def save(self, self_user):
+        data = self.cleaned_data
+        emails = [email for email in data.values() if email]
+        users = [User.objects.get(email=email) for email in emails]
+        for user in users:
+            Friend(follow_user_id=self_user, followed_user_id=user).save()
+            Friend(follow_user_id=user, followed_user_id=self_user).save()

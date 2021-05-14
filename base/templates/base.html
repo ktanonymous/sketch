@@ -20,7 +20,6 @@
 
 <body>
     <header style="width: 100%; margin: 0px;">
-        <!-- TODO: 現在のページのハイライト機能の実装をする -->
         <nav>
             <div id="header-box">
                 <div class="top-menu" style="background-image: url({% static 'img/background_image.jpg' %})">
@@ -35,6 +34,22 @@
             </div>
         </nav>
     </header>
+
+    {% if messages %}
+    <div class="container">
+        <div class="row">
+            <div class="w-100">
+                <ul class="messages" style="list-style: none;">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                        {{ message }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 
     {% block content %}{% endblock %}
 
