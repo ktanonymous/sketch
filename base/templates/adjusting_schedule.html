@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}日程調整{% endblock %}
+
+{% block is_adjusting %}background-color: skyblue;{% endblock %}
+
+{% block head %}
+{{ form.media }}
+{% endblock %}
+
+{% block content %}
+
+<form method="POST">
+    {% csrf_token %}
+    <div class="container" style="margin: 30px;">
+        <div class="row" style="margin: 30px;">
+            {{ form.name.label_tag }}
+            {{ form.name }}
+            {{ form.name.errors }}
+        </div>
+        <div class="row" style="margin: 30px;">
+            <div class="col-7">
+                <div class="row">
+                    <p>候補日程リスト</p>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <ul style="list-style-type: none;">
+                            <li class="field">
+                                {{ form.date1_start.label_tag }}
+                                {{ form.date1_start }}
+                                {{ form.date1_start.errors }}
+                            </li>
+                            <li class="field">
+                                {{ form.date2_start.label_tag }}
+                                {{ form.date2_start }}
+                                {{ form.date2_start.errors }}
+                            </li>
+                            <li class="field">
+                                {{ form.date3_start.label_tag }}
+                                {{ form.date3_start }}
+                                {{ form.date3_start.errors }}
+                            </li>
+                            <li class="field">
+                                {{ form.date4_start.label_tag }}
+                                {{ form.date4_start }}
+                                {{ form.date4_start.errors }}
+                            </li>
+                            <li class="field">
+                                {{ form.date5_start.label_tag }}
+                                {{ form.date5_start }}
+                                {{ form.date5_start.errors }}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <ul style="list-style-type: none;">
+                            <li class="field">
+                                {{ form.date1_end.label_tag }}
+                                {{ form.date1_end }}
+                                {{ form.date1_end.errors }}
+                            </li>
+                            <li class="field">
+                                {{ form.date2_end.label_tag }}
+                                {{ form.date2_end }}
+                                {{ form.date2_end.errors }}
+                            </li>
+                            <li class="field">
+                                {{ form.date3_end.label_tag }}
+                                {{ form.date3_end }}
+                                {{ form.date3_end.errors }}
+                            </li>
+                            <li class="field">
+                                {{ form.date4_end.label_tag }}
+                                {{ form.date4_end }}
+                                {{ form.date4_end.errors }}
+                            </li>
+                            <li class="field">
+                                {{ form.date5_end.label_tag }}
+                                {{ form.date5_end }}
+                                {{ form.date5_end.errors }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-5">
+                <p>宛先リスト</p>
+                <ul style="list-style-type: none;">
+                    <li class="field">
+                        {{ form.friend1.label_tag }}
+                        {{ form.friend1 }}
+                        {{ form.friend1.errors }}
+                    </li>
+                    <li class="field">
+                        {{ form.friend2.label_tag }}
+                        {{ form.friend2 }}
+                        {{ form.friend2.errors }}
+                    </li>
+                    <li class="field">
+                        {{ form.friend3.label_tag }}
+                        {{ form.friend3 }}
+                        {{ form.friend3.errors }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row" style="margin: 30px;">
+            <button type="submit" style="margin: 10px;">送信</button>
+            <button type="reset" style="margin: 10px;">取り消し</button>
+        </div>
+    </div>
+</form>
+
+{% endblock %}
+

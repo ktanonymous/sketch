@@ -1,5 +1,4 @@
 FROM mysql:5.7
 RUN mkdir /code
 WORKDIR /code
-COPY lazy_access.sh /code/
-RUN chmod +x /code/lazy_access.sh
+COPY /shellscripts/lazy_access.sh /code/

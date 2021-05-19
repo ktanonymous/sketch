@@ -29,6 +29,7 @@ INSTALLED_APPS = [
 
     # 追加
     'django.contrib.sites',
+    'bootstrap_datepicker_plus',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',

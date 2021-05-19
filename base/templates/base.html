@@ -9,7 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="日程調整を簡潔にすることを目標にしたアプリ「すけっち」のプロトタイプです。\n初学者達3人で力を合わせて作ったので，拙い点が多々ございますがご了承下さい。">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
     <link href="{% static 'css/mystyle.css' %}" rel="stylesheet" type="text/css" />
 
@@ -26,9 +29,9 @@
                     <strong style='color: black;'>すけっち</strong>
                 </div>
                 <div class="top-menu"><strong style="color: red;">{{ user.username }}さん</strong></div>
-                <div class="top-menu" style="{% block is_home %}{% endblock %}"><a href="{% url 'base:index' %}">HOME</a></div>
-                <div class="top-menu" style="{% block is_adjusting %}{% endblock %}"><a href="#!">日程調整</a></div>
-                <div class="top-menu" style="{% block is_friend_application %}{% endblock %}"><a href="{% url 'base:friend_application' %}">友達申請</a></div>
+                <div class="top-menu" style="{% block is_home %}{% endblock %}"><a href="{% url 'base:index' %}">ホーム</a></div>
+                <div class="top-menu" style="{% block is_adjusting %}{% endblock %}"><a href="{% url 'base:adjusting' %}">日程調整</a></div>
+                <div class="top-menu" style="{% block is_follow %}{% endblock %}"><a href="{% url 'base:follow' %}">友達申請</a></div>
                 <div class="top-menu" style="{% block is_friends_list %}{% endblock %}"><a href="{% url 'base:friends' %}">友達リスト</a></div>
                 <div class="top-menu"><a href="{% url 'account_logout' %}">ログアウト</a></div>
             </div>
