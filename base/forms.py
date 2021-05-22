@@ -71,3 +71,27 @@ class AdjustingScheduleForm(forms.ModelForm):
             # id = print(args)
             # self.fields[f"friend{i}"].queryset = AdjustingSchedule(id=id)
             # self.fields[f"friend{i}"].queryset = Friend(followed_user_id=)
+
+    def save(self, master_user):
+        cleaned_data = self.cleaned_data
+        schedule = AdjustingSchedule()
+        schedule.master_user_id = master_user
+        schedule.name = cleaned_data['name']
+        schedule.date1_start = cleaned_data['date1_start']
+        schedule.date1_end = cleaned_data['date1_end']
+        schedule.date2_start = cleaned_data['date2_start']
+        schedule.date2_end = cleaned_data['date2_end']
+        schedule.date3_start = cleaned_data['date3_start']
+        schedule.date3_end = cleaned_data['date3_end']
+        schedule.date4_start = cleaned_data['date4_start']
+        schedule.date4_end = cleaned_data['date4_end']
+        schedule.date5_start = cleaned_data['date5_start']
+        schedule.date5_end = cleaned_data['date5_end']
+        schedule.friend1 = cleaned_data['friend1']
+        schedule.friend2 = cleaned_data['friend2']
+        schedule.friend3 = cleaned_data['friend3']
+
+        friends = [schedule.friend1, schedule.friend2, schedule.friend3]
+        schedule.current_user_num = sum(friend is not None for friend in friends)
+        schedule.save()
+        return schedule

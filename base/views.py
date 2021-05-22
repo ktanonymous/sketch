@@ -31,9 +31,15 @@ class AdjustingScheduleView(generic.FormView):
         return context
 
     def form_valid(self, form):
-        print('success!')
-        print(form.data)
-        print(form.cleaned_data)
+        master_user = self.request.user
+        schedule = form.save(master_user)  # データベースに保存するデータ
+        friend = schedule.friend1
+        message = f"{master_user.username}から予定「{schedule.name}」の調整依頼が来ました"
+        info = Information()
+        info.message = message
+        info.user_id = friend
+        info.adjusting_schedules_id = schedule
+        info.save()
         messages.success(self.request, '日程作成に成功しました！')
         return super().form_valid(form)
 
