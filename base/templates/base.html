@@ -30,7 +30,7 @@
                 </div>
                 <div class="top-menu"><strong style="color: red;">{{ user.username }}さん</strong></div>
                 <div class="top-menu" style="{% block is_home %}{% endblock %}"><a href="{% url 'base:index' %}">ホーム</a></div>
-                <div class="top-menu" style="{% block is_adjusting %}{% endblock %}"><a href="{% url 'base:adjusting' %}">日程調整</a></div>
+                <div class="top-menu" style="{% block is_propose %}{% endblock %}"><a href="{% url 'base:propose' %}">日程調整</a></div>
                 <div class="top-menu" style="{% block is_follow %}{% endblock %}"><a href="{% url 'base:follow' %}">友達申請</a></div>
                 <div class="top-menu" style="{% block is_friends_list %}{% endblock %}"><a href="{% url 'base:friends' %}">友達リスト</a></div>
                 <div class="top-menu"><a href="{% url 'account_logout' %}">ログアウト</a></div>

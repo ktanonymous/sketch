@@ -13,15 +13,15 @@
         <table class="table-box">
             <tbody class="table-display">
                 {% for information in information_list %}
-                    {% if information.adjusting_schedules_id %}
+                    {% if information.adjusting_schedule %}
                         <tr>
-                            <th style="width: 40%">{{ information.created_at }}：　</th>
-                            <td>{{information.adjusting_schedules_id.master_user_id}}から<a href="#!" style="text-decoration: none;">予定「{{information.adjusting_schedules_id.name}}」</a>の調整依頼が来ました</td>
+                            <th style="width: 40%">{{ information.created_at }}</th>
+                            <td> : {{information.sender}}から<a href="{% url 'base:adjusting' information.adjusting_schedule.pk %}" style="text-decoration: none;">予定「{{information.adjusting_schedule.name}}」</a>の調整依頼が来ました</td>
                         </tr>
                     {% else %}
                         <tr>
-                            <th style="width: 40%"> {{ information.created_at }}：　</th>
-                            <td><a href="#!" style="text-decoration: none;">予定 {{ information.events_id }} が確定しました。</a></td>
+                            <th style="width: 40%"> {{ information.created_at }}</th>
+                            <td> : 予定 {{ information.event_name }} が確定しました。</td>
                         </tr>
                     {% endif %}
                 {% endfor %}
@@ -34,12 +34,12 @@
         <table class="table-box">
             <tbody class="table-display">
                 {% for information in information_list %}
-                {% if information.events_id %}
-                    <tr>
-                        <th><a href="#!" style="text-decoration: none; color: black;">{{ information.events_id }}</a></th>
-                        <td>{{ information.message }}</td>
-                    </tr>
-                {% endif %}
+                    {% if information.event %}
+                        <tr>
+                            <th style="width: 30%">「{{ information.event.name }}」</th>
+                            <td> : {{ information.event.date_start }} 〜 {{ information.event.date_end }}</td>
+                        </tr>
+                    {% endif %}
                 {% endfor %}
             </tbody>
         </table>

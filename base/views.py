@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.contrib import messages
 
-from .models import User, Friend, Event, Information, AdjustingSchedule
-from .forms import FriendFollowForm, AdjustingScheduleForm
+from .models import User, Friend, Information, AdjustingSchedule
+from .forms import FriendFollowForm, ProposeScheduleForm, AdjustingScheduleForm
 from django.views import generic
 
 
@@ -12,39 +12,36 @@ class IndexView(generic.ListView):
     template_name = 'index.html'
 
     def get_queryset(self):
-        informations = Information.objects.filter(user_id=self.request.user.id)
+        informations = Information.objects.filter(receiver=self.request.user.id)
         return informations
 
 
-class AdjustingScheduleView(generic.FormView):
+class ProposeScheduleView(generic.FormView):
     # NOTE: 一先ずこれ
-    template_name = 'adjusting_schedule.html'
-    form_class = AdjustingScheduleForm
+    template_name = 'propose_schedule.html'
+    form_class = ProposeScheduleForm
     success_url = reverse_lazy('base:index')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # TODO: 明らかにfollow_user_id.idはおかしいので要検討
-        friend_ids = [friend.follow_user_id.id for friend in Friend.objects.filter(followed_user_id=self.request.user.id)]
+        friends = [friend.follow_user.id for friend in Friend.objects.filter(followed_user=self.request.user.id)]
         for i in range(1, 4):
-            context['form'].fields[f'friend{i}'].queryset = User.objects.filter(id__in=friend_ids)
+            context['form'].fields[f'friend{i}'].queryset = User.objects.filter(id__in=friends)
         return context
 
     def form_valid(self, form):
-        master_user = self.request.user
-        schedule = form.save(master_user)  # データベースに保存するデータ
-        friend = schedule.friend1
-        message = f"{master_user.username}から予定「{schedule.name}」の調整依頼が来ました"
+        sender = self.request.user
+        adjusting_schedule = form.save(sender)  # データベースに保存するデータ
+        friend = adjusting_schedule.friend1
         info = Information()
-        info.message = message
-        info.user_id = friend
-        info.adjusting_schedules_id = schedule
+        info.receiver = friend
+        info.sender = sender
+        info.adjusting_schedule = adjusting_schedule
         info.save()
         messages.success(self.request, '日程作成に成功しました！')
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        print('failed...')
         print(self.request.user.id)
         print(form.data)
         print(form.cleaned_data)
@@ -53,6 +50,7 @@ class AdjustingScheduleView(generic.FormView):
 
 
 class FriendFollowView(generic.FormView):
+    # TODO: 自分自身を対象に友達登録できてしまう
     template_name = 'follow.html'
     form_class = FriendFollowForm
     model = Friend
@@ -75,5 +73,30 @@ class FriendsListView(generic.ListView):
     paginate_by = 3
 
     def get_queryset(self):
-        friends = Friend.objects.filter(followed_user_id=self.request.user.id)
+        friends = Friend.objects.filter(followed_user=self.request.user.id)
         return friends
+
+
+class AdjustingScheduleView(generic.FormView):
+    template_name = 'adjusting_schedule.html'
+    model = AdjustingSchedule
+    form_class = AdjustingScheduleForm
+    success_url = reverse_lazy('base:index')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs['pk']
+        adjusting_schedule = AdjustingSchedule.objects.get(pk=pk)
+        context['adjusting_schedule'] = adjusting_schedule
+        return context
+
+    def form_valid(self, form):
+        pk = self.kwargs['pk']
+        form.update_adjusting_schedule_table(pk)
+        form.save(pk)
+        messages.success(self.request, '候補日程を送信しました！')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, '候補日程の送信に失敗しました...')
+        return super().form_invalid(form)
