@@ -4,22 +4,27 @@ from .models import Friend
 from .models import Event
 from .models import Information
 from .models import AdjustingSchedule
-# Register your models here.
+
 
 class UserAdmin(admin.ModelAdmin):
     readonly_fields = ('id',)
 
+
 class FriendAdmin(admin.ModelAdmin):
     readonly_fields = ('id',)
 
+
 class EventAdmin(admin.ModelAdmin):
-    readonly_fields = ('id',)    
+    readonly_fields = ('id',)
+
 
 class InformationAdmin(admin.ModelAdmin):
     readonly_fields = ('id',)
 
+
 class AdjustingScheduleAdmin(admin.ModelAdmin):
     readonly_fields = ('id',)
+
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Friend, FriendAdmin)

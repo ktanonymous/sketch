@@ -9,7 +9,7 @@
 
 <div class="border border-dark bg-light">
     {% for friend in friend_list %}
-    <p><span style="font-size: larger;">{{ friend.follow_user_id }}</span> <span style="color: gray;font-size: small;">{{ friend.follow_user_id.email }}</span></p>
+    <p><span style="font-size: larger;">{{ friend.follow_user }}</span> <span style="color: gray;font-size: small;">{{ friend.follow_user.email }}</span></p>
     {% empty %}
     <p>友達がいません。。。</p>
     {% endfor %}

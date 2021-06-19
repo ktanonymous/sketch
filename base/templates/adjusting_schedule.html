@@ -2,7 +2,166 @@
 
 {% block title %}日程調整{% endblock %}
 
-{% block is_adjusting %}background-color: skyblue;{% endblock %}
+<!--TODO: メニューバーの色は要検討-->
+{% block is_propose %}background-color: deeppink;{% endblock %}
+
+{% block head %}
+{{ form.media }}
+{% endblock %}
+
+{% block content %}
+
+<form method="POST">
+    {% csrf_token %}
+    <table style="list-style-type: none; margin: 10px;" class="table table-bordered w-75">
+        <caption style="color: black; caption-side: top;">
+            <strong>候補日程リスト</strong>
+        </caption>
+        <thead class="thead-dark">
+            <tr align="center">
+                <th>
+                </th>
+                <th>
+                    OKな日程にチェックを入れてください
+                </th>
+                <th>
+                    日程
+                </th>
+            </tr>
+        </thead>
+        <tbody class="table-striped">
+            {% if adjusting_schedule.date1_start %}
+                <tr class="field" align="center" valign="center">
+                    <th>
+                        {{ form.date1_is_ok.label_tag }}
+                    </th>
+                    <td>
+                        <div style="width: 20px;">
+                            {{form.date1_is_ok}}
+                            {{ form.date1_is_ok.errors }}
+                        </div>
+                    </td>
+                    <td>
+                        {{ adjusting_schedule.date1_start|date:"m/d(D) H:i" }} ~ {{ adjusting_schedule.date1_end|date:"m/d(D) H:i" }}
+                    </td>
+                </tr>
+            {% endif %}
+
+            {% if adjusting_schedule.date2_start %}
+                <tr class="field" align="center" valign="center">
+                    <th>
+                        {{ form.date2_is_ok.label_tag }}
+                    </th>
+                    <td class="field">
+                        <div style="width: 20px;">
+                            {{form.date2_is_ok}}
+                            {{ form.date2_is_ok.errors }}
+                        </div>
+                    </td>
+                    <td>
+                        {{ adjusting_schedule.date2_start|date:"m/d(D) H:i" }} ~ {{ adjusting_schedule.date2_end|date:"m/d(D) H:i" }}
+                    </td>
+                </tr>
+            {% endif %}
+
+            {% if adjusting_schedule.date3_start %}
+                <tr class="field" align="center" valign="center">
+                    <th>
+                        {{ form.date3_is_ok.label_tag }}
+                    </th>
+                    <td class="field">
+                        <div style="width: 20px;">
+                            {{form.date3_is_ok}}
+                            {{ form.date3_is_ok.errors }}
+                        </div>
+                    </td>
+                    <td>
+                        {{ adjusting_schedule.date3_start|date:"m/d(D) H:i" }} ~ {{ adjusting_schedule.date3_end|date:"m/d(D) H:i" }}
+                    </td>
+                </tr>
+            {% endif %}
+
+            {% if adjusting_schedule.date4_start %}
+                <tr class="field" align="center" valign="center">
+                    <th>
+                        {{ form.date4_is_ok.label_tag }}
+                    </th>
+                    <td class="field">
+                        <div style="width: 20px;">
+                            {{form.date4_is_ok}}
+                            {{ form.date4_is_ok.errors }}
+                        </div>
+                    </td>
+                    <td>
+                        {{ adjusting_schedule.date4_start|date:"m/d(D) H:i" }} ~ {{ adjusting_schedule.date4_end|date:"m/d(D) H:i" }}
+                    </td>
+                </tr>
+            {% endif %}
+
+            {% if adjusting_schedule.date5_start %}
+                <tr class="field" align="center" valign="center">
+                    <th>
+                        {{ form.date5_is_ok.label_tag }}
+                    </th>
+                    <td class="field">
+                        <div style="width: 20px;">
+                            {{form.date5_is_ok}}
+                            {{ form.date5_is_ok.errors }}
+                        </div>
+                    </div>
+                    </td>
+                    <td>
+                        {{ adjusting_schedule.date5_start|date:"m/d(D) H:i" }} ~ {{ adjusting_schedule.date5_end|date:"m/d(D) H:i" }}
+                    </td>
+                </tr>
+            {% endif %}
+
+        </tbody>
+    </table>
+    <button type="submit" style="margin: 30px;">送信</button>
+    <button type="reset" style="margin: 30px;">取り消し</button>
+</form>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+
+    
+{% block title %}日程調整{% endblock %}
+
+{% block is_propose %}background-color: skyblue;{% endblock %}
 
 {% block head %}
 {{ form.media }}
@@ -14,9 +173,7 @@
     {% csrf_token %}
     <div class="container" style="margin: 30px;">
         <div class="row" style="margin: 30px;">
-            {{ form.name.label_tag }}
-            {{ form.name }}
-            {{ form.name.errors }}
+            <h1>{{ adjusting_schedule.name }}</h1>
         </div>
         <div class="row" style="margin: 30px;">
             <div class="col-7">
@@ -25,6 +182,39 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
+                        <dl>
+                            <dt>date1_start</dt>
+                            <dd class="field">
+                                {{ form.date1_start.label_tag }}
+                                {{ adjusting_schedule.date1_start }}
+                                {{ form.date1_start }}
+                                {{ form.date1_start.errors }}
+                            </dd>
+                            <dt>date2_start</dt>
+                            <dd>
+                                {{ form.date2_start.label_tag }}
+                                {{ adjusting_schedule.date2_start }}
+                                {{ form.date2_start.errors }}
+                            </dd>
+                            <dt>date3_start</dt>
+                            <dd>
+                                {{ form.date3_start.label_tag }}
+                                {{ adjusting_schedule.date3_start }}
+                                {{ form.date3_start.errors }}
+                            </dd>
+                            <dt>date4_start</dt>
+                            <dd>
+                                {{ form.date4_start.label_tag }}
+                                {{ adjusting_schedule.date4_start }}
+                                {{ form.date4_start.errors }}
+                            </dd>
+                            <dt>date5_start</dt>
+                            <dd>
+                                {{ form.date5_start.label_tag }}
+                                {{ adjusting_schedule.date5_start }}
+                                {{ form.date5_start.errors }}
+                            </dd>
+                        </dl>
                         <ul style="list-style-type: none;">
                             <li class="field">
                                 {{ form.date1_start.label_tag }}
@@ -112,5 +302,5 @@
     </div>
 </form>
 
-{% endblock %}
+{% endblock %} {% endcomment %}
 
