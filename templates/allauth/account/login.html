@@ -1,23 +1,17 @@
 {% extends 'account/base.html' %}
 {% load static %}
 {% block title%} ログイン {% endblock %}
-
+<!--TODO: padding marginとかの見直し -->
 {% block content %}
-<div class="container-fluid" style="margin: 120px 0px 100px;">
-  <div class="row align-items-center">
-    <div class="col-3"></div>
-    <div class="col-6" style="background-image: url({% static 'img/water_color.jpeg' %});">
-      <h1 style="text-align:center; margin:30px; font-size:600%;">すけっち</h1>
+  <div style="padding:100px 0px 200px">
+    <h1 style="text-align:center; font-size:600%;  margin:50px 0px 50px;">すけっち</h1>
 
-      <form class="login" method="POST" action="{% url 'account_login' %}" style="text-align:center">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button class="primaryAction btn btn-light" style="margin:10px" type="submit">Log in</button>
-      </form>
+    <form class="login" method="POST" action="{% url 'account_login' %}" style="text-align:center;">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="primaryAction btn btn-light" style="margin:10px" type="submit">Log in</button>
+    </form>
 
-      <p style="text-align:center; margin:10px">&#x25B6;<a href="{{ signup_url }}">未登録の方はこちら</a></p>
-    </div>
-    <div class="col-3"></div>
+    <p style="text-align:center; margin:10px">&#x25B6;<a href="{{ signup_url }}">未登録の方はこちら</a></p>
   </div>
-</div>
 {% endblock %}

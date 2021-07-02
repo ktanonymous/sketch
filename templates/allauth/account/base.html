@@ -20,8 +20,17 @@
     {% block head %}{% endblock %}
   </head>
 
-  <body style="background-image: url({% static 'img/white2.jpeg' %});">
+  <body style="background-image: url({% static 'img/white_background.jpeg' %});">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-3"></div>
+        <div class="col-6" style="background-image: url({% static 'img/water_background.jpeg' %}); background-size:cover">
           {% block content %}{% endblock %}
+        </div>
+        <div class="col-3"></div>
+      </div>
+    </div>
+    
     <footer style="background-color: black; position: fixed; bottom: 0; width: 100%; text-align: center;">
       <p style="color: white; font-size: 18px; margin: 8px 8px;">&copy; 2021 Takahiro Suzuki, Kota Shoji, Wataru Takemoto.</p>
     </footer>
