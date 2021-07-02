@@ -1,5 +1,7 @@
-{% load i18n %}
+{% extends 'account/base.html' %}
+{% block title %}ユーザー登録{% endblock %}
 
+{% block content%}
 <h1 style="text-align:center">ユーザー登録</h1>
 
 <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}" style="text-align:center">
@@ -49,3 +51,4 @@
 </form>
 
 <p style="text-align:center">すでにアカウントをお持ちの方は<a href="{{ login_url }}">こちら</a></p>
+{% endblock %}
