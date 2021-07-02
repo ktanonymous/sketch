@@ -20,9 +20,8 @@
     {% block head %}{% endblock %}
   </head>
 
-  <body>
-    {% block content %}{% endblock %}
-
+  <body style="background-image: url({% static 'img/white2.jpeg' %});">
+          {% block content %}{% endblock %}
     <footer style="background-color: black; position: fixed; bottom: 0; width: 100%; text-align: center;">
       <p style="color: white; font-size: 18px; margin: 8px 8px;">&copy; 2021 Takahiro Suzuki, Kota Shoji, Wataru Takemoto.</p>
     </footer>

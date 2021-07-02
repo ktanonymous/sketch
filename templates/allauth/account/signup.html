@@ -1,54 +1,47 @@
 {% extends 'account/base.html' %}
+{% load static%}
 {% block title %}ユーザー登録{% endblock %}
 
-{% block content%}
-<h1 style="text-align:center">ユーザー登録</h1>
+{% block content %}
+<div class="container-fluid" style="margin: 120px 0px 100px;">
 
-<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}" style="text-align:center">
-  {% csrf_token %}
+  <div class="row align-items-center">
+    <div class="col-3"></div>
 
-  <p>
-    <label for="id_username">ユーザ名:</label> 
-    <input type="text" name="username" placeholder="ユーザ名" autocomplete="username" minlength="1" maxlength="10" required="" id="id_username">
-  </p>
+    <div class="col-6" style="background-image: url({% static 'img/water_color.jpeg' %});">
+      <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}" style="text-align:center">
+        {% csrf_token %}
+        <p>
+          <label for="id_username">ユーザ名:</label> 
+          <input type="text" name="username" placeholder="ユーザ名" autocomplete="username" minlength="1" maxlength="10" required="" id="id_username">
+        </p>
 
-  <p>
-    <label for="id_email">メールアドレス:</label> 
-    <input type="email" name="email" placeholder="メールアドレス" autocomplete="email" required="" id="id_email">
-  </p>
+        <p>
+          <label for="id_email">メールアドレス:</label> 
+          <input type="email" name="email" placeholder="メールアドレス" autocomplete="email" required="" id="id_email">
+        </p>
 
-  <p>
-    <label for="id_password1">パスワード:</label> 
-    <input type="password" name="password1" placeholder="パスワード" autocomplete="new-password" required="" id="id_password1">
-  </p>
+        <p>
+          <label for="id_password1">パスワード:</label> 
+          <input type="password" name="password1" placeholder="パスワード" autocomplete="new-password" required="" id="id_password1">
+        </p>
 
-  <p>
-    <label for="id_password2">パスワード(確認用):</label> 
-    <input type="password" name="password2" placeholder="パスワード(確認用)" required="" id="id_password2">
-  </p>
+        <p>
+          <label for="id_password2">パスワード(確認用):</label> 
+          <input type="password" name="password2" placeholder="パスワード(確認用)" required="" id="id_password2">
+        </p>
 
-<!--ver1 {{ form.as_p }} -->
-<!--ver2
-  {% for item in form %}
-  <div class="form-group">
-    <p>
-    <label for="{{item.id_for_label}}">{{item.label}}:</label><br>
-    <input 
-        type="{{item.field.widget.input_type}}"
-        name="{{item.name}}"
-        class="form-control" 
-        {% if item.field.required %}required{% endif %}  
-        id="{{item.id_for_label}}">
-    </p>
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+
+        <button class="btn btn-light" type="submit">登録</button>
+      </form>
+
+      <p style="text-align:center">すでにアカウントをお持ちの方は<a href="{{ login_url }}">こちら</a></p>
+    </div>
+    
+    <div class="col-3"></div>
   </div>
-  {% endfor %}
- -->
-
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <button type="submit">登録</button>
-</form>
-
-<p style="text-align:center">すでにアカウントをお持ちの方は<a href="{{ login_url }}">こちら</a></p>
+</div>
 {% endblock %}

@@ -1,18 +1,23 @@
 {% extends 'account/base.html' %}
-{% load account %}
-
+{% load static %}
 {% block title%} ログイン {% endblock %}
 
 {% block content %}
+<div class="container-fluid" style="margin: 120px 0px 100px;">
+  <div class="row align-items-center">
+    <div class="col-3"></div>
+    <div class="col-6" style="background-image: url({% static 'img/water_color.jpeg' %});">
+      <h1 style="text-align:center; margin:30px; font-size:600%;">すけっち</h1>
 
-<h1 style="text-align:center">すけっち</h1>
+      <form class="login" method="POST" action="{% url 'account_login' %}" style="text-align:center">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="primaryAction btn btn-light" style="margin:10px" type="submit">Log in</button>
+      </form>
 
-<form class="login" method="POST" action="{% url 'account_login' %}" style="text-align:center">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button class="primaryAction" type="submit">"Sign In"</button>
-</form>
-
-<p style="text-align:center">&#x25B6;<a href="{{ signup_url }}">未登録の方はこちら</a></p>
-
+      <p style="text-align:center; margin:10px">&#x25B6;<a href="{{ signup_url }}">未登録の方はこちら</a></p>
+    </div>
+    <div class="col-3"></div>
+  </div>
+</div>
 {% endblock %}
