@@ -1,35 +1,17 @@
-{% load i18n %}
-{% load account %}
+{% extends 'account/base.html' %}
+{% load static %}
+{% block title%} ログイン {% endblock %}
+<!--TODO: padding marginとかの見直し -->
+{% block content %}
+  <div style="padding:100px 0px 200px">
+    <h1 style="text-align:center; font-size:600%;  margin:50px 0px 50px;">すけっち</h1>
 
-<h1 style="text-align:center">すけっち</h1>
+    <form class="login" method="POST" action="{% url 'account_login' %}" style="text-align:center;">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="primaryAction btn btn-light" style="margin:10px" type="submit">Log in</button>
+    </form>
 
-<form class="login" method="POST" action="{% url 'account_login' %}" style="text-align:center">
-  {% csrf_token %}
-  {{ form.as_p }}
-
-  <!--
-  {% for item in form %}
-  <div class="form-group">
-    <p>
-    <label for="{{item.id_for_label}}">{{item.label}}:</label><br>
-    <input 
-        type="{{item.field.widget.input_type}}"
-        name="{{item.name}}"
-        class="form-control" 
-        {% if item.field.required %}required{% endif %}  
-        id="{{item.id_for_label}}">
-    </p>
+    <p style="text-align:center; margin:10px">&#x25B6;<a href="{{ signup_url }}">未登録の方はこちら</a></p>
   </div>
-  {% endfor %}
-  --> 
-
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <button class="primaryAction" type="submit">{% trans "Sign In" %}</button>
-</form>
-
-<p style="text-align:center">&#x25B6;<a href="{{ signup_url }}">未登録の方はこちら</a></p>
-<!--
-  <p style="text-align:center"><a class="button secondaryAction" href="{% url 'account_reset_password' %}" >{% trans "Forgot Password?" %}</a></p>
--->
+{% endblock %}
