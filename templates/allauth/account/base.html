@@ -20,11 +20,11 @@
     {% block head %}{% endblock %}
   </head>
 
-  <body style="background-image: url({% static 'img/white_background.jpeg' %});">
+  <body style="background-image: url({% static 'img/white_background.jpeg' %})">
     <div class="container-fluid">
       <div class="row align-items-center">
         <div class="col-3"></div>
-        <div class="col-6" style="background-image: url({% static 'img/water_background.jpeg' %}); background-size:cover">
+        <div class="col-6" style="height:100vh; background-image: url({% static 'img/water_background.jpeg' %});">
           {% block content %}{% endblock %}
         </div>
         <div class="col-3"></div>
