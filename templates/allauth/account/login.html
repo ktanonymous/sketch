@@ -3,15 +3,15 @@
 {% block title%} ログイン {% endblock %}
 <!--TODO: padding marginとかの見直し -->
 {% block content %}
-  <div style="padding:100px 0px 200px">
-    <h1 style="text-align:center; font-size:600%;  margin:50px 0px 50px;">すけっち</h1>
+  <div>
+    <h1 style="text-align:center; font-size:600%; margin-top:18vh">すけっち</h1>
 
-    <form class="login" method="POST" action="{% url 'account_login' %}" style="text-align:center;">
+    <form class="login" method="POST" action="{% url 'account_login' %}" style="text-align:center; margin-top:10vh">
     {% csrf_token %}
     {{ form.as_p }}
-    <button class="primaryAction btn btn-light" style="margin:10px" type="submit">Log in</button>
+    <button class="primaryAction btn btn-light" type="submit" style="margin-top:3vh">Log in</button>
     </form>
 
-    <p style="text-align:center; margin:10px">&#x25B6;<a href="{{ signup_url }}">未登録の方はこちら</a></p>
+    <p style="text-align:center; margin-top:3vh">&#x25B6;<a href="{{ signup_url }}" style="color:rgb(3, 1, 124)">未登録の方はこちら</a></p>
   </div>
 {% endblock %}
