@@ -130,3 +130,6 @@ dmypy.json
 
 # Mysql Data
 mysql/
+
+# Secret Key
+sketch/secrets.py

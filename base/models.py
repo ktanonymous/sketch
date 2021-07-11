@@ -99,4 +99,4 @@ class Information(models.Model):
         db_table = 'informations'
 
     def __str__(self):
-        return self.event_name + ' (user_id: ' + str(self.receiver) + ' )'
+        return self.event_name + '(user_id: ' + str(self.receiver) + ')'
