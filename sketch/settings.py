@@ -3,12 +3,13 @@ import os
 
 from django.contrib.messages import constants as messages
 
+from .secrets import SECRET_KEY
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '9jzhm6e6=&vd2$mq+3p^gf*o!9ybr!st%$cc!_e3ei)d3ke$e%'
+# SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
