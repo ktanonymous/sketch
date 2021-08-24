@@ -57,7 +57,7 @@ ROOT_URLCONF = 'sketch.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates', 'allauth')],
+        'DIRS': [os.path.join(BASE_DIR, 'base', 'templates', 'allauth')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
