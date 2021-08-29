@@ -4,7 +4,7 @@
 
 from django.contrib import admin
 
-from .models import User, Friend, Event, Information, AdjustingSchedule
+from .models import User, Friend, Event, Information, AdjustingEvent
 
 # id は変更されたくないため、読み取り専用とする
 # 上記は、<モデル名>Admin クラス全てに共通
@@ -26,7 +26,7 @@ class InformationAdmin(admin.ModelAdmin):
     readonly_fields = ('id',)
 
 
-class AdjustingScheduleAdmin(admin.ModelAdmin):
+class AdjustingEventAdmin(admin.ModelAdmin):
     readonly_fields = ('id',)
 
 
@@ -38,4 +38,4 @@ admin.site.register(User, UserAdmin)
 admin.site.register(Friend, FriendAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(Information, InformationAdmin)
-admin.site.register(AdjustingSchedule, AdjustingScheduleAdmin)
+admin.site.register(AdjustingEvent, AdjustingEventAdmin)

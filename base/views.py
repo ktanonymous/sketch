@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.contrib import messages
 
-from .models import User, Friend, Information, AdjustingSchedule
-from .forms import FriendFollowForm, ProposeScheduleForm, AdjustingScheduleForm
+from .models import User, Friend, Information, AdjustingEvent
+from .forms import FriendFollowForm, ProposeEventForm, AdjustingEventForm
 from django.views import generic
 
 
@@ -16,10 +16,10 @@ class IndexView(generic.ListView):
         return informations
 
 
-class ProposeScheduleView(generic.FormView):
+class ProposeEventView(generic.FormView):
     # NOTE: 一先ずこれ
-    template_name = 'propose_schedule.html'
-    form_class = ProposeScheduleForm
+    template_name = 'propose_event.html'
+    form_class = ProposeEventForm
     success_url = reverse_lazy('base:index')
 
     def get_context_data(self, **kwargs):
@@ -31,12 +31,12 @@ class ProposeScheduleView(generic.FormView):
 
     def form_valid(self, form):
         sender = self.request.user
-        adjusting_schedule = form.save(sender)  # データベースに保存するデータ
-        friend = adjusting_schedule.friend1
+        adjusting_event = form.save(sender)  # データベースに保存するデータ
+        friend = adjusting_event.friend1
         info = Information()
         info.receiver = friend
         info.sender = sender
-        info.adjusting_schedule = adjusting_schedule
+        info.adjusting_event = adjusting_event
         info.save()
         messages.success(self.request, '日程作成に成功しました！')
         return super().form_valid(form)
@@ -77,22 +77,22 @@ class FriendsListView(generic.ListView):
         return friends
 
 
-class AdjustingScheduleView(generic.FormView):
-    template_name = 'adjusting_schedule.html'
-    model = AdjustingSchedule
-    form_class = AdjustingScheduleForm
+class AdjustingEventView(generic.FormView):
+    template_name = 'adjusting_event.html'
+    model = AdjustingEvent
+    form_class = AdjustingEventForm
     success_url = reverse_lazy('base:index')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         pk = self.kwargs['pk']
-        adjusting_schedule = AdjustingSchedule.objects.get(pk=pk)
-        context['adjusting_schedule'] = adjusting_schedule
+        adjusting_event = AdjustingEvent.objects.get(pk=pk)
+        context['adjusting_event'] = adjusting_event
         return context
 
     def form_valid(self, form):
         pk = self.kwargs['pk']
-        form.update_adjusting_schedule_table(pk)
+        form.update_adjusting_event_table(pk)
         form.save(pk)
         messages.success(self.request, '候補日程を送信しました！')
         return super().form_valid(form)

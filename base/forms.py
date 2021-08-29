@@ -1,8 +1,12 @@
+"""
+フォームの詳細を設定する
+"""
+
 import sys
 
 from django import forms
 from bootstrap_datepicker_plus import DateTimePickerInput
-from .models import User, Friend, AdjustingSchedule, Information, Event
+from .models import User, Friend, AdjustingEvent, Information, Event
 
 datetime_widget = DateTimePickerInput(
     format='%Y-%m-%d %H:%M',
@@ -41,9 +45,9 @@ class FriendFollowForm(forms.Form):
             Friend(follow_user=user, followed_user=self_user).save()
 
 
-class ProposeScheduleForm(forms.ModelForm):
+class ProposeEventForm(forms.ModelForm):
     class Meta:
-        model = AdjustingSchedule
+        model = AdjustingEvent
         fields = (
             'name',
             'date1_start', 'date1_end',
@@ -71,30 +75,30 @@ class ProposeScheduleForm(forms.ModelForm):
 
     def save(self, proposer):
         cleaned_data = self.cleaned_data
-        adjusting_schedule = AdjustingSchedule()
-        adjusting_schedule.proposer = proposer
-        adjusting_schedule.name = cleaned_data['name']
-        adjusting_schedule.date1_start = cleaned_data['date1_start']
-        adjusting_schedule.date1_end = cleaned_data['date1_end']
-        adjusting_schedule.date2_start = cleaned_data['date2_start']
-        adjusting_schedule.date2_end = cleaned_data['date2_end']
-        adjusting_schedule.date3_start = cleaned_data['date3_start']
-        adjusting_schedule.date3_end = cleaned_data['date3_end']
-        adjusting_schedule.date4_start = cleaned_data['date4_start']
-        adjusting_schedule.date4_end = cleaned_data['date4_end']
-        adjusting_schedule.date5_start = cleaned_data['date5_start']
-        adjusting_schedule.date5_end = cleaned_data['date5_end']
-        adjusting_schedule.friend1 = cleaned_data['friend1']
-        adjusting_schedule.friend2 = cleaned_data['friend2']
-        adjusting_schedule.friend3 = cleaned_data['friend3']
+        adjusting_event = AdjustingEvent()
+        adjusting_event.proposer = proposer
+        adjusting_event.name = cleaned_data['name']
+        adjusting_event.date1_start = cleaned_data['date1_start']
+        adjusting_event.date1_end = cleaned_data['date1_end']
+        adjusting_event.date2_start = cleaned_data['date2_start']
+        adjusting_event.date2_end = cleaned_data['date2_end']
+        adjusting_event.date3_start = cleaned_data['date3_start']
+        adjusting_event.date3_end = cleaned_data['date3_end']
+        adjusting_event.date4_start = cleaned_data['date4_start']
+        adjusting_event.date4_end = cleaned_data['date4_end']
+        adjusting_event.date5_start = cleaned_data['date5_start']
+        adjusting_event.date5_end = cleaned_data['date5_end']
+        adjusting_event.friend1 = cleaned_data['friend1']
+        adjusting_event.friend2 = cleaned_data['friend2']
+        adjusting_event.friend3 = cleaned_data['friend3']
 
-        friends = [adjusting_schedule.friend1, adjusting_schedule.friend2, adjusting_schedule.friend3]
-        adjusting_schedule.current_user_num = sum(friend is not None for friend in friends)
-        adjusting_schedule.save()
-        return adjusting_schedule
+        friends = [adjusting_event.friend1, adjusting_event.friend2, adjusting_event.friend3]
+        adjusting_event.rest_friends_num = sum(friend is not None for friend in friends)
+        adjusting_event.save()
+        return adjusting_event
 
 
-class AdjustingScheduleForm(forms.Form):
+class AdjustingEventForm(forms.Form):
     date1_is_ok = forms.BooleanField(initial=False, required=False, label='日程1', widget=forms.CheckboxInput())
     date2_is_ok = forms.BooleanField(initial=False, required=False, label='日程2', widget=forms.CheckboxInput())
     date3_is_ok = forms.BooleanField(initial=False, required=False, label='日程3', widget=forms.CheckboxInput())
@@ -106,49 +110,49 @@ class AdjustingScheduleForm(forms.Form):
         for i in range(1, 6):
             self.fields[f"date{i}_is_ok"].widget.attrs['class'] = 'form-control'
 
-    def update_adjusting_schedule_table(self, pk):
+    def update_adjusting_event_table(self, pk):
         cleaned_data = self.cleaned_data
-        adjusting_schedule = AdjustingSchedule.objects.get(pk=pk)
-        adjusting_schedule.current_user_num -= 1
+        adjusting_event = AdjustingEvent.objects.get(pk=pk)
+        adjusting_event.rest_friends_num -= 1
 
         for i in range(1, 6):
             if not cleaned_data[f"date{i}_is_ok"]:
-                setattr(adjusting_schedule, f"date{i}_start", None)
-                setattr(adjusting_schedule, f"date{i}_end", None)
+                setattr(adjusting_event, f"date{i}_start", None)
+                setattr(adjusting_event, f"date{i}_end", None)
 
-        adjusting_schedule.save()
+        adjusting_event.save()
 
     def save(self, pk):
-        adjusting_schedule = AdjustingSchedule.objects.get(pk=pk)
-        event_name = adjusting_schedule.name
-        current_user_num = adjusting_schedule.current_user_num
-        sender = adjusting_schedule.proposer
-        friends = [getattr(adjusting_schedule, f"friend{i}") for i in range(1, 4)]
+        adjusting_event = AdjustingEvent.objects.get(pk=pk)
+        event_name = adjusting_event.name
+        rest_friends_num = adjusting_event.rest_friends_num
+        sender = adjusting_event.proposer
+        friends = [getattr(adjusting_event, f"friend{i}") for i in range(1, 4)]
         friends = [friend for friend in friends if friend]
         # TODO: 日程候補が全部なくなった場合も実装したい
         # TODO: セーブする前に削除されるのはいかがなものか
-        old_information = Information.objects.get(adjusting_schedule=pk)
+        old_information = Information.objects.get(adjusting_event=pk)
 
-        if current_user_num == 0:
-            self._save_event(event_name, adjusting_schedule, friends, sender)
-            adjusting_schedule.delete()
+        if rest_friends_num == 0:
+            self._save_event(event_name, adjusting_event, friends, sender)
+            adjusting_event.delete()
         else:
-            friend_number = len(friends) - current_user_num + 1
-            next_friend = getattr(adjusting_schedule, f"friend{friend_number}")
+            friend_number = len(friends) - rest_friends_num + 1
+            next_friend = getattr(adjusting_event, f"friend{friend_number}")
             information = Information()
             information.event_name = event_name
             information.sender = sender
             receiver = next_friend
             information.receiver = receiver
-            information.adjusting_schedule = adjusting_schedule
+            information.adjusting_event = adjusting_event
             information.save()
 
         old_information.delete()
 
-    def _save_event(self, event_name, adjusting_schedule, friends, sender):
+    def _save_event(self, event_name, adjusting_event, friends, sender):
         for i in range(1, 6):
-            date_start = getattr(adjusting_schedule, f"date{i}_start")
-            date_end = getattr(adjusting_schedule, f"date{i}_end")
+            date_start = getattr(adjusting_event, f"date{i}_start")
+            date_end = getattr(adjusting_event, f"date{i}_end")
             if date_start is not None:
                 break
         participants = friends + [sender]
