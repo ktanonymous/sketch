@@ -1,10 +1,13 @@
+from django.contrib import messages
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.contrib import messages
-
-from .models import User, Friend, Information, AdjustingEvent
-from .forms import FriendFollowForm, ProposeEventForm, AdjustingEventForm
 from django.views import generic
+
+from .forms import AdjustingEventForm, FriendFollowForm, ProposeEventForm
+from .models import AdjustingEvent, Friend, Information, User
+
+# get_queryset(), get_context_data() --> テンプレート側に渡すためのデータを抽出する
+# TODO: 関数別に、関数のある場所に説明を書く
 
 
 class IndexView(generic.ListView):
@@ -17,34 +20,44 @@ class IndexView(generic.ListView):
 
 
 class ProposeEventView(generic.FormView):
-    # NOTE: 一先ずこれ
     template_name = 'propose_event.html'
     form_class = ProposeEventForm
     success_url = reverse_lazy('base:index')
 
     def get_context_data(self, **kwargs):
+        # FormView のデフォルトで取得されるコンテクストデータを取得する
+        # TODO: コンテクストデータをわかりやすくする
         context = super().get_context_data(**kwargs)
-        friends = [friend.follow_user.id for friend in Friend.objects.filter(followed_user=self.request.user.id)]
+
+        # Friend テーブルから、利用ユーザーの友達のリストを取得する
+        user_id = self.request.user.id
+        friends = Friend.objects.filter(follwed_user=user_id)
+        friend_ids = [friend.follow_user.id for friend in friends]
+        friends_list = User.objects.filter(id__in=friend_ids)
+
+        # イベントに招待する人の選択肢として、利用ユーザーの友達リストをテンプレートに渡す
+        # TODO: この実装のままだと、同じ友達を複数回選ぶことができてしまう
         for i in range(1, 4):
-            context['form'].fields[f'friend{i}'].queryset = User.objects.filter(id__in=friends)
+            context['form'].fields[f'friend{i}'].queryset = friends_list
+
         return context
 
     def form_valid(self, form):
-        sender = self.request.user
-        adjusting_event = form.save(sender)  # データベースに保存するデータ
-        friend = adjusting_event.friend1
+        # TODO: save の返り値を保存して使う理由をコメントにする
+        adjusting_event = form.save(proposer=self.request.user)
+
         info = Information()
-        info.receiver = friend
-        info.sender = sender
+        # 最初は、1人目の友達に調整依頼を送る
+        info.receiver = adjusting_event.friend1
+        info.sender = self.request.user
         info.adjusting_event = adjusting_event
         info.save()
+
         messages.success(self.request, '日程作成に成功しました！')
+
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        print(self.request.user.id)
-        print(form.data)
-        print(form.cleaned_data)
         messages.error(self.request, '日程作成に失敗しました...')
         return super().form_invalid(form)
 
@@ -57,8 +70,7 @@ class FriendFollowView(generic.FormView):
     success_url = reverse_lazy('base:index')
 
     def form_valid(self, form):
-        self_user = self.request.user
-        form.save(self_user)
+        form.save(applicant=self.request.user)
         messages.success(self.request, '友達登録が完了致しました！')
         return super().form_valid(form)
 
@@ -85,8 +97,10 @@ class AdjustingEventView(generic.FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
         pk = self.kwargs['pk']
         adjusting_event = AdjustingEvent.objects.get(pk=pk)
+
         context['adjusting_event'] = adjusting_event
         return context
 
@@ -94,7 +108,9 @@ class AdjustingEventView(generic.FormView):
         pk = self.kwargs['pk']
         form.update_adjusting_event_table(pk)
         form.save(pk)
+
         messages.success(self.request, '候補日程を送信しました！')
+
         return super().form_valid(form)
 
     def form_invalid(self, form):
