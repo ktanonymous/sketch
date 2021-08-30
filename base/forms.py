@@ -36,13 +36,14 @@ class FriendFollowForm(forms.Form):
         self.fields['email4'].widget.attrs['placeholder'] = 'example@example.com'
         self.fields['email5'].widget.attrs['placeholder'] = 'example@example.com'
 
-    def save(self, self_user):
+    def save(self, applicant):
         data = self.cleaned_data
         emails = [email for email in data.values() if email]
         users = [User.objects.get(email=email) for email in emails]
+        # TODO: 現状、A が B に申請すると A<-->B の関係になるが、A-->B の関係にしたい
         for user in users:
-            Friend(follow_user=self_user, followed_user=user).save()
-            Friend(follow_user=user, followed_user=self_user).save()
+            Friend(follow_user=applicant, followed_user=user).save()
+            Friend(follow_user=user, followed_user=applicant).save()
 
 
 class ProposeEventForm(forms.ModelForm):
