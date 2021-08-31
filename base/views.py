@@ -6,9 +6,6 @@ from django.views import generic
 from .forms import AdjustingEventForm, FriendFollowForm, ProposeEventForm
 from .models import AdjustingEvent, Friend, Information, User
 
-# get_queryset(), get_context_data() --> テンプレート側に渡すためのデータを抽出する
-# TODO: 関数別に、関数のある場所に説明を書く
-
 
 class IndexView(generic.ListView):
     model = Information
@@ -25,8 +22,8 @@ class ProposeEventView(generic.FormView):
     success_url = reverse_lazy('base:index')
 
     def get_context_data(self, **kwargs):
-        # FormView のデフォルトで取得されるコンテクストデータを取得する
-        # TODO: コンテクストデータをわかりやすくする
+        """テンプレートに渡すデータに招待できる友人のリスト情報を追加する"""
+        # FormView のデフォルトで取得される辞書型データを取得する
         context = super().get_context_data(**kwargs)
 
         # Friend テーブルから、利用ユーザーの友達のリストを取得する
@@ -43,7 +40,7 @@ class ProposeEventView(generic.FormView):
         return context
 
     def form_valid(self, form):
-        # TODO: save の返り値を保存して使う理由をコメントにする
+        # 1人目の友達に情報を送るために新しく作成された調整中のイベントを取得する
         adjusting_event = form.save(proposer=self.request.user)
 
         info = Information()
@@ -96,6 +93,7 @@ class AdjustingEventView(generic.FormView):
     success_url = reverse_lazy('base:index')
 
     def get_context_data(self, **kwargs):
+        """テンプレートに渡す所望の日程調整中イベントを追加する"""
         context = super().get_context_data(**kwargs)
 
         pk = self.kwargs['pk']
