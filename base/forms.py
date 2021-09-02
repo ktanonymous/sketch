@@ -4,10 +4,12 @@
 
 import sys
 
-from django import forms
 from bootstrap_datepicker_plus import DateTimePickerInput
-from .models import User, Friend, AdjustingEvent, Information, Event
+from django import forms
 
+from .models import AdjustingEvent, Event, Friend, Information, User
+
+# 日付入力欄をカレンダー形式にするために設定  # NOTE: この説明いる？
 datetime_widget = DateTimePickerInput(
     format='%Y-%m-%d %H:%M',
     options={'locale': 'ja', 'dayViewHeaderFormat': 'YYYY年 MMMM'}
@@ -15,6 +17,7 @@ datetime_widget = DateTimePickerInput(
 
 
 class FriendFollowForm(forms.Form):
+    # 誰にも申請を送らないという状況にならないようにするため、1つ目のメアドは必須にしている
     email1 = forms.EmailField(max_length=255, label='Email1',)
     email2 = forms.EmailField(max_length=255, label='Email2', required=False)
     email3 = forms.EmailField(max_length=255, label='Email3', required=False)
@@ -58,6 +61,7 @@ class ProposeEventForm(forms.ModelForm):
             'date5_start', 'date5_end',
             'friend1', 'friend2', 'friend3'
         )
+        # 各日程の開始時間と終了時間をカレンダーで入力できるようにする
         widgets = {
             f"date{i}_{j}": datetime_widget
             for i in range(1, 6)
@@ -76,6 +80,7 @@ class ProposeEventForm(forms.ModelForm):
 
     def save(self, proposer):
         cleaned_data = self.cleaned_data
+
         adjusting_event = AdjustingEvent()
         adjusting_event.proposer = proposer
         adjusting_event.name = cleaned_data['name']
@@ -93,6 +98,7 @@ class ProposeEventForm(forms.ModelForm):
         adjusting_event.friend2 = cleaned_data['friend2']
         adjusting_event.friend3 = cleaned_data['friend3']
 
+        # 日程調整をしていない友達の残り人数を更新する
         friends = [adjusting_event.friend1, adjusting_event.friend2, adjusting_event.friend3]
         adjusting_event.rest_friends_num = sum(friend is not None for friend in friends)
         adjusting_event.save()
@@ -100,11 +106,28 @@ class ProposeEventForm(forms.ModelForm):
 
 
 class AdjustingEventForm(forms.Form):
-    date1_is_ok = forms.BooleanField(initial=False, required=False, label='日程1', widget=forms.CheckboxInput())
-    date2_is_ok = forms.BooleanField(initial=False, required=False, label='日程2', widget=forms.CheckboxInput())
-    date3_is_ok = forms.BooleanField(initial=False, required=False, label='日程3', widget=forms.CheckboxInput())
-    date4_is_ok = forms.BooleanField(initial=False, required=False, label='日程4', widget=forms.CheckboxInput())
-    date5_is_ok = forms.BooleanField(initial=False, required=False, label='日程5', widget=forms.CheckboxInput())
+    # NOTE: 修正してみました
+    date1_is_ok = forms.BooleanField(
+        initial=False, required=False, label='日程1', widget=forms.CheckboxInput()
+    )
+    date2_is_ok = forms.BooleanField(
+        initial=False, required=False, label='日程2', widget=forms.CheckboxInput()
+    )
+    date3_is_ok = forms.BooleanField(
+        initial=False, required=False, label='日程3', widget=forms.CheckboxInput()
+    )
+    date4_is_ok = forms.BooleanField(
+        initial=False, required=False, label='日程4', widget=forms.CheckboxInput()
+    )
+    date5_is_ok = forms.BooleanField(
+        initial=False, required=False, label='日程5', widget=forms.CheckboxInput()
+    )
+
+    # date1_is_ok = forms.BooleanField(initial=False, required=False, label='日程1', widget=forms.CheckboxInput())
+    # date2_is_ok = forms.BooleanField(initial=False, required=False, label='日程2', widget=forms.CheckboxInput())
+    # date3_is_ok = forms.BooleanField(initial=False, required=False, label='日程3', widget=forms.CheckboxInput())
+    # date4_is_ok = forms.BooleanField(initial=False, required=False, label='日程4', widget=forms.CheckboxInput())
+    # date5_is_ok = forms.BooleanField(initial=False, required=False, label='日程5', widget=forms.CheckboxInput())
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -130,16 +153,19 @@ class AdjustingEventForm(forms.Form):
         sender = adjusting_event.proposer
         friends = [getattr(adjusting_event, f"friend{i}") for i in range(1, 4)]
         friends = [friend for friend in friends if friend]
-        # TODO: 日程候補が全部なくなった場合も実装したい
-        # TODO: セーブする前に削除されるのはいかがなものか
+        # TODO: 日程候補が全部なくなった場合も実装したい  # NOTE: なんだっけ？
+        # TODO: セーブする前に削除されるのはいかがなものか  # NOTE: 直さなかったっけ？
         old_information = Information.objects.get(adjusting_event=pk)
 
+        # 友達の残り人数に応じて、情報を更新する
         if rest_friends_num == 0:
             self._save_event(event_name, adjusting_event, friends, sender)
             adjusting_event.delete()
         else:
+            # NOTE: 変数に格納しないで直接代入でも良さそう？
             friend_number = len(friends) - rest_friends_num + 1
             next_friend = getattr(adjusting_event, f"friend{friend_number}")
+
             information = Information()
             information.event_name = event_name
             information.sender = sender
@@ -151,25 +177,26 @@ class AdjustingEventForm(forms.Form):
         old_information.delete()
 
     def _save_event(self, event_name, adjusting_event, friends, sender):
+        # 確定したイベント日時を調べる
         for i in range(1, 6):
             date_start = getattr(adjusting_event, f"date{i}_start")
             date_end = getattr(adjusting_event, f"date{i}_end")
             if date_start is not None:
                 break
+
+        # イベントの参加者には提案者も含まれるため追加する
         participants = friends + [sender]
         for participant in participants:
             event = Event()
-            information = Information()
-
             event.name = event_name
             event.date_start = date_start
             event.date_end = date_end
             event.participant = participant
+            event.save()
 
+            information = Information()
             information.event_name = event_name
             information.receiver = participant
             information.sender = sender
             information.event = event
-
-            event.save()
             information.save()
