@@ -23,7 +23,7 @@ class ProposeEventView(generic.FormView):
 
     def get_context_data(self, **kwargs):
         """テンプレートに渡すデータに招待できる友人のリスト情報を追加する"""
-        # FormView のデフォルトで取得される辞書型データを取得する
+        # テンプレートに渡す情報を取得する
         context = super().get_context_data(**kwargs)
 
         # Friend テーブルから、利用ユーザーの友達のリストを取得する
