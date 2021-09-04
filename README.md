@@ -20,7 +20,12 @@ $ bash shellscripts/enter_into_container.sh python
 $ bash shellscripts/lazy_db_migrate.sh
 ```
 
-実行後、http://localhost:8000 にアクセスすると利用できる。
+実行後、http://localhost:8000 にアクセスすると利用できる。  
+なお，上手くアクセスできない場合には以下のコマンドを実行するとアクセスできるようになる場合がある。
+
+```
+$ docker restart python
+```
 
 ## 終了時
 
