@@ -28,7 +28,7 @@ class ProposeEventView(generic.FormView):
 
         # Friend テーブルから、利用ユーザーの友達のリストを取得する
         user_id = self.request.user.id
-        friends = Friend.objects.filter(follwed_user=user_id)
+        friends = Friend.objects.filter(followed_user=user_id)
         friend_ids = [friend.follow_user.id for friend in friends]
         friends_list = User.objects.filter(id__in=friend_ids)
 
