@@ -137,11 +137,12 @@ class AdjustingEventForm(forms.Form):
         friends = [friend for friend in friends if friend]
         old_information = Information.objects.get(adjusting_event=pk)
 
-        # 友達の残り人数に応じて、情報を更新する
         if rest_friends_num == 0:
+            # 日程調整が完了しているため、イベント情報を登録して「調整中」から除外する
             self._save_event(event_name, adjusting_event, friends, sender)
             adjusting_event.delete()
         else:
+            # 次の依頼先にイベント情報を送信する
             friend_number = len(friends) - rest_friends_num + 1
             next_friend = getattr(adjusting_event, f"friend{friend_number}")
 
