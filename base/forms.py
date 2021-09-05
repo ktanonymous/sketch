@@ -50,9 +50,9 @@ class ProposeEventForm(forms.ModelForm):
         # 各日程の開始時間と終了時間をカレンダーで入力できるようにする
         # ModelForm を継承しているため、Meta クラスで widget を定義する
         widgets = {
-            f"date{i}_{j}": DATETIME_WIDGET
+            f"date{i}_{suffix}": DATETIME_WIDGET
             for i in range(1, 6)
-            for j in ('start', 'end')
+            for suffix in ('start', 'end')
         }
 
     def __init__(self, *args, **kwargs):
@@ -143,8 +143,8 @@ class AdjustingEventForm(forms.Form):
             adjusting_event.delete()
         else:
             # 次の依頼先にイベント情報を送信する
-            friend_number = len(friends) - rest_friends_num + 1
-            next_friend = getattr(adjusting_event, f"friend{friend_number}")
+            next_friend_index = len(friends) - rest_friends_num + 1
+            next_friend = getattr(adjusting_event, f"friend{next_friend_index}")
 
             information = Information()
             information.event_name = event_name
