@@ -68,22 +68,8 @@ class ProposeEventForm(forms.ModelForm):
     def save(self, proposer):
         cleaned_data = self.cleaned_data
 
-        adjusting_event = AdjustingEvent()
+        adjusting_event = AdjustingEvent(**cleaned_data)
         adjusting_event.proposer = proposer
-        adjusting_event.name = cleaned_data['name']
-        adjusting_event.date1_start = cleaned_data['date1_start']
-        adjusting_event.date1_end = cleaned_data['date1_end']
-        adjusting_event.date2_start = cleaned_data['date2_start']
-        adjusting_event.date2_end = cleaned_data['date2_end']
-        adjusting_event.date3_start = cleaned_data['date3_start']
-        adjusting_event.date3_end = cleaned_data['date3_end']
-        adjusting_event.date4_start = cleaned_data['date4_start']
-        adjusting_event.date4_end = cleaned_data['date4_end']
-        adjusting_event.date5_start = cleaned_data['date5_start']
-        adjusting_event.date5_end = cleaned_data['date5_end']
-        adjusting_event.friend1 = cleaned_data['friend1']
-        adjusting_event.friend2 = cleaned_data['friend2']
-        adjusting_event.friend3 = cleaned_data['friend3']
 
         # 日程調整をしていない友達の残り人数を更新する
         friends = [adjusting_event.friend1, adjusting_event.friend2, adjusting_event.friend3]
@@ -133,7 +119,7 @@ class AdjustingEventForm(forms.Form):
         event_name = adjusting_event.name
         rest_friends_num = adjusting_event.rest_friends_num
         sender = adjusting_event.proposer
-        friends = [getattr(adjusting_event, f"friend{i}") for i in range(1, 4)]
+        friends = [adjusting_event.friend1, adjusting_event.friend2, adjusting_event.friend3]
         friends = [friend for friend in friends if friend]
         old_information = Information.objects.get(adjusting_event=pk)
 
