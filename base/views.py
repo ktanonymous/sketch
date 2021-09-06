@@ -59,6 +59,20 @@ class ProposeEventView(generic.FormView):
         return super().form_invalid(form)
 
 
+class FilterProposeFriendsView(generic.ListView):
+    model = Friend
+    template_name = 'propose_event.html'
+
+    def get_queryset(self, pk):
+        proposer = self.request.user
+        proposed_friend = User.objects.get(id=proposed_friend)
+
+        friends = Friend.objects.filter(followed_user=proposer)
+        candidates = friends.exclude(id=proposed_friend)
+
+        return candidates
+
+
 class FriendFollowView(generic.FormView):
     # TODO: 自分自身を対象に友達登録できてしまう
     template_name = 'follow.html'

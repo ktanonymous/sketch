@@ -8,6 +8,7 @@ from .views import (
     FriendsListView,
     IndexView,
     ProposeEventView,
+    FilterProposeFriendsView,
 )
 
 app_name = 'base'
@@ -17,4 +18,5 @@ urlpatterns = [
     path('friends/', FriendsListView.as_view(), name='friends'),
     path('index/', IndexView.as_view(), name='index'),
     path('propose/', ProposeEventView.as_view(), name='propose'),
+    path('propose/filter/<int:pk>', FilterProposeFriendsView.as_view(), name='propose'),
 ]
