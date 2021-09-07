@@ -18,5 +18,9 @@ urlpatterns = [
     path('friends/', FriendsListView.as_view(), name='friends'),
     path('index/', IndexView.as_view(), name='index'),
     path('propose/', ProposeEventView.as_view(), name='propose'),
-    path('propose/filter/<int:pk>', FilterProposeFriendsView.as_view(), name='propose'),
+    path(
+        'propose/filter/<int:pk1>/<int:pk2>/<int:pk3>',
+        FilterProposeFriendsView.as_view(),
+        name='propose_filter'
+    ),
 ]

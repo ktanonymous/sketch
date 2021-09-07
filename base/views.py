@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.db.models import Q
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
@@ -63,12 +64,19 @@ class FilterProposeFriendsView(generic.ListView):
     model = Friend
     template_name = 'propose_event.html'
 
-    def get_queryset(self, pk):
+    def get_queryset(self):
         proposer = self.request.user
-        proposed_friend = User.objects.get(id=proposed_friend)
+        proposed_frined_id1 = self.kwargs.get('pk1')
+        proposed_frined_id2 = self.kwargs.get('pk2')
+        proposed_frined_id3 = self.kwargs.get('pk3')
 
         friends = Friend.objects.filter(followed_user=proposer)
-        candidates = friends.exclude(id=proposed_friend)
+        # OR検索で招待済みの友達をリストから覗く
+        candidates = friends.exclude(
+            Q(id=proposed_frined_id1) |
+            Q(id=proposed_frined_id2) |
+            Q(id=proposed_frined_id3)
+        )
 
         return candidates
 
@@ -108,6 +116,7 @@ class AdjustingEventView(generic.FormView):
 
     def get_context_data(self, **kwargs):
         """テンプレートに渡す所望の日程調整中イベントを追加する"""
+        print(f"kwargs: {self.kwargs}")
         context = super().get_context_data(**kwargs)
 
         pk = self.kwargs['pk']
