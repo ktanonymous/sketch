@@ -57,7 +57,7 @@ ROOT_URLCONF = 'sketch.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates', 'allauth')],
+        'DIRS': [os.path.join(BASE_DIR, 'base', 'templates', 'allauth')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -143,11 +143,11 @@ MESSAGE_TAGS = {
     messages.INFO: 'alert alert-info',
 }
 
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_EMAIL_REQUIRED = True #ユーザーはsignupの時emailが必要になる
+ACCOUNT_USERNAME_REQUIRED = True 
 
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_AUTHENTICATION_METHOD = 'email' #ログイン方法を指定する
+ACCOUNT_EMAIL_VERIFICATION = 'none' # 'none', 'optional', 'mandatory'がある。メールに認証を送る
 
 LOGIN_REDIRECT_URL = 'base:index'
 ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
