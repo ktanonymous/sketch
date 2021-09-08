@@ -133,3 +133,5 @@ mysql/
 
 # Secret Key
 sketch/secrets.py
+
+*/.DS_Store
