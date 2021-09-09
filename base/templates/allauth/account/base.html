@@ -26,7 +26,7 @@ bootstrapのコンテナにより、画面の横を3:6:3に3分割している
   <body style="background-image: url({% static 'img/white_background.jpeg' %})">
     <div class="container-fluid">
       <div class="row align-items-center">
-        <div class="col-3"></div>
+        <div class="col-3"></div> <!-- TODO:col-3いらないかも？ styleの直書きはやめる--> 
         <div class="col-6" style="height:100vh; background-image: url({% static 'img/water_background.jpeg' %});">
           {% block content %}{% endblock %}
         </div>

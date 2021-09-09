@@ -153,3 +153,7 @@ LOGIN_REDIRECT_URL = 'base:index'
 ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
 
 ACCOUNT_LOGOUT_ON_GET = True
+
+ACCOUNT_FORMS = {
+    'signup': 'base.forms.MyCustomSignupForm',
+}
