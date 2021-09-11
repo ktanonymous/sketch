@@ -6,6 +6,7 @@ from django.views import generic
 
 from .forms import AdjustingEventForm, FriendFollowForm, ProposeEventForm
 from .models import AdjustingEvent, Friend, Information, User
+from .repository import UserRepository
 
 
 class IndexView(generic.ListView):
@@ -60,25 +61,18 @@ class ProposeEventView(generic.FormView):
         return super().form_invalid(form)
 
 
-class FilterProposeFriendsView(generic.ListView):
+# TODO: apiview で非同期処理を導入
+class FilterFriendsView(generic.ListView):
     model = Friend
     template_name = 'propose_event.html'
 
     def get_queryset(self):
         proposer = self.request.user
-        proposed_frined_id1 = self.kwargs.get('pk1')
-        proposed_frined_id2 = self.kwargs.get('pk2')
-        proposed_frined_id3 = self.kwargs.get('pk3')
-
-        friends = Friend.objects.filter(followed_user=proposer)
-        # OR検索で招待済みの友達をリストから覗く
-        candidates = friends.exclude(
-            Q(id=proposed_frined_id1) |
-            Q(id=proposed_frined_id2) |
-            Q(id=proposed_frined_id3)
+        filtered_friends = UserRepository.filter_unselected_friends(
+            proposer, *self.kwargs.values()
         )
 
-        return candidates
+        return filtered_friends
 
 
 class FriendFollowView(generic.FormView):
@@ -116,7 +110,6 @@ class AdjustingEventView(generic.FormView):
 
     def get_context_data(self, **kwargs):
         """テンプレートに渡す所望の日程調整中イベントを追加する"""
-        print(f"kwargs: {self.kwargs}")
         context = super().get_context_data(**kwargs)
 
         pk = self.kwargs['pk']
