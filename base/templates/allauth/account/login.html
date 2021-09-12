@@ -1,5 +1,6 @@
 {% extends 'account/base.html' %}
 {% load static %}
+{% load account %} <!--accountテンプレートタグライブラリを読み込む-->
 {% block title%} ログイン {% endblock %}
 <!--TODO: padding marginとかの見直し -->
 {% block content %}
@@ -9,6 +10,7 @@
     <form class="login" method="POST" action="{% url 'account_login' %}" style="text-align:center; margin-top:10vh">
     {% csrf_token %}
     {{ form.as_p }}
+
     <button class="primaryAction btn btn-light" type="submit" style="margin-top:3vh">Log in</button>
     </form>
 

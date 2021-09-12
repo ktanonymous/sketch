@@ -168,6 +168,6 @@ class AdjustingEventForm(forms.Form):
             information.event = event
             information.save()
 
+#formのfieldの表示順序を変更.BaseSignupFormのコンストラクタのset_form_field_orderで用いる.
 class MyCustomSignupForm(SignupForm):
-    field_order = ['username', 'email', 'password'] #formのfieldの表示順序を変更.BaseSignupFormのコンストラクタのset_form_field_orderで用いる.
-
+    field_order = ['username', 'email', 'password'] 
