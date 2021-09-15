@@ -1,30 +1,47 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link href="{% static 'packages/core/main.css' %}" rel='stylesheet' />
+<link href="{% static 'packages/daygrid/main.css' %}" rel='stylesheet' />
+<link href="{% static 'packages/timegrid/main.css' %}" rel='stylesheet' />
+<script src="{% static 'packages/core/main.js' %}"></script>
+<script src="{% static 'packages/interaction/main.js' %}"></script>
+<script src="{% static 'packages/daygrid/main.js' %}"></script>
+<script src="{% static 'packages/timegrid/main.js' %}"></script>
+<script src="{% static 'packages/core/locales-all.js' %}"></script>
+<script src="{% static 'js/test.js' %}"></script>
+<link href="{% static 'css/hugahugahuga.css' %}"/>
+<style>
+  /* body {
+    margin: 40px 10px;
+    padding: 0;
+    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 14px;
+  } */
+
+  /* #calendar {
+    max-width: 900px;
+    margin: 0 auto;
+  } */
+</style>
+{{ form.media }}
+{% endblock %}
 
 {% block title %}日程調整{% endblock %}
 
 {% block is_propose %}background-color: skyblue;{% endblock %}
-
-{% block head %}
-{{ form.media }}
-{% endblock %}
 
 {% block content %}
 
 <form method="POST">
     {% csrf_token %}
     <div class="container" style="margin: 30px;">
+ 
         <div class="row" style="margin: 30px;">
-            {{ form.name.label_tag }}
-            {{ form.name }}
-            {{ form.name.errors }}
-        </div>
-        <div class="row" style="margin: 30px;">
-            <div class="col-7">
+            <div class="col-8">
                 <div class="row">
-                    <p>候補日程リスト</p>
-                </div>
-                <div class="row">
-                    <div class="col-6">
+                    <div id='calendar' ></div>
+                    <!-- <div class="col-6">
                         <ul style="list-style-type: none;">
                             <li class="field">
                                 {{ form.date1_start.label_tag }}
@@ -81,10 +98,15 @@
                                 {{ form.date5_end.errors }}
                             </li>
                         </ul>
-                    </div>
+                    </div> -->
                 </div>
             </div>
-            <div class="col-5">
+            <div class="col-4">
+                <div class="row" style= "margin:20px 0px">
+                    {{ form.name.label_tag }}
+                    {{ form.name }}
+                    {{ form.name.errors }}
+                </div>
                 <p>宛先リスト</p>
                 <ul style="list-style-type: none;">
                     <li class="field">
@@ -103,14 +125,12 @@
                         {{ form.friend3.errors }}
                     </li>
                 </ul>
+                <div class="row" style="margin: 30px;">
+                    <button type="submit" style="margin: 10px;">送信</button>
+                    <button type="reset" style="margin: 10px;">取り消し</button>
+                </div>
             </div>
-        </div>
-        <div class="row" style="margin: 30px;">
-            <button type="submit" style="margin: 10px;">送信</button>
-            <button type="reset" style="margin: 10px;">取り消し</button>
         </div>
     </div>
 </form>
-
 {% endblock %}
-
