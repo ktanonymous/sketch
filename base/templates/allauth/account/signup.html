@@ -6,11 +6,15 @@
  {% block content %} <!-- style値を直書きしない-->
 <h1 style="text-align:center; font-size:400%; margin-top:20vh">{% trans "Sign Up" %}</h1>
 
-<p style="text-align:center;">{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+<p style="text-align:center;">ログインは<a href="{{ login_url }}">こちら</a></p>
 
 <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}" style="text-align:center; margin-top:7%">
   {% csrf_token %}
-  {{ form.as_p }}
+  <div>
+    <div style="margin:0px auto; text-align:right; width:360px">
+      {{ form.as_p }}
+    </div>
+</div>  
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
