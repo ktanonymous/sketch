@@ -10,7 +10,9 @@
     <form class="login" method="POST" action="{% url 'account_login' %}" style="text-align:center; margin-top:10vh">
     {% csrf_token %}
     {{ form.as_p }}
-
+    {% if redirect_field_value %} <!-- redirect_field_valueが設定されていると、ログイン後にredirect_field_valueに飛ぶ 初期値はNONEだった-->
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    {% endif %}
     <button class="primaryAction btn btn-light" type="submit" style="margin-top:3vh">Log in</button>
     </form>
 
