@@ -35,9 +35,8 @@
 
 <form method="POST">
     {% csrf_token %}
-    <div class="container" style="margin: 30px;">
- 
-        <div class="row" style="margin: 30px;">
+    <div class="container" style="margin: 30px auto;">
+        <div class="row" style="margin: 0px;">
             <div class="col-8">
                 <div class="row">
                     <div id='calendar' ></div>
@@ -107,6 +106,7 @@
                     {{ form.name }}
                     {{ form.name.errors }}
                 </div>
+                
                 <p>宛先リスト</p>
                 <ul style="list-style-type: none;">
                     <li class="field">
@@ -125,10 +125,46 @@
                         {{ form.friend3.errors }}
                     </li>
                 </ul>
+                <p>候補日程</p>
+                
+                <div class="row" style="margin: 0px 0px 0px 20px">
+                    
+                    <table id="date_table" class="date_table">
+                        <tbody>
+                            <tr>
+                                <th>候補1</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>候補2</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>候補3</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>候補4</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>候補5</th>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+           
                 <div class="row" style="margin: 30px;">
+                    <input type="hidden" id=1 name="date1">
+                    <input type="hidden" id=2 name="date2">
+                    <input type="hidden" id=3 name="date3">
+                    <input type="hidden" id=4 name="date4">
+                    <input type="hidden" id=5 name="date5">
                     <button type="submit" style="margin: 10px;">送信</button>
                     <button type="reset" style="margin: 10px;">取り消し</button>
                 </div>
+                
             </div>
         </div>
     </div>

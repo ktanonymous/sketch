@@ -1,19 +1,22 @@
 {% extends 'account/base.html' %}
 {% load static %}
-{% load account %} <!--accountテンプレートタグライブラリを読み込む-->
+{% load account %}
+<!--accountテンプレートタグライブラリを読み込む-->
 {% block title%} ログイン {% endblock %}
 <!--TODO: padding marginとかの見直し -->
 {% block content %}
-  <div>
-    <h1 style="text-align:center; font-size:600%; margin-top:18vh">すけっち</h1>
+<div>
+  <h1 style="text-align:center; font-size:600%; margin-top:18vh">すけっち</h1>
 
-    <form class="login" method="POST" action="{% url 'account_login' %}" style="text-align:center; margin-top:10vh">
+  <form class="login" method="POST" action="{% url 'account_login' %}" style="text-align:center; margin-top:10vh">
     {% csrf_token %}
     {{ form.as_p }}
 
     <button class="primaryAction btn btn-light" type="submit" style="margin-top:3vh">Log in</button>
-    </form>
+  </form>
 
-    <p style="text-align:center; margin-top:3vh">&#x25B6;<a href="{{ signup_url }}" style="color:rgb(3, 1, 124)">未登録の方はこちら</a></p>
-  </div>
+  <p style="text-align:center; margin-top:3vh">&#x25B6;<a href="{{ signup_url }}"
+      style="color:rgb(3, 1, 124)">未登録の方はこちら</a></p>
+</div>
 {% endblock %}
+

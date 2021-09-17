@@ -55,3 +55,12 @@
     width: 60%;
     margin: 0px;
 }
+
+#date_table{
+    width: 100%;
+    color:rgb(63, 62, 62);
+    border-collapse: separate; 
+    border:1px solid rgba(136, 133, 133, 0.5); 
+    border-spacing: 0px 10px; 
+    border-radius:5px;   
+}
