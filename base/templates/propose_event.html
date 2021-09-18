@@ -10,16 +10,16 @@
 <script src="{% static 'packages/timegrid/main.js' %}"></script>
 <script src="{% static 'packages/core/locales-all.js' %}"></script>
 <script src="{% static 'js/test.js' %}"></script>
-<link href="{% static 'css/hugahugahuga.css' %}"/>
+<link href="{% static 'css/hugahugahuga.css' %}" />
 <style>
-  /* body {
+    /* body {
     margin: 40px 10px;
     padding: 0;
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
     font-size: 14px;
   } */
 
-  /* #calendar {
+    /* #calendar {
     max-width: 900px;
     margin: 0 auto;
   } */
@@ -39,7 +39,7 @@
         <div class="row" style="margin: 0px;">
             <div class="col-8">
                 <div class="row">
-                    <div id='calendar' ></div>
+                    <div id='calendar'></div>
                     <!-- <div class="col-6">
                         <ul style="list-style-type: none;">
                             <li class="field">
@@ -101,12 +101,12 @@
                 </div>
             </div>
             <div class="col-4">
-                <div class="row" style= "margin:20px 0px">
+                <div class="row" style="margin:20px 0px">
                     {{ form.name.label_tag }}
                     {{ form.name }}
                     {{ form.name.errors }}
                 </div>
-                
+
                 <p>宛先リスト</p>
                 <ul style="list-style-type: none;">
                     <li class="field">
@@ -126,35 +126,35 @@
                     </li>
                 </ul>
                 <p>候補日程</p>
-                
+
                 <div class="row" style="margin: 0px 0px 0px 20px">
-                    
+
                     <table id="date_table" class="date_table">
                         <tbody>
                             <tr>
-                                <th>候補1</th>
+                                <th style='width: 3em'>候補1</th>
                                 <td></td>
                             </tr>
                             <tr>
-                                <th>候補2</th>
+                                <th style='width: 3em'>候補2</th>
                                 <td></td>
                             </tr>
                             <tr>
-                                <th>候補3</th>
+                                <th style='width: 3em'>候補3</th>
                                 <td></td>
                             </tr>
                             <tr>
-                                <th>候補4</th>
+                                <th style='width: 3em'>候補4</th>
                                 <td></td>
                             </tr>
                             <tr>
-                                <th>候補5</th>
+                                <th style='width: 3em'>候補5</th>
                                 <td></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-           
+
                 <div class="row" style="margin: 30px;">
                     <input type="hidden" id=1 name="date1">
                     <input type="hidden" id=2 name="date2">
@@ -164,7 +164,7 @@
                     <button type="submit" style="margin: 10px;">送信</button>
                     <button type="reset" style="margin: 10px;">取り消し</button>
                 </div>
-                
+
             </div>
         </div>
     </div>

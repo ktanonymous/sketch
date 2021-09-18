@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
-        plugins: ['interaction', 'dayGrid', 'timeGrid', 'list'],
+        plugins: ['interaction', 'dayGrid', 'timeGrid', 'list', 'moment'],
         header: {
             left: 'prev,next today',
             center: 'title',
@@ -12,15 +12,15 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         locale: 'ja',
         businessHours: true,
-        timeZone: 'Asia/Tokyo',
+        // timeZone: 'Asia/Tokyo',
         eventTimeFormat: { hour: 'numeric', minute: '2-digit' },
-        defaultView: 'dayGridMonth', // プラグインが必要そう
+        defaultView: 'dayGridMonth',
         navLinks: true, // can click day/week names to navigate views
         selectable: true,
         selectMirror: true,
         select: function (arg) {
-            isCountOK = checkCountEvent(5);
-            if(isCountOK){
+            isCountOK = checkEventNum(5);
+            if (isCountOK) {
                 isOK = confirm('追加していいですか？');
                 if (isOK) {
                     var title = '候補';
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         })
                     }
                 }
-            }else{
+            } else {
                 alert("選択数を減らしてください");
             }
             setDateValue();
@@ -49,21 +49,40 @@ document.addEventListener('DOMContentLoaded', function () {
             // },
             // './getEvents.php',
         ],
+
+        eventDrop: function (info) {
+            setDateValue();
+        },
+        eventResize: function (info) {
+            setDateValue();
+        },
     });
 
     calendar.render();
-    
-    function setDateValue(){
-        var events = calendar.getEvents();
-        for (let i = 0; i < events.length; i++ ){
-            let element = document.getElementById(i+1);
-            element.value = events[i];
-            date_table.rows[i].cells[1].innerText = events[i].start + events[i].end + events[i].allDay;
 
-        }    
+    function setDateValue() {
+        var events = calendar.getEvents();
+        for (let i = 0; i < events.length; i++) {
+            let element = document.getElementById(i + 1);
+
+            startDateString = events[i].start.toString();
+            endDateString = events[i].end.toString();
+            startDate = formatDate(startDateString);
+            endDate = formatDate(endDateString);
+            date_table.rows[i].cells[1].innerText = startDate + '〜' + endDate;
+            element.value = startDate + '〜' + endDate;
+        }
     }
-    
-    function checkCountEvent(num){
+
+    function formatDate(dateString) {
+        let date = new Date(dateString);
+        let formatedDate = date.getMonth() + '月' + date.getDate() + '日(' + new String('日月火水木金土').charAt(date.getDay()) + ')';
+        let formatedTime = date.getHours() + ':' + ('0' + date.getMinutes()).slice(-2);
+        console.log(formatedDate + formatedTime);
+        return formatedDate + formatedTime;
+    }
+
+    function checkEventNum(num) {
         let count = 0;
         var events = calendar.getEvents();
 
