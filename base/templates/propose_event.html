@@ -156,11 +156,16 @@
                 </div>
 
                 <div class="row" style="margin: 30px;">
-                    <input type="hidden" id=1 name="date1">
-                    <input type="hidden" id=2 name="date2">
-                    <input type="hidden" id=3 name="date3">
-                    <input type="hidden" id=4 name="date4">
-                    <input type="hidden" id=5 name="date5">
+                    {{ form.date1_start.as_hidden }}
+                    {{ form.date2_start.as_hidden }}
+                    {{ form.date3_start.as_hidden }}
+                    {{ form.date4_start.as_hidden }}
+                    {{ form.date5_start.as_hidden }}
+                    {{ form.date1_end.as_hidden }}
+                    {{ form.date2_end.as_hidden }}
+                    {{ form.date3_end.as_hidden }}
+                    {{ form.date4_end.as_hidden }}
+                    {{ form.date5_end.as_hidden }}
                     <button type="submit" style="margin: 10px;">送信</button>
                     <button type="reset" style="margin: 10px;">取り消し</button>
                 </div>

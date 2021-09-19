@@ -67,9 +67,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function initializeDateValue() {
         for (let i = 0; i < 5; i++) {
-            let element = document.getElementById(i + 1);
             date_table.rows[i].cells[1].innerText = '';
-            element.removeAttribute('value');
+            let startElement = document.getElementById(`id_date${i + 1}_start`);
+            startElement.removeAttribute('value');
+            let endElement = document.getElementById(`id_date${i + 1}_end`);
+            endElement.removeAttribute('value');
         }
     }
 
@@ -77,20 +79,34 @@ document.addEventListener('DOMContentLoaded', function () {
         let events = calendar.getEvents();
         const eventsLength = events.length;
         for (let i = 0; i < eventsLength; i++) {
-            let element = document.getElementById(i + 1);
             startDateString = events[i].start.toString();
             endDateString = events[i].end.toString();
             startDate = formatDate(startDateString);
             endDate = formatDate(endDateString);
+            startDate2 = formatDate2(startDateString);
+            endDate2 = formatDate2(endDateString);
+
             date_table.rows[i].cells[1].innerText = startDate + '〜' + endDate;
-            element.value = startDate + '〜' + endDate;
+            let startElement = document.getElementById(`id_date${i + 1}_start`);
+            startElement.value = startDate2;
+            let endElement = document.getElementById(`id_date${i + 1}_end`);
+            endElement.value = endDate2;
         }
     }
     function formatDate(dateString) {
         let date = new Date(dateString);
-        let formatedDate = date.getMonth() + '月' + date.getDate() + '日(' + new String('日月火水木金土').charAt(date.getDay()) + ')';
+        let month = date.getMonth() + 1;
+        let formatedDate = month + '月' + date.getDate() + '日(' + new String('日月火水木金土').charAt(date.getDay()) + ')';
         let formatedTime = date.getHours() + ':' + ('0' + date.getMinutes()).slice(-2);
         return formatedDate + formatedTime;
+    }
+
+    function formatDate2(dateString) {
+        let date = new Date(dateString);
+        let month = date.getMonth() + 1;
+        let formatedDate = date.getFullYear() + '-' + ('0' + month).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+        let formatedTime = ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+        return formatedDate + '-' + formatedTime;
     }
 
     function checkEventNum(num) {
