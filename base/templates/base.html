@@ -9,7 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="日程調整を簡潔にすることを目標にしたアプリ「すけっち」のプロトタイプです。\n初学者達3人で力を合わせて作ったので，拙い点が多々ございますがご了承下さい。">
 
-
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -29,40 +28,53 @@
                     <strong style='color: black;'>すけっち</strong>
                 </div>
                 <div class="top-menu"><strong style="color: red;">{{ user.username }}さん</strong></div>
-                <div class="top-menu" style="{% block is_home %}{% endblock %}"><a href="{% url 'base:index' %}">ホーム</a></div>
-                <div class="top-menu" style="{% block is_propose %}{% endblock %}"><a href="{% url 'base:propose' %}">日程調整</a></div>
-                <div class="top-menu" style="{% block is_follow %}{% endblock %}"><a href="{% url 'base:follow' %}">友達申請</a></div>
-                <div class="top-menu" style="{% block is_friends_list %}{% endblock %}"><a href="{% url 'base:friends' %}">友達リスト</a></div>
+                <div class="top-menu" style="{% block is_home %}{% endblock %}"><a href="{% url 'base:index' %}">ホーム</a>
+                </div>
+                <div class="top-menu" style="{% block is_propose %}{% endblock %}"><a
+                        href="{% url 'base:propose' %}">日程調整</a></div>
+                <div class="top-menu" style="{% block is_follow %}{% endblock %}"><a
+                        href="{% url 'base:follow' %}">友達申請</a></div>
+                <div class="top-menu" style="{% block is_friends_list %}{% endblock %}"><a
+                        href="{% url 'base:friends' %}">友達リスト</a></div>
                 <div class="top-menu"><a href="{% url 'account_logout' %}">ログアウト</a></div>
             </div>
         </nav>
     </header>
-    
-    {% if messages %}
-    <div class="container">
-        <div class="row">
-            <div class="w-100">
-                <ul class="messages" style="list-style: none;">
-                    {% for message in messages %}
-                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                        {{ message }}
-                    </li>
-                    {% endfor %}
-                </ul>
+
+    <div style:relative;>
+        {% block content %}{% endblock %}
+    </div>
+
+    <div style="position:absolute;top:60px;left:50px;width:80%;" id="timeout">
+        {% if messages %}
+        <div class="container">
+            <div class="row">
+                <div class="w-100">
+                    <ul class="messages" style="list-style: none;">
+                        {% for message in messages %}
+                        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                            {{ message }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
         </div>
+        {% endif %}
     </div>
-    {% endif %}
-
-    {% block content %}{% endblock %}
 
     <footer style="background-color: black; position: fixed; bottom: 0; width: 100%; text-align: center;">
-        <p style="color: white; font-size: 18px; margin: 8px 8px;">&copy; 2021 Takahiro Suzuki, Kota Shoji, Wataru Takemoto.</p>
+        <p style="color: white; font-size: 18px; margin: 8px 8px;">&copy; 2021 Takahiro Suzuki, Kota Shoji, Wataru
+            Takemoto.</p>
     </footer>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#timeout').fadeOut('slow');
+        })
+    </script>
+
+
 </body>
 
 </html>
