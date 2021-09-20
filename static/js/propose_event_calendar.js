@@ -65,6 +65,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
     calendar.render();
 
+    let button = document.getElementById('reset');
+    button.onclick = resetEvent;
+
+    function resetEvent() {
+        calendar.removeAllEvents();
+        
+        for (let i = 0; i < 5; i++) {
+            date_table.rows[i].cells[1].innerText = '';
+            let startElement = document.getElementById(`id_date${i + 1}_start`);
+            startElement.removeAttribute('value');
+            let endElement = document.getElementById(`id_date${i + 1}_end`);
+            endElement.removeAttribute('value');
+        }
+    }
+
     function initializeDateValue() {
         for (let i = 0; i < 5; i++) {
             date_table.rows[i].cells[1].innerText = '';
@@ -122,3 +137,4 @@ document.addEventListener('DOMContentLoaded', function () {
         return true;
     }
 });
+
