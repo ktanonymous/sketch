@@ -6,9 +6,10 @@ Docs & License: https://fullcalendar.io/
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@fullcalendar/core')) :
-    typeof define === 'function' && define.amd ? define(['exports', '@fullcalendar/core'], factory) :
-    (global = global || self, factory(global.FullCalendarInteraction = {}, global.FullCalendar));
-}(this, function (exports, core) { 'use strict';
+        typeof define === 'function' && define.amd ? define(['exports', '@fullcalendar/core'], factory) :
+        (global = global || self, factory(global.FullCalendarInteraction = {}, global.FullCalendar));
+}(this, function (exports, core) {
+    'use strict';
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -26,24 +27,37 @@ Docs & License: https://fullcalendar.io/
     ***************************************************************************** */
     /* global Reflect, Promise */
 
-    var extendStatics = function(d, b) {
+    var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            ({
+                    __proto__: []
+                }
+                instanceof Array && function (d, b) {
+                    d.__proto__ = b;
+                }) ||
+            function (d, b) {
+                for (var p in b)
+                    if (b.hasOwnProperty(p)) d[p] = b[p];
+            };
         return extendStatics(d, b);
     };
 
     function __extends(d, b) {
         extendStatics(d, b);
-        function __() { this.constructor = d; }
+
+        function __() {
+            this.constructor = d;
+        }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     }
 
-    var __assign = function() {
+    var __assign = function () {
         __assign = Object.assign || function __assign(t) {
-            for (var s, i = 1, n = arguments.length; i < n; i++) {
+            const argumentsLength = arguments.length;
+            for (var s, i = 1, n = argumentsLength; i < n; i++) {
                 s = arguments[i];
-                for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+                for (var p in s)
+                    if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
             }
             return t;
         };
@@ -169,12 +183,16 @@ Docs & License: https://fullcalendar.io/
             this.containerEl = containerEl;
             this.emitter = new core.EmitterMixin();
             containerEl.addEventListener('mousedown', this.handleMouseDown);
-            containerEl.addEventListener('touchstart', this.handleTouchStart, { passive: true });
+            containerEl.addEventListener('touchstart', this.handleTouchStart, {
+                passive: true
+            });
             listenerCreated();
         }
         PointerDragging.prototype.destroy = function () {
             this.containerEl.removeEventListener('mousedown', this.handleMouseDown);
-            this.containerEl.removeEventListener('touchstart', this.handleTouchStart, { passive: true });
+            this.containerEl.removeEventListener('touchstart', this.handleTouchStart, {
+                passive: true
+            });
             listenerDestroyed();
         };
         PointerDragging.prototype.tryStart = function (ev) {
@@ -201,8 +219,7 @@ Docs & License: https://fullcalendar.io/
         PointerDragging.prototype.querySubjectEl = function (ev) {
             if (this.selector) {
                 return core.elementClosest(ev.target, this.selector);
-            }
-            else {
+            } else {
                 return this.containerEl;
             }
         };
@@ -245,8 +262,7 @@ Docs & License: https://fullcalendar.io/
             if (isFirst) {
                 this.origPageX = ev.pageX;
                 this.origPageY = ev.pageY;
-            }
-            else {
+            } else {
                 deltaX = ev.pageX - this.origPageX;
                 deltaY = ev.pageY - this.origPageY;
             }
@@ -271,8 +287,7 @@ Docs & License: https://fullcalendar.io/
             if (touches && touches.length) {
                 pageX = touches[0].pageX;
                 pageY = touches[0].pageY;
-            }
-            else {
+            } else {
                 pageX = ev.pageX;
                 pageY = ev.pageY;
             }
@@ -280,8 +295,7 @@ Docs & License: https://fullcalendar.io/
             if (isFirst) {
                 this.origPageX = pageX;
                 this.origPageY = pageY;
-            }
-            else {
+            } else {
                 deltaX = pageX - this.origPageX;
                 deltaY = pageY - this.origPageY;
             }
@@ -313,14 +327,20 @@ Docs & License: https://fullcalendar.io/
     // ----------------------------------------------------------------------------------------------------
     function listenerCreated() {
         if (!(listenerCnt++)) {
-            window.addEventListener('touchmove', onWindowTouchMove, { passive: false });
+            window.addEventListener('touchmove', onWindowTouchMove, {
+                passive: false
+            });
         }
     }
+
     function listenerDestroyed() {
         if (!(--listenerCnt)) {
-            window.removeEventListener('touchmove', onWindowTouchMove, { passive: false });
+            window.removeEventListener('touchmove', onWindowTouchMove, {
+                passive: false
+            });
         }
     }
+
     function onWindowTouchMove(ev) {
         if (isWindowTouchMoveCancelled) {
             ev.preventDefault();
@@ -367,8 +387,7 @@ Docs & License: https://fullcalendar.io/
                     this.isVisible = bool; // needs to happen before updateElPosition
                     this.updateElPosition(); // because was not updating the position while invisible
                 }
-            }
-            else {
+            } else {
                 if (this.isVisible) {
                     if (this.mirrorEl) {
                         this.mirrorEl.style.display = 'none';
@@ -391,8 +410,7 @@ Docs & License: https://fullcalendar.io/
                 (this.deltaX || this.deltaY) // if same coords, transition won't work
             ) {
                 this.doRevertAnimation(done, this.revertDuration);
-            }
-            else {
+            } else {
                 setTimeout(done, 0);
             }
         };
@@ -401,7 +419,7 @@ Docs & License: https://fullcalendar.io/
             var finalSourceElRect = this.sourceEl.getBoundingClientRect(); // because autoscrolling might have happened
             mirrorEl.style.transition =
                 'top ' + revertDuration + 'ms,' +
-                    'left ' + revertDuration + 'ms';
+                'left ' + revertDuration + 'ms';
             core.applyStyle(mirrorEl, {
                 left: finalSourceElRect.left,
                 top: finalSourceElRect.top
@@ -463,6 +481,7 @@ Docs & License: https://fullcalendar.io/
     */
     var ScrollGeomCache = /** @class */ (function (_super) {
         __extends(ScrollGeomCache, _super);
+
         function ScrollGeomCache(scrollController, doesListening) {
             var _this = _super.call(this) || this;
             _this.handleScroll = function () {
@@ -525,12 +544,12 @@ Docs & License: https://fullcalendar.io/
         ScrollGeomCache.prototype.getScrollHeight = function () {
             return this.scrollHeight;
         };
-        ScrollGeomCache.prototype.handleScrollChange = function () {
-        };
+        ScrollGeomCache.prototype.handleScrollChange = function () {};
         return ScrollGeomCache;
     }(core.ScrollController));
     var ElementScrollGeomCache = /** @class */ (function (_super) {
         __extends(ElementScrollGeomCache, _super);
+
         function ElementScrollGeomCache(el, doesListening) {
             return _super.call(this, new core.ElementScrollController(el), doesListening) || this;
         }
@@ -544,6 +563,7 @@ Docs & License: https://fullcalendar.io/
     }(ScrollGeomCache));
     var WindowScrollGeomCache = /** @class */ (function (_super) {
         __extends(WindowScrollGeomCache, _super);
+
         function WindowScrollGeomCache(doesListening) {
             return _super.call(this, new core.WindowScrollController(), doesListening) || this;
         }
@@ -601,8 +621,7 @@ Docs & License: https://fullcalendar.io/
                         var now = getTime();
                         _this.handleSide(edge, (now - _this.msSinceRequest) / 1000);
                         _this.requestAnimation(now);
-                    }
-                    else {
+                    } else {
                         _this.isAnimating = false; // will stop animation
                     }
                 }
@@ -628,14 +647,12 @@ Docs & License: https://fullcalendar.io/
                 var xDelta = this.pointerScreenX === null ? 0 : pointerScreenX - this.pointerScreenX;
                 if (yDelta < 0) {
                     this.everMovedUp = true;
-                }
-                else if (yDelta > 0) {
+                } else if (yDelta > 0) {
                     this.everMovedDown = true;
                 }
                 if (xDelta < 0) {
                     this.everMovedLeft = true;
-                }
-                else if (xDelta > 0) {
+                } else if (xDelta > 0) {
                     this.everMovedRight = true;
                 }
                 this.pointerScreenX = pointerScreenX;
@@ -649,7 +666,9 @@ Docs & License: https://fullcalendar.io/
         AutoScroller.prototype.stop = function () {
             if (this.isEnabled) {
                 this.isAnimating = false; // will stop animation
-                for (var _i = 0, _a = this.scrollCaches; _i < _a.length; _i++) {
+                var _a = this.scrollCaches;
+                const _aLength = _a.length;
+                for (var _i = 0; _i < _aLength; _i++) {
                     var scrollCache = _a[_i];
                     scrollCache.destroy();
                 }
@@ -665,19 +684,19 @@ Docs & License: https://fullcalendar.io/
             var edgeThreshold = this.edgeThreshold;
             var invDistance = edgeThreshold - edge.distance;
             var velocity = // the closer to the edge, the faster we scroll
-             (invDistance * invDistance) / (edgeThreshold * edgeThreshold) * // quadratic
+                (invDistance * invDistance) / (edgeThreshold * edgeThreshold) * // quadratic
                 this.maxVelocity * seconds;
             var sign = 1;
             switch (edge.name) {
                 case 'left':
                     sign = -1;
-                // falls through
+                    // falls through
                 case 'right':
                     scrollCache.setScrollLeft(scrollCache.getScrollLeft() + velocity * sign);
                     break;
                 case 'top':
                     sign = -1;
-                // falls through
+                    // falls through
                 case 'bottom':
                     scrollCache.setScrollTop(scrollCache.getScrollTop() + velocity * sign);
                     break;
@@ -687,7 +706,9 @@ Docs & License: https://fullcalendar.io/
         AutoScroller.prototype.computeBestEdge = function (left, top) {
             var edgeThreshold = this.edgeThreshold;
             var bestSide = null;
-            for (var _i = 0, _a = this.scrollCaches; _i < _a.length; _i++) {
+            var _a = this.scrollCaches;
+            const _aLength = _a.length;
+            for (var _i = 0; _i < _aLength; _i++) {
                 var scrollCache = _a[_i];
                 var rect = scrollCache.clientRect;
                 var leftDist = left - rect.left;
@@ -698,19 +719,35 @@ Docs & License: https://fullcalendar.io/
                 if (leftDist >= 0 && rightDist >= 0 && topDist >= 0 && bottomDist >= 0) {
                     if (topDist <= edgeThreshold && this.everMovedUp && scrollCache.canScrollUp() &&
                         (!bestSide || bestSide.distance > topDist)) {
-                        bestSide = { scrollCache: scrollCache, name: 'top', distance: topDist };
+                        bestSide = {
+                            scrollCache: scrollCache,
+                            name: 'top',
+                            distance: topDist
+                        };
                     }
                     if (bottomDist <= edgeThreshold && this.everMovedDown && scrollCache.canScrollDown() &&
                         (!bestSide || bestSide.distance > bottomDist)) {
-                        bestSide = { scrollCache: scrollCache, name: 'bottom', distance: bottomDist };
+                        bestSide = {
+                            scrollCache: scrollCache,
+                            name: 'bottom',
+                            distance: bottomDist
+                        };
                     }
                     if (leftDist <= edgeThreshold && this.everMovedLeft && scrollCache.canScrollLeft() &&
                         (!bestSide || bestSide.distance > leftDist)) {
-                        bestSide = { scrollCache: scrollCache, name: 'left', distance: leftDist };
+                        bestSide = {
+                            scrollCache: scrollCache,
+                            name: 'left',
+                            distance: leftDist
+                        };
                     }
                     if (rightDist <= edgeThreshold && this.everMovedRight && scrollCache.canScrollRight() &&
                         (!bestSide || bestSide.distance > rightDist)) {
-                        bestSide = { scrollCache: scrollCache, name: 'right', distance: rightDist };
+                        bestSide = {
+                            scrollCache: scrollCache,
+                            name: 'right',
+                            distance: rightDist
+                        };
                     }
                 }
             }
@@ -720,20 +757,20 @@ Docs & License: https://fullcalendar.io/
             return this.queryScrollEls().map(function (el) {
                 if (el === window) {
                     return new WindowScrollGeomCache(false); // false = don't listen to user-generated scrolls
-                }
-                else {
+                } else {
                     return new ElementScrollGeomCache(el, false); // false = don't listen to user-generated scrolls
                 }
             });
         };
         AutoScroller.prototype.queryScrollEls = function () {
             var els = [];
-            for (var _i = 0, _a = this.scrollQuery; _i < _a.length; _i++) {
+            var _a = this.scrollQuery;
+            const _aLength = _a.length;
+            for (var _i = 0; _i < _aLength; _i++) {
                 var query = _a[_i];
                 if (typeof query === 'object') {
                     els.push(query);
-                }
-                else {
+                } else {
                     els.push.apply(els, Array.prototype.slice.call(document.querySelectorAll(query)));
                 }
             }
@@ -750,6 +787,7 @@ Docs & License: https://fullcalendar.io/
     */
     var FeaturefulElementDragging = /** @class */ (function (_super) {
         __extends(FeaturefulElementDragging, _super);
+
         function FeaturefulElementDragging(containerEl) {
             var _this = _super.call(this, containerEl) || this;
             // options that can be directly set by caller
@@ -794,7 +832,8 @@ Docs & License: https://fullcalendar.io/
                     if (!_this.isDistanceSurpassed) {
                         var minDistance = _this.minDistance;
                         var distanceSq = void 0; // current distance from the origin, squared
-                        var deltaX = ev.deltaX, deltaY = ev.deltaY;
+                        var deltaX = ev.deltaX,
+                            deltaY = ev.deltaY;
                         distanceSq = deltaX * deltaX + deltaY * deltaY;
                         if (distanceSq >= minDistance * minDistance) { // use pythagorean theorem
                             _this.handleDistanceSurpassed(ev);
@@ -844,8 +883,7 @@ Docs & License: https://fullcalendar.io/
                     _this.delayTimeoutId = null;
                     _this.handleDelayEnd(ev);
                 }, this.delay); // not assignable to number!
-            }
-            else {
+            } else {
                 this.handleDelayEnd(ev);
             }
         };
@@ -913,14 +951,18 @@ Docs & License: https://fullcalendar.io/
             });
         }
         OffsetTracker.prototype.destroy = function () {
-            for (var _i = 0, _a = this.scrollCaches; _i < _a.length; _i++) {
+            var _a = this.scrollCaches;
+            const _aLength = _a.length;
+            for (var _i = 0; _i < _aLength; _i++) {
                 var scrollCache = _a[_i];
                 scrollCache.destroy();
             }
         };
         OffsetTracker.prototype.computeLeft = function () {
             var left = this.origRect.left;
-            for (var _i = 0, _a = this.scrollCaches; _i < _a.length; _i++) {
+            var _a = this.scrollCaches;
+            const _aLength = _a.length;
+            for (var _i = 0; _i < _aLength; _i++) {
                 var scrollCache = _a[_i];
                 left += scrollCache.origScrollLeft - scrollCache.getScrollLeft();
             }
@@ -928,15 +970,22 @@ Docs & License: https://fullcalendar.io/
         };
         OffsetTracker.prototype.computeTop = function () {
             var top = this.origRect.top;
-            for (var _i = 0, _a = this.scrollCaches; _i < _a.length; _i++) {
+            var _a = this.scrollCaches;
+            const _aLength = _a.length;
+            for (var _i = 0; _i < _aLength; _i++) {
                 var scrollCache = _a[_i];
                 top += scrollCache.origScrollTop - scrollCache.getScrollTop();
             }
             return top;
         };
         OffsetTracker.prototype.isWithinClipping = function (pageX, pageY) {
-            var point = { left: pageX, top: pageY };
-            for (var _i = 0, _a = this.scrollCaches; _i < _a.length; _i++) {
+            var point = {
+                left: pageX,
+                top: pageY
+            };
+            var _a = this.scrollCaches;
+            const _aLength = _a.length;
+            for (var _i = 0; _i < _aLength; _i++) {
                 var scrollCache = _a[_i];
                 if (!isIgnoredClipping(scrollCache.getEventTarget()) &&
                     !core.pointInsideRect(point, scrollCache.clientRect)) {
@@ -986,8 +1035,7 @@ Docs & License: https://fullcalendar.io/
                 if (_this.initialHit || !_this.requireInitial) {
                     dragging.setIgnoreMove(false);
                     _this.emitter.trigger('pointerdown', ev); // TODO: fire this before computing processFirstCoord, so listeners can cancel. this gets fired by almost every handler :(
-                }
-                else {
+                } else {
                     dragging.setIgnoreMove(true);
                 }
             };
@@ -1023,7 +1071,10 @@ Docs & License: https://fullcalendar.io/
         // sets initialHit
         // sets coordAdjust
         HitDragging.prototype.processFirstCoord = function (ev) {
-            var origPoint = { left: ev.pageX, top: ev.pageY };
+            var origPoint = {
+                left: ev.pageX,
+                top: ev.pageY
+            };
             var adjustedPoint = origPoint;
             var subjectEl = ev.subjectEl;
             var subjectRect;
@@ -1040,9 +1091,11 @@ Docs & License: https://fullcalendar.io/
                     }
                 }
                 this.coordAdjust = core.diffPoints(adjustedPoint, origPoint);
-            }
-            else {
-                this.coordAdjust = { left: 0, top: 0 };
+            } else {
+                this.coordAdjust = {
+                    left: 0,
+                    top: 0
+                };
             }
         };
         HitDragging.prototype.handleMove = function (ev, forceHandle) {
@@ -1066,7 +1119,9 @@ Docs & License: https://fullcalendar.io/
             this.offsetTrackers = {};
         };
         HitDragging.prototype.queryHitForOffset = function (offsetLeft, offsetTop) {
-            var _a = this, droppableStore = _a.droppableStore, offsetTrackers = _a.offsetTrackers;
+            var _a = this,
+                droppableStore = _a.droppableStore,
+                offsetTrackers = _a.offsetTrackers;
             var bestHit = null;
             for (var id in droppableStore) {
                 var component = droppableStore[id].component;
@@ -1080,14 +1135,14 @@ Docs & License: https://fullcalendar.io/
                     var width = origRect.right - origRect.left;
                     var height = origRect.bottom - origRect.top;
                     if (
-                    // must be within the element's bounds
-                    positionLeft >= 0 && positionLeft < width &&
+                        // must be within the element's bounds
+                        positionLeft >= 0 && positionLeft < width &&
                         positionTop >= 0 && positionTop < height) {
                         var hit = component.queryHit(positionLeft, positionTop, width, height);
                         if (hit &&
                             (
-                            // make sure the hit is within activeRange, meaning it's not a deal cell
-                            !component.props.dateProfile || // hack for DayTile
+                                // make sure the hit is within activeRange, meaning it's not a deal cell
+                                !component.props.dateProfile || // hack for DayTile
                                 core.rangeContainsRange(component.props.dateProfile.activeRange, hit.dateSpan.range)) &&
                             (!bestHit || hit.layer > bestHit.layer)) {
                             // TODO: better way to re-orient rectangle
@@ -1104,6 +1159,7 @@ Docs & License: https://fullcalendar.io/
         };
         return HitDragging;
     }());
+
     function isHitsEqual(hit0, hit1) {
         if (!hit0 && !hit1) {
             return true;
@@ -1120,6 +1176,7 @@ Docs & License: https://fullcalendar.io/
     */
     var DateClicking = /** @class */ (function (_super) {
         __extends(DateClicking, _super);
+
         function DateClicking(settings) {
             var _this = _super.call(this, settings) || this;
             _this.handlePointerDown = function (ev) {
@@ -1132,7 +1189,9 @@ Docs & License: https://fullcalendar.io/
                 var component = _this.component;
                 var pointer = _this.dragging.pointer;
                 if (!pointer.wasTouchScroll) {
-                    var _a = _this.hitDragging, initialHit = _a.initialHit, finalHit = _a.finalHit;
+                    var _a = _this.hitDragging,
+                        initialHit = _a.initialHit,
+                        finalHit = _a.finalHit;
                     if (initialHit && finalHit && isHitsEqual(initialHit, finalHit)) {
                         component.calendar.triggerDateClick(initialHit.dateSpan, initialHit.dayEl, component.view, ev.origEvent);
                     }
@@ -1159,11 +1218,14 @@ Docs & License: https://fullcalendar.io/
     */
     var DateSelecting = /** @class */ (function (_super) {
         __extends(DateSelecting, _super);
+
         function DateSelecting(settings) {
             var _this = _super.call(this, settings) || this;
             _this.dragSelection = null;
             _this.handlePointerDown = function (ev) {
-                var _a = _this, component = _a.component, dragging = _a.dragging;
+                var _a = _this,
+                    component = _a.component,
+                    dragging = _a.dragging;
                 var canSelect = component.opt('selectable') &&
                     component.isValidDateDownEl(ev.origEvent.target);
                 // don't bother to watch expensive moves if component won't do selection
@@ -1186,15 +1248,18 @@ Docs & License: https://fullcalendar.io/
                     }
                 }
                 if (dragSelection) {
-                    calendar.dispatch({ type: 'SELECT_DATES', selection: dragSelection });
-                }
-                else if (!isFinal) { // only unselect if moved away while dragging
-                    calendar.dispatch({ type: 'UNSELECT_DATES' });
+                    calendar.dispatch({
+                        type: 'SELECT_DATES',
+                        selection: dragSelection
+                    });
+                } else if (!isFinal) { // only unselect if moved away while dragging
+                    calendar.dispatch({
+                        type: 'UNSELECT_DATES'
+                    });
                 }
                 if (!isInvalid) {
                     core.enableCursor();
-                }
-                else {
+                } else {
                     core.disableCursor();
                 }
                 if (!isFinal) {
@@ -1225,6 +1290,7 @@ Docs & License: https://fullcalendar.io/
         };
         return DateSelecting;
     }(core.Interaction));
+
     function getComponentTouchDelay(component) {
         var delay = component.opt('selectLongPressDelay');
         if (delay == null) {
@@ -1232,6 +1298,7 @@ Docs & License: https://fullcalendar.io/
         }
         return delay;
     }
+
     function joinHitsIntoSelection(hit0, hit1, dateSelectionTransformers) {
         var dateSpan0 = hit0.dateSpan;
         var dateSpan1 = hit1.dateSpan;
@@ -1243,23 +1310,28 @@ Docs & License: https://fullcalendar.io/
         ];
         ms.sort(core.compareNumbers);
         var props = {};
-        for (var _i = 0, dateSelectionTransformers_1 = dateSelectionTransformers; _i < dateSelectionTransformers_1.length; _i++) {
+        var dateSelectionTransformers_1 = dateSelectionTransformers;
+        const dateSelectionTransformers_1Length = dateSelectionTransformers_1.length;
+        for (var _i = 0; _i < dateSelectionTransformers_1Length; _i++) {
             var transformer = dateSelectionTransformers_1[_i];
             var res = transformer(hit0, hit1);
             if (res === false) {
                 return null;
-            }
-            else if (res) {
+            } else if (res) {
                 __assign(props, res);
             }
         }
-        props.range = { start: ms[0], end: ms[3] };
+        props.range = {
+            start: ms[0],
+            end: ms[3]
+        };
         props.allDay = dateSpan0.allDay;
         return props;
     }
 
     var EventDragging = /** @class */ (function (_super) {
         __extends(EventDragging, _super);
+
         function EventDragging(settings) {
             var _this = _super.call(this, settings) || this;
             // internal state
@@ -1272,7 +1344,9 @@ Docs & License: https://fullcalendar.io/
             _this.mutatedRelevantEvents = null;
             _this.handlePointerDown = function (ev) {
                 var origTarget = ev.origEvent.target;
-                var _a = _this, component = _a.component, dragging = _a.dragging;
+                var _a = _this,
+                    component = _a.component,
+                    dragging = _a.dragging;
                 var mirror = dragging.mirror;
                 var initialCalendar = component.calendar;
                 var subjectSeg = _this.subjectSeg = core.getElSeg(ev.subjectEl);
@@ -1283,8 +1357,8 @@ Docs & License: https://fullcalendar.io/
                 dragging.delay =
                     // only do a touch delay if touch and this event hasn't been selected yet
                     (ev.isTouch && eventInstanceId !== component.props.eventSelection) ?
-                        getComponentTouchDelay$1(component) :
-                        null;
+                    getComponentTouchDelay$1(component) :
+                    null;
                 mirror.parentNode = initialCalendar.el;
                 mirror.revertDuration = component.opt('dragRevertDuration');
                 var isValid = component.isValidSegDownEl(origTarget) &&
@@ -1302,23 +1376,25 @@ Docs & License: https://fullcalendar.io/
                 if (ev.isTouch) {
                     // need to select a different event?
                     if (eventInstanceId !== _this.component.props.eventSelection) {
-                        initialCalendar.dispatch({ type: 'SELECT_EVENT', eventInstanceId: eventInstanceId });
+                        initialCalendar.dispatch({
+                            type: 'SELECT_EVENT',
+                            eventInstanceId: eventInstanceId
+                        });
                     }
-                }
-                else {
+                } else {
                     // if now using mouse, but was previous touch interaction, clear selected event
-                    initialCalendar.dispatch({ type: 'UNSELECT_EVENT' });
+                    initialCalendar.dispatch({
+                        type: 'UNSELECT_EVENT'
+                    });
                 }
                 if (_this.isDragging) {
                     initialCalendar.unselect(ev); // unselect *date* selection
-                    initialCalendar.publiclyTrigger('eventDragStart', [
-                        {
-                            el: _this.subjectSeg.el,
-                            event: new core.EventApi(initialCalendar, eventRange.def, eventRange.instance),
-                            jsEvent: ev.origEvent,
-                            view: _this.component.view
-                        }
-                    ]);
+                    initialCalendar.publiclyTrigger('eventDragStart', [{
+                        el: _this.subjectSeg.el,
+                        event: new core.EventApi(initialCalendar, eventRange.def, eventRange.instance),
+                        jsEvent: ev.origEvent,
+                        view: _this.component.view
+                    }]);
                 }
             };
             _this.handleHitUpdate = function (hit, isFinal) {
@@ -1355,16 +1431,14 @@ Docs & License: https://fullcalendar.io/
                                 interaction.mutatedEvents = core.createEmptyEventStore();
                             }
                         }
-                    }
-                    else {
+                    } else {
                         receivingCalendar = null;
                     }
                 }
                 _this.displayDrag(receivingCalendar, interaction);
                 if (!isInvalid) {
                     core.enableCursor();
-                }
-                else {
+                } else {
                     core.disableCursor();
                 }
                 if (!isFinal) {
@@ -1391,7 +1465,9 @@ Docs & License: https://fullcalendar.io/
                 if (_this.isDragging) {
                     var initialCalendar_1 = _this.component.calendar;
                     var initialView = _this.component.view;
-                    var _a = _this, receivingCalendar = _a.receivingCalendar, validMutation = _a.validMutation;
+                    var _a = _this,
+                        receivingCalendar = _a.receivingCalendar,
+                        validMutation = _a.validMutation;
                     var eventDef = _this.eventRange.def;
                     var eventInstance = _this.eventRange.instance;
                     var eventApi = new core.EventApi(initialCalendar_1, eventDef, eventInstance);
@@ -1399,14 +1475,12 @@ Docs & License: https://fullcalendar.io/
                     var mutatedRelevantEvents = _this.mutatedRelevantEvents;
                     var finalHit = _this.hitDragging.finalHit;
                     _this.clearDrag(); // must happen after revert animation
-                    initialCalendar_1.publiclyTrigger('eventDragStop', [
-                        {
-                            el: _this.subjectSeg.el,
-                            event: eventApi,
-                            jsEvent: ev.origEvent,
-                            view: initialView
-                        }
-                    ]);
+                    initialCalendar_1.publiclyTrigger('eventDragStop', [{
+                        el: _this.subjectSeg.el,
+                        event: eventApi,
+                        jsEvent: ev.origEvent,
+                        view: initialView
+                    }]);
                     if (validMutation) {
                         // dropped within same calendar
                         if (receivingCalendar === initialCalendar_1) {
@@ -1415,28 +1489,35 @@ Docs & License: https://fullcalendar.io/
                                 eventStore: mutatedRelevantEvents
                             });
                             var transformed = {};
-                            for (var _i = 0, _b = initialCalendar_1.pluginSystem.hooks.eventDropTransformers; _i < _b.length; _i++) {
+                            var _b = initialCalendar_1.pluginSystem.hooks.eventDropTransformers;
+                            const _bLength = _b.length;
+                            for (var _i = 0; _i < _bLength; _i++) {
                                 var transformer = _b[_i];
                                 __assign(transformed, transformer(validMutation, initialCalendar_1));
                             }
-                            var eventDropArg = __assign({}, transformed, { el: ev.subjectEl, delta: validMutation.datesDelta, oldEvent: eventApi, event: new core.EventApi(// the data AFTER the mutation
-                                initialCalendar_1, mutatedRelevantEvents.defs[eventDef.defId], eventInstance ? mutatedRelevantEvents.instances[eventInstance.instanceId] : null), revert: function () {
+                            var eventDropArg = __assign({}, transformed, {
+                                el: ev.subjectEl,
+                                delta: validMutation.datesDelta,
+                                oldEvent: eventApi,
+                                event: new core.EventApi( // the data AFTER the mutation
+                                    initialCalendar_1, mutatedRelevantEvents.defs[eventDef.defId], eventInstance ? mutatedRelevantEvents.instances[eventInstance.instanceId] : null),
+                                revert: function () {
                                     initialCalendar_1.dispatch({
                                         type: 'MERGE_EVENTS',
                                         eventStore: relevantEvents_1
                                     });
-                                }, jsEvent: ev.origEvent, view: initialView });
+                                },
+                                jsEvent: ev.origEvent,
+                                view: initialView
+                            });
                             initialCalendar_1.publiclyTrigger('eventDrop', [eventDropArg]);
                             // dropped in different calendar
-                        }
-                        else if (receivingCalendar) {
-                            initialCalendar_1.publiclyTrigger('eventLeave', [
-                                {
-                                    draggedEl: ev.subjectEl,
-                                    event: eventApi,
-                                    view: initialView
-                                }
-                            ]);
+                        } else if (receivingCalendar) {
+                            initialCalendar_1.publiclyTrigger('eventLeave', [{
+                                draggedEl: ev.subjectEl,
+                                event: eventApi,
+                                view: initialView
+                            }]);
                             initialCalendar_1.dispatch({
                                 type: 'REMOVE_EVENT_INSTANCES',
                                 instances: _this.mutatedRelevantEvents.instances
@@ -1451,20 +1532,20 @@ Docs & License: https://fullcalendar.io/
                                     eventInstanceId: eventInstance.instanceId
                                 });
                             }
-                            var dropArg = __assign({}, receivingCalendar.buildDatePointApi(finalHit.dateSpan), { draggedEl: ev.subjectEl, jsEvent: ev.origEvent, view: finalHit.component // should this be finalHit.component.view? See #4644
-                             });
+                            var dropArg = __assign({}, receivingCalendar.buildDatePointApi(finalHit.dateSpan), {
+                                draggedEl: ev.subjectEl,
+                                jsEvent: ev.origEvent,
+                                view: finalHit.component // should this be finalHit.component.view? See #4644
+                            });
                             receivingCalendar.publiclyTrigger('drop', [dropArg]);
-                            receivingCalendar.publiclyTrigger('eventReceive', [
-                                {
-                                    draggedEl: ev.subjectEl,
-                                    event: new core.EventApi(// the data AFTER the mutation
+                            receivingCalendar.publiclyTrigger('eventReceive', [{
+                                draggedEl: ev.subjectEl,
+                                event: new core.EventApi( // the data AFTER the mutation
                                     receivingCalendar, mutatedRelevantEvents.defs[eventDef.defId], mutatedRelevantEvents.instances[eventInstance.instanceId]),
-                                    view: finalHit.component // should this be finalHit.component.view? See #4644
-                                }
-                            ]);
+                                view: finalHit.component // should this be finalHit.component.view? See #4644
+                            }]);
                         }
-                    }
-                    else {
+                    } else {
                         initialCalendar_1.publiclyTrigger('_noEventDrop');
                     }
                 }
@@ -1506,24 +1587,32 @@ Docs & License: https://fullcalendar.io/
                         }
                     });
                     // completely clear the old calendar if it wasn't the initial
-                }
-                else {
-                    prevCalendar.dispatch({ type: 'UNSET_EVENT_DRAG' });
+                } else {
+                    prevCalendar.dispatch({
+                        type: 'UNSET_EVENT_DRAG'
+                    });
                 }
             }
             if (nextCalendar) {
-                nextCalendar.dispatch({ type: 'SET_EVENT_DRAG', state: state });
+                nextCalendar.dispatch({
+                    type: 'SET_EVENT_DRAG',
+                    state: state
+                });
             }
         };
         EventDragging.prototype.clearDrag = function () {
             var initialCalendar = this.component.calendar;
             var receivingCalendar = this.receivingCalendar;
             if (receivingCalendar) {
-                receivingCalendar.dispatch({ type: 'UNSET_EVENT_DRAG' });
+                receivingCalendar.dispatch({
+                    type: 'UNSET_EVENT_DRAG'
+                });
             }
             // the initial calendar might have an dummy drag state from displayDrag
             if (initialCalendar !== receivingCalendar) {
-                initialCalendar.dispatch({ type: 'UNSET_EVENT_DRAG' });
+                initialCalendar.dispatch({
+                    type: 'UNSET_EVENT_DRAG'
+                });
             }
         };
         EventDragging.prototype.cleanup = function () {
@@ -1538,6 +1627,7 @@ Docs & License: https://fullcalendar.io/
         EventDragging.SELECTOR = '.fc-draggable, .fc-resizable'; // TODO: test this in IE11
         return EventDragging;
     }(core.Interaction));
+
     function computeEventMutation(hit0, hit1, massagers) {
         var dateSpan0 = hit0.dateSpan;
         var dateSpan1 = hit1.dateSpan;
@@ -1563,12 +1653,15 @@ Docs & License: https://fullcalendar.io/
             datesDelta: delta,
             standardProps: standardProps
         };
-        for (var _i = 0, massagers_1 = massagers; _i < massagers_1.length; _i++) {
+        var massagers_1 = massagers;
+        const massagers_1Length = massagers_1.length;
+        for (var _i = 0; _i < massagers_1Length; _i++) {
             var massager = massagers_1[_i];
             massager(mutation, hit0, hit1);
         }
         return mutation;
     }
+
     function getComponentTouchDelay$1(component) {
         var delay = component.opt('eventLongPressDelay');
         if (delay == null) {
@@ -1579,6 +1672,7 @@ Docs & License: https://fullcalendar.io/
 
     var EventDragging$1 = /** @class */ (function (_super) {
         __extends(EventDragging, _super);
+
         function EventDragging(settings) {
             var _this = _super.call(this, settings) || this;
             // internal state
@@ -1602,14 +1696,12 @@ Docs & License: https://fullcalendar.io/
                 _this.relevantEvents = core.getRelevantEvents(calendar.state.eventStore, _this.eventRange.instance.instanceId);
                 _this.draggingSeg = _this.querySeg(ev);
                 calendar.unselect();
-                calendar.publiclyTrigger('eventResizeStart', [
-                    {
-                        el: _this.draggingSeg.el,
-                        event: new core.EventApi(calendar, eventRange.def, eventRange.instance),
-                        jsEvent: ev.origEvent,
-                        view: _this.component.view
-                    }
-                ]);
+                calendar.publiclyTrigger('eventResizeStart', [{
+                    el: _this.draggingSeg.el,
+                    event: new core.EventApi(calendar, eventRange.def, eventRange.instance),
+                    jsEvent: ev.origEvent,
+                    view: _this.component.view
+                }]);
             };
             _this.handleHitUpdate = function (hit, isFinal, ev) {
                 var calendar = _this.component.calendar;
@@ -1643,14 +1735,14 @@ Docs & License: https://fullcalendar.io/
                         type: 'SET_EVENT_RESIZE',
                         state: interaction
                     });
-                }
-                else {
-                    calendar.dispatch({ type: 'UNSET_EVENT_RESIZE' });
+                } else {
+                    calendar.dispatch({
+                        type: 'UNSET_EVENT_RESIZE'
+                    });
                 }
                 if (!isInvalid) {
                     core.enableCursor();
-                }
-                else {
+                } else {
                     core.disableCursor();
                 }
                 if (!isFinal) {
@@ -1669,39 +1761,34 @@ Docs & License: https://fullcalendar.io/
                 var eventApi = new core.EventApi(calendar, eventDef, eventInstance);
                 var relevantEvents = _this.relevantEvents;
                 var mutatedRelevantEvents = _this.mutatedRelevantEvents;
-                calendar.publiclyTrigger('eventResizeStop', [
-                    {
-                        el: _this.draggingSeg.el,
-                        event: eventApi,
-                        jsEvent: ev.origEvent,
-                        view: view
-                    }
-                ]);
+                calendar.publiclyTrigger('eventResizeStop', [{
+                    el: _this.draggingSeg.el,
+                    event: eventApi,
+                    jsEvent: ev.origEvent,
+                    view: view
+                }]);
                 if (_this.validMutation) {
                     calendar.dispatch({
                         type: 'MERGE_EVENTS',
                         eventStore: mutatedRelevantEvents
                     });
-                    calendar.publiclyTrigger('eventResize', [
-                        {
-                            el: _this.draggingSeg.el,
-                            startDelta: _this.validMutation.startDelta || core.createDuration(0),
-                            endDelta: _this.validMutation.endDelta || core.createDuration(0),
-                            prevEvent: eventApi,
-                            event: new core.EventApi(// the data AFTER the mutation
+                    calendar.publiclyTrigger('eventResize', [{
+                        el: _this.draggingSeg.el,
+                        startDelta: _this.validMutation.startDelta || core.createDuration(0),
+                        endDelta: _this.validMutation.endDelta || core.createDuration(0),
+                        prevEvent: eventApi,
+                        event: new core.EventApi( // the data AFTER the mutation
                             calendar, mutatedRelevantEvents.defs[eventDef.defId], eventInstance ? mutatedRelevantEvents.instances[eventInstance.instanceId] : null),
-                            revert: function () {
-                                calendar.dispatch({
-                                    type: 'MERGE_EVENTS',
-                                    eventStore: relevantEvents
-                                });
-                            },
-                            jsEvent: ev.origEvent,
-                            view: view
-                        }
-                    ]);
-                }
-                else {
+                        revert: function () {
+                            calendar.dispatch({
+                                type: 'MERGE_EVENTS',
+                                eventStore: relevantEvents
+                            });
+                        },
+                        jsEvent: ev.origEvent,
+                        view: view
+                    }]);
+                } else {
                     calendar.publiclyTrigger('_noEventResize');
                 }
                 // reset all internal state
@@ -1730,19 +1817,21 @@ Docs & License: https://fullcalendar.io/
         };
         return EventDragging;
     }(core.Interaction));
+
     function computeMutation(hit0, hit1, isFromStart, instanceRange, transforms) {
         var dateEnv = hit0.component.dateEnv;
         var date0 = hit0.dateSpan.range.start;
         var date1 = hit1.dateSpan.range.start;
         var delta = core.diffDates(date0, date1, dateEnv, hit0.component.largeUnit);
         var props = {};
-        for (var _i = 0, transforms_1 = transforms; _i < transforms_1.length; _i++) {
+        var transforms_1 = transforms;
+        const transforms_1Length = transforms_1.length;
+        for (var _i = 0; _i < transforms_1Length; _i++) {
             var transform = transforms_1[_i];
             var res = transform(hit0, hit1);
             if (res === false) {
                 return null;
-            }
-            else if (res) {
+            } else if (res) {
                 __assign(props, res);
             }
         }
@@ -1751,8 +1840,7 @@ Docs & License: https://fullcalendar.io/
                 props.startDelta = delta;
                 return props;
             }
-        }
-        else {
+        } else {
             if (dateEnv.add(instanceRange.end, delta) > instanceRange.start) {
                 props.endDelta = delta;
                 return props;
@@ -1771,7 +1859,9 @@ Docs & License: https://fullcalendar.io/
                 }
             };
             this.onDocumentPointerUp = function (pev) {
-                var _a = _this, calendar = _a.calendar, documentPointer = _a.documentPointer;
+                var _a = _this,
+                    calendar = _a.calendar,
+                    documentPointer = _a.documentPointer;
                 var state = calendar.state;
                 // touch-scrolling should never unfocus any type of selection
                 if (!documentPointer.wasTouchScroll) {
@@ -1787,7 +1877,9 @@ Docs & License: https://fullcalendar.io/
                     if (state.eventSelection && // an existing event selected?
                         !core.elementClosest(documentPointer.downEl, EventDragging.SELECTOR) // interaction DIDN'T start on an event
                     ) {
-                        calendar.dispatch({ type: 'UNSELECT_EVENT' });
+                        calendar.dispatch({
+                            type: 'UNSELECT_EVENT'
+                        });
                     }
                 }
                 _this.isRecentPointerDateSelect = false;
@@ -1853,8 +1945,7 @@ Docs & License: https://fullcalendar.io/
                 dragging.setMirrorIsVisible(isFinal || !droppableEvent || !document.querySelector('.fc-mirror'));
                 if (!isInvalid) {
                     core.enableCursor();
-                }
-                else {
+                } else {
                     core.disableCursor();
                 }
                 if (!isFinal) {
@@ -1864,13 +1955,19 @@ Docs & License: https://fullcalendar.io/
                 }
             };
             this.handleDragEnd = function (pev) {
-                var _a = _this, receivingCalendar = _a.receivingCalendar, droppableEvent = _a.droppableEvent;
+                var _a = _this,
+                    receivingCalendar = _a.receivingCalendar,
+                    droppableEvent = _a.droppableEvent;
                 _this.clearDrag();
                 if (receivingCalendar && droppableEvent) {
                     var finalHit = _this.hitDragging.finalHit;
                     var finalView = finalHit.component.view;
                     var dragMeta = _this.dragMeta;
-                    var arg = __assign({}, receivingCalendar.buildDatePointApi(finalHit.dateSpan), { draggedEl: pev.subjectEl, jsEvent: pev.origEvent, view: finalView });
+                    var arg = __assign({}, receivingCalendar.buildDatePointApi(finalHit.dateSpan), {
+                        draggedEl: pev.subjectEl,
+                        jsEvent: pev.origEvent,
+                        view: finalView
+                    });
                     receivingCalendar.publiclyTrigger('drop', [arg]);
                     if (dragMeta.create) {
                         receivingCalendar.dispatch({
@@ -1884,13 +1981,11 @@ Docs & License: https://fullcalendar.io/
                             });
                         }
                         // signal that an external event landed
-                        receivingCalendar.publiclyTrigger('eventReceive', [
-                            {
-                                draggedEl: pev.subjectEl,
-                                event: new core.EventApi(receivingCalendar, droppableEvent.def, droppableEvent.instance),
-                                view: finalView
-                            }
-                        ]);
+                        receivingCalendar.publiclyTrigger('eventReceive', [{
+                            draggedEl: pev.subjectEl,
+                            event: new core.EventApi(receivingCalendar, droppableEvent.def, droppableEvent.instance),
+                            view: finalView
+                        }]);
                     }
                 }
                 _this.receivingCalendar = null;
@@ -1906,34 +2001,38 @@ Docs & License: https://fullcalendar.io/
         ExternalElementDragging.prototype.buildDragMeta = function (subjectEl) {
             if (typeof this.suppliedDragMeta === 'object') {
                 return core.parseDragMeta(this.suppliedDragMeta);
-            }
-            else if (typeof this.suppliedDragMeta === 'function') {
+            } else if (typeof this.suppliedDragMeta === 'function') {
                 return core.parseDragMeta(this.suppliedDragMeta(subjectEl));
-            }
-            else {
+            } else {
                 return getDragMetaFromEl(subjectEl);
             }
         };
         ExternalElementDragging.prototype.displayDrag = function (nextCalendar, state) {
             var prevCalendar = this.receivingCalendar;
             if (prevCalendar && prevCalendar !== nextCalendar) {
-                prevCalendar.dispatch({ type: 'UNSET_EVENT_DRAG' });
+                prevCalendar.dispatch({
+                    type: 'UNSET_EVENT_DRAG'
+                });
             }
             if (nextCalendar) {
-                nextCalendar.dispatch({ type: 'SET_EVENT_DRAG', state: state });
+                nextCalendar.dispatch({
+                    type: 'SET_EVENT_DRAG',
+                    state: state
+                });
             }
         };
         ExternalElementDragging.prototype.clearDrag = function () {
             if (this.receivingCalendar) {
-                this.receivingCalendar.dispatch({ type: 'UNSET_EVENT_DRAG' });
+                this.receivingCalendar.dispatch({
+                    type: 'UNSET_EVENT_DRAG'
+                });
             }
         };
         ExternalElementDragging.prototype.canDropElOnCalendar = function (el, receivingCalendar) {
             var dropAccept = receivingCalendar.opt('dropAccept');
             if (typeof dropAccept === 'function') {
                 return dropAccept(el);
-            }
-            else if (typeof dropAccept === 'string' && dropAccept) {
+            } else if (typeof dropAccept === 'string' && dropAccept) {
                 return Boolean(core.elementMatches(el, dropAccept));
             }
             return true;
@@ -1944,12 +2043,14 @@ Docs & License: https://fullcalendar.io/
     // ----------------------------------------------------------------------------------------------------
     function computeEventForDateSpan(dateSpan, dragMeta, calendar) {
         var defProps = __assign({}, dragMeta.leftoverProps);
-        for (var _i = 0, _a = calendar.pluginSystem.hooks.externalDefTransforms; _i < _a.length; _i++) {
+        var _a = calendar.pluginSystem.hooks.externalDefTransforms;
+        const _aLength = _a.length;
+        for (var _i = 0; _i < _aLength; _i++) {
             var transform = _a[_i];
             __assign(defProps, transform(dateSpan, dragMeta));
         }
         var def = core.parseEventDef(defProps, dragMeta.sourceId, dateSpan.allDay, calendar.opt('forceEventDuration') || Boolean(dragMeta.duration), // hasEnd
-        calendar);
+            calendar);
         var start = dateSpan.range.start;
         // only rely on time info if drop zone is all-day,
         // otherwise, we already know the time
@@ -1959,19 +2060,27 @@ Docs & License: https://fullcalendar.io/
         var end = dragMeta.duration ?
             calendar.dateEnv.add(start, dragMeta.duration) :
             calendar.getDefaultEventEnd(dateSpan.allDay, start);
-        var instance = core.createEventInstance(def.defId, { start: start, end: end });
-        return { def: def, instance: instance };
+        var instance = core.createEventInstance(def.defId, {
+            start: start,
+            end: end
+        });
+        return {
+            def: def,
+            instance: instance
+        };
     }
     // Utils for extracting data from element
     // ----------------------------------------------------------------------------------------------------
     function getDragMetaFromEl(el) {
         var str = getEmbeddedElData(el, 'event');
         var obj = str ?
-            JSON.parse(str) :
-            { create: false }; // if no embedded data, assume no event creation
+            JSON.parse(str) : {
+                create: false
+            }; // if no embedded data, assume no event creation
         return core.parseDragMeta(obj);
     }
     core.config.dataAttrPrefix = '';
+
     function getEmbeddedElData(el, name) {
         var prefix = core.config.dataAttrPrefix;
         var prefixedName = (prefix ? prefix + '-' : '') + name;
@@ -1986,18 +2095,22 @@ Docs & License: https://fullcalendar.io/
     var ExternalDraggable = /** @class */ (function () {
         function ExternalDraggable(el, settings) {
             var _this = this;
-            if (settings === void 0) { settings = {}; }
+            if (settings === void 0) {
+                settings = {};
+            }
             this.handlePointerDown = function (ev) {
                 var dragging = _this.dragging;
-                var _a = _this.settings, minDistance = _a.minDistance, longPressDelay = _a.longPressDelay;
+                var _a = _this.settings,
+                    minDistance = _a.minDistance,
+                    longPressDelay = _a.longPressDelay;
                 dragging.minDistance =
                     minDistance != null ?
-                        minDistance :
-                        (ev.isTouch ? 0 : core.globalDefaults.eventDragMinDistance);
+                    minDistance :
+                    (ev.isTouch ? 0 : core.globalDefaults.eventDragMinDistance);
                 dragging.delay =
                     ev.isTouch ? // TODO: eventually read eventLongPressDelay instead vvv
-                        (longPressDelay != null ? longPressDelay : core.globalDefaults.longPressDelay) :
-                        0;
+                    (longPressDelay != null ? longPressDelay : core.globalDefaults.longPressDelay) :
+                    0;
             };
             this.handleDragStart = function (ev) {
                 if (ev.isTouch &&
@@ -2033,6 +2146,7 @@ Docs & License: https://fullcalendar.io/
     */
     var InferredElementDragging = /** @class */ (function (_super) {
         __extends(InferredElementDragging, _super);
+
         function InferredElementDragging(containerEl) {
             var _this = _super.call(this, containerEl) || this;
             _this.shouldIgnoreMove = false;
@@ -2077,8 +2191,7 @@ Docs & License: https://fullcalendar.io/
                     this.currentMirrorEl.style.visibility = '';
                     this.currentMirrorEl = null;
                 }
-            }
-            else {
+            } else {
                 var mirrorEl = this.mirrorSelector ?
                     document.querySelector(this.mirrorSelector) :
                     null;
@@ -2099,20 +2212,18 @@ Docs & License: https://fullcalendar.io/
         function ThirdPartyDraggable(containerOrSettings, settings) {
             var containerEl = document;
             if (
-            // wish we could just test instanceof EventTarget, but doesn't work in IE11
-            containerOrSettings === document ||
+                // wish we could just test instanceof EventTarget, but doesn't work in IE11
+                containerOrSettings === document ||
                 containerOrSettings instanceof Element) {
                 containerEl = containerOrSettings;
                 settings = settings || {};
-            }
-            else {
+            } else {
                 settings = (containerOrSettings || {});
             }
             var dragging = this.dragging = new InferredElementDragging(containerEl);
             if (typeof settings.itemSelector === 'string') {
                 dragging.pointer.selector = settings.itemSelector;
-            }
-            else if (containerEl === document) {
+            } else if (containerEl === document) {
                 dragging.pointer.selector = '[data-event]';
             }
             if (typeof settings.mirrorSelector === 'string') {
@@ -2138,6 +2249,8 @@ Docs & License: https://fullcalendar.io/
     exports.ThirdPartyDraggable = ThirdPartyDraggable;
     exports.default = main;
 
-    Object.defineProperty(exports, '__esModule', { value: true });
+    Object.defineProperty(exports, '__esModule', {
+        value: true
+    });
 
 }));

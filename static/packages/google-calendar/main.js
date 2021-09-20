@@ -6,9 +6,10 @@ Docs & License: https://fullcalendar.io/
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@fullcalendar/core')) :
-    typeof define === 'function' && define.amd ? define(['exports', '@fullcalendar/core'], factory) :
-    (global = global || self, factory(global.FullCalendarGoogleCalendar = {}, global.FullCalendar));
-}(this, function (exports, core) { 'use strict';
+        typeof define === 'function' && define.amd ? define(['exports', '@fullcalendar/core'], factory) :
+        (global = global || self, factory(global.FullCalendarGoogleCalendar = {}, global.FullCalendar));
+}(this, function (exports, core) {
+    'use strict';
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -25,11 +26,13 @@ Docs & License: https://fullcalendar.io/
     and limitations under the License.
     ***************************************************************************** */
 
-    var __assign = function() {
+    var __assign = function () {
         __assign = Object.assign || function __assign(t) {
-            for (var s, i = 1, n = arguments.length; i < n; i++) {
+            const argumentsLength = arguments.length;
+            for (var s, i = 1, n = argumentsLength; i < n; i++) {
                 s = arguments[i];
-                for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+                for (var p in s)
+                    if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
             }
             return t;
         };
@@ -47,7 +50,9 @@ Docs & License: https://fullcalendar.io/
     var eventSourceDef = {
         parseMeta: function (raw) {
             if (typeof raw === 'string') {
-                raw = { url: raw };
+                raw = {
+                    url: raw
+                };
             }
             if (typeof raw === 'object') {
                 var standardProps = core.refineProps(raw, STANDARD_PROPS);
@@ -69,8 +74,7 @@ Docs & License: https://fullcalendar.io/
                 onFailure({
                     message: 'Specify a googleCalendarApiKey. See http://fullcalendar.io/docs/google_calendar/'
                 });
-            }
-            else {
+            } else {
                 var url = buildUrl(meta);
                 var requestParams_1 = buildRequestParams(arg.range, apiKey, meta.data, calendar.dateEnv);
                 core.requestJson('GET', url, requestParams_1, function (body, xhr) {
@@ -80,34 +84,38 @@ Docs & License: https://fullcalendar.io/
                             errors: body.error.errors,
                             xhr: xhr
                         });
-                    }
-                    else {
+                    } else {
                         onSuccess({
                             rawEvents: gcalItemsToRawEventDefs(body.items, requestParams_1.timeZone),
                             xhr: xhr
                         });
                     }
                 }, function (message, xhr) {
-                    onFailure({ message: message, xhr: xhr });
+                    onFailure({
+                        message: message,
+                        xhr: xhr
+                    });
                 });
             }
         }
     };
+
     function parseGoogleCalendarId(url) {
         var match;
         // detect if the ID was specified as a single string.
         // will match calendars like "asdf1234@calendar.google.com" in addition to person email calendars.
         if (/^[^\/]+@([^\/\.]+\.)*(google|googlemail|gmail)\.com$/.test(url)) {
             return url;
-        }
-        else if ((match = /^https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/([^\/]*)/.exec(url)) ||
+        } else if ((match = /^https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/([^\/]*)/.exec(url)) ||
             (match = /^https?:\/\/www.google.com\/calendar\/feeds\/([^\/]*)/.exec(url))) {
             return decodeURIComponent(match[1]);
         }
     }
+
     function buildUrl(meta) {
         return API_BASE + '/' + encodeURIComponent(meta.googleCalendarId) + '/events';
     }
+
     function buildRequestParams(range, apiKey, extraParams, dateEnv) {
         var params;
         var startStr;
@@ -116,25 +124,32 @@ Docs & License: https://fullcalendar.io/
             // strings will naturally have offsets, which GCal needs
             startStr = dateEnv.formatIso(range.start);
             endStr = dateEnv.formatIso(range.end);
-        }
-        else {
+        } else {
             // when timezone isn't known, we don't know what the UTC offset should be, so ask for +/- 1 day
             // from the UTC day-start to guarantee we're getting all the events
             // (start/end will be UTC-coerced dates, so toISOString is okay)
             startStr = core.addDays(range.start, -1).toISOString();
             endStr = core.addDays(range.end, 1).toISOString();
         }
-        params = __assign({}, (extraParams || {}), { key: apiKey, timeMin: startStr, timeMax: endStr, singleEvents: true, maxResults: 9999 });
+        params = __assign({}, (extraParams || {}), {
+            key: apiKey,
+            timeMin: startStr,
+            timeMax: endStr,
+            singleEvents: true,
+            maxResults: 9999
+        });
         if (dateEnv.timeZone !== 'local') {
             params.timeZone = dateEnv.timeZone;
         }
         return params;
     }
+
     function gcalItemsToRawEventDefs(items, gcalTimezone) {
         return items.map(function (item) {
             return gcalItemToRawEventDef(item, gcalTimezone);
         });
     }
+
     function gcalItemToRawEventDef(item, gcalTimezone) {
         var url = item.htmlLink || null;
         // make the URLs for each event show times in the correct timezone
@@ -165,6 +180,8 @@ Docs & License: https://fullcalendar.io/
 
     exports.default = main;
 
-    Object.defineProperty(exports, '__esModule', { value: true });
+    Object.defineProperty(exports, '__esModule', {
+        value: true
+    });
 
 }));
