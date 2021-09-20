@@ -1,3 +1,6 @@
+import json
+import datetime
+
 from django.contrib import messages
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -99,6 +102,24 @@ class AdjustingEventView(generic.FormView):
         pk = self.kwargs['pk']
         adjusting_event = AdjustingEvent.objects.get(pk=pk)
 
+        TIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
+        DIFF_JST_FROM_UTC = 9
+        DIFF = datetime.timedelta(hours=DIFF_JST_FROM_UTC)
+        data = {
+            'title': adjusting_event.name,
+            'date1_start': (adjusting_event.date1_start + DIFF).strftime(TIME_FORMAT) if adjusting_event.date1_start else None,
+            'date1_end': (adjusting_event.date1_end + DIFF).strftime(TIME_FORMAT) if adjusting_event.date1_end else None,
+            'date2_start': (adjusting_event.date2_start + DIFF).strftime(TIME_FORMAT) if adjusting_event.date2_start else None,
+            'date2_end': (adjusting_event.date2_end + DIFF).strftime(TIME_FORMAT) if adjusting_event.date2_end else None,
+            'date3_start': (adjusting_event.date3_start + DIFF).strftime(TIME_FORMAT) if adjusting_event.date3_start else None,
+            'date3_end': (adjusting_event.date3_end + DIFF).strftime(TIME_FORMAT) if adjusting_event.date3_end else None,
+            'date4_start': (adjusting_event.date4_start + DIFF).strftime(TIME_FORMAT) if adjusting_event.date4_start else None,
+            'date4_end': (adjusting_event.date4_end + DIFF).strftime(TIME_FORMAT) if adjusting_event.date4_end else None,
+            'date5_start': (adjusting_event.date5_start + DIFF).strftime(TIME_FORMAT) if adjusting_event.date5_start else None,
+            'date5_end': (adjusting_event.date5_end + DIFF).strftime(TIME_FORMAT) if adjusting_event.date5_end else None,
+        }
+        print(adjusting_event.date1_start)
+        context['data_json'] = json.dumps(data)
         context['adjusting_event'] = adjusting_event
         return context
 
@@ -114,3 +135,4 @@ class AdjustingEventView(generic.FormView):
     def form_invalid(self, form):
         messages.error(self.request, '候補日程の送信に失敗しました...')
         return super().form_invalid(form)
+    
