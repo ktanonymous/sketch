@@ -3,24 +3,43 @@
 {% load account %} <!--accountテンプレートタグライブラリを読み込む-->
 {% block title%} ログイン {% endblock %}
 <!--TODO: padding marginとかの見直し -->
+{% block head %}
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+{% endblock %}
+
 {% block content %}
   <div>
     <h1 style="text-align:center; font-size:600%; margin-top:18vh">すけっち</h1>
 
-    <form class="login" method="POST" action="{% url 'account_login' %}" style="text-align:center; margin-top:10vh">
+    <form class="login" method="POST" action="{% url 'account_login' %}" style="text-align:center; margin-top: 5vh">
     {% csrf_token %}
       <div>
-        <div style="margin:0px auto; text-align:right; width:300px;">
-          {{ form.as_p }}
+        <div style="margin:0px auto; text-align:right; width:400px;">
+          <table style="text-align: center; border-collapse: separate; border-spacing: 30px;">
+            <tbody>
+              <tr>
+                <th>メールアドレス</th>
+                <td>{{ form.login }}</td>
+              </tr>
+              <tr>
+                <th>パスワード</th>
+                <td>{{ form.password }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
     </div>  
     
     {% if redirect_field_value %} <!-- redirect_field_valueが設定されていると、ログイン後にredirect_field_valueに飛ぶ 初期値はNONEだった-->
     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
     {% endif %}
-    <button class="primaryAction btn btn-light" type="submit" style="margin-top:3vh">ログイン</button>
+
+    <p style="margin-top:3vh">ログイン状態を維持しますか？ {{ form.remember }}</p>
+    <button class="primaryAction btn btn-light" type="submit">ログイン</button>
     </form>
 
-    <p style="text-align:center; margin-top:3vh">&#x25B6;<a href="{{ signup_url }}" style="color:rgb(3, 1, 124)">未登録の方はこちら</a></p>
+    <p style="text-align:center; margin-top:5vh">&#x25B6;<a href="{{ signup_url }}" style="color:rgb(3, 1, 124)">サインアップページ</a>へ</p>
   </div>
 {% endblock %}
