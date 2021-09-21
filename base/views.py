@@ -13,6 +13,24 @@ from .models import AdjustingEvent, Friend, Information, User
 class IndexView(generic.ListView):
     model = Information
     template_name = 'index.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        informations = self.get_queryset()
+        DIFF_JST_FROM_UTC = 9
+        DIFF = datetime.timedelta(hours=DIFF_JST_FROM_UTC)
+        TIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
+        informations_dict = {
+            information.event_name: {
+                'start': (information.event.date_start + DIFF).strftime(TIME_FORMAT),
+                'end': (information.event.date_end + DIFF).strftime(TIME_FORMAT),
+            }
+            for information in informations
+            if information.event
+        }
+        
+        context['informations_data'] = json.dumps(informations_dict)
+        return context
 
     def get_queryset(self):
         informations = Information.objects.filter(receiver=self.request.user.id)
@@ -118,7 +136,6 @@ class AdjustingEventView(generic.FormView):
             'date5_start': (adjusting_event.date5_start + DIFF).strftime(TIME_FORMAT) if adjusting_event.date5_start else None,
             'date5_end': (adjusting_event.date5_end + DIFF).strftime(TIME_FORMAT) if adjusting_event.date5_end else None,
         }
-        print(adjusting_event.date1_start)
         context['data_json'] = json.dumps(data)
         context['adjusting_event'] = adjusting_event
         return context

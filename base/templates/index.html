@@ -1,26 +1,41 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}ホーム{% endblock %}
 
 {% block is_home %}background-color: skyblue;{% endblock %}
 
+{% block head %}
+<link href="{% static 'packages/core/main.css' %}" rel='stylesheet' />
+<link href="{% static 'packages/daygrid/main.css' %}" rel='stylesheet' />
+<link href="{% static 'packages/timegrid/main.css' %}" rel='stylesheet' />
+<script src="{% static 'packages/core/main.js' %}"></script>
+<script src="{% static 'packages/interaction/main.js' %}"></script>
+<script src="{% static 'packages/daygrid/main.js' %}"></script>
+<script src="{% static 'packages/timegrid/main.js' %}"></script>
+<script src="{% static 'packages/list/main.js' %}"></script>
+<script src="{% static 'packages/core/locales-all.js' %}"></script>
+<script>
+    const data = JSON.parse('{{informations_data|safe}}');   
+</script>
+<script src="{% static 'js/index.js' %}"></script>
+{% endblock %}
+
 {% block content %}
 
 <div id="content-box">
-
-    <section class="box">
+    <section class="leftbox">
         <h1>お知らせ</h1>
         <table class="table-box">
             <tbody class="table-display">
                 {% for information in information_list %}
                     {% if information.adjusting_event %}
                         <tr>
-                            <th style="width: 40%">{{ information.created_at }}</th>
+                            <th style="width: 11em">{{ information.created_at }}</th>
                             <td> : {{information.sender}}から<a href="{% url 'base:adjusting' information.adjusting_event.pk %}" style="text-decoration: none;">予定「{{information.adjusting_event.name}}」</a>の調整依頼が来ました</td>
                         </tr>
                     {% else %}
                         <tr>
-                            <th style="width: 40%"> {{ information.created_at }}</th>
+                            <th style="width: 11em"> {{ information.created_at }}</th>
                             <td> : 予定 {{ information.event_name }} が確定しました。</td>
                         </tr>
                     {% endif %}
@@ -29,20 +44,9 @@
         </table>
     </section>
 
-    <section class="box">
+    <section class="rightbox">
         <h1>予定一覧</h1>
-        <table class="table-box">
-            <tbody class="table-display">
-                {% for information in information_list %}
-                    {% if information.event %}
-                        <tr>
-                            <th style="width: 30%">「{{ information.event.name }}」</th>
-                            <td> : {{ information.event.date_start }} 〜 {{ information.event.date_end }}</td>
-                        </tr>
-                    {% endif %}
-                {% endfor %}
-            </tbody>
-        </table>
+            <div id="calendar"></div>
     </section>
 
 </div>

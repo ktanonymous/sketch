@@ -7,35 +7,56 @@ bootstrapのコンテナにより、画面の横を3:6:3に3分割している
 <html lang="ja">
 
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="author" content="Takahiro Suzuki, Kota Syoji, Wataru Takamoto">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="日程調整を簡潔にすることを目標にしたアプリ「すけっち」のプロトタイプです。\n初学者達3人で力を合わせて作ったので，拙い点が多々ございますがご了承下さい。">
 
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<head>
+  <meta charset="UTF-8">
+  <meta name="author" content="Takahiro Suzuki, Kota Syoji, Wataru Takamoto">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="日程調整を簡潔にすることを目標にしたアプリ「すけっち」のプロトタイプです。\n初学者達3人で力を合わせて作ったので，拙い点が多々ございますがご了承下さい。">
 
-    <link href="{% static 'css/mystyle.css' %}" rel="stylesheet" type="text/css" />
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-    <title>すけっち｜{% block title %}{% endblock %}</title>
-    {% block head %}{% endblock %}
-  </head>
+  <link href="{% static 'css/mystyle.css' %}" rel="stylesheet" type="text/css" />
 
-  <body style="background-image: url({% static 'img/white_background.jpeg' %})">
-    <div class="container-fluid">
-      <div class="row align-items-center">
-        <div class="col-3"></div> <!-- TODO:col-3いらないかも？ styleの直書きはやめる--> 
-        <div class="col-6" style="height:100vh; background-image: url({% static 'img/water_background.jpeg' %});">
-          {% block content %}{% endblock %}
-        </div>
-        <div class="col-3"></div>
+  <title>すけっち｜{% block title %}{% endblock %}</title>
+  {% block head %}{% endblock %}
+</head>
+
+<body style="background-image: url({% static 'img/white_background.jpeg' %})">
+  <div class="container-fluid">
+    <div class="row align-items-center">
+      <div class="col-3"></div> <!-- TODO:col-3いらないかも？ styleの直書きはやめる-->
+      <div class="col-6" style="height:100vh; background-image: url({% static 'img/water_background.jpeg' %});">
+        {% block content %}{% endblock %}
+      </div>
+      <div class="col-3"></div>
+    </div>
+  </div>
+
+  {% if messages %}
+  <!--ひとまず追加、あとで他のブランチ合わせるときに消す-->
+  <div class="container">
+    <div class="row">
+      <div class="w-100">
+        <ul class="messages" style="list-style: none;">
+          {% for message in messages %}
+          <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+            {{ message }}
+          </li>
+          {% endfor %}
+        </ul>
       </div>
     </div>
-    
-    <footer style="background-color: black; position: fixed; bottom: 0; width: 100%; text-align: center;">
-      <p style="color: white; font-size: 18px; margin: 8px 8px;">&copy; 2021 Takahiro Suzuki, Kota Shoji, Wataru Takemoto.</p>
-    </footer>
-  </body>
+  </div>
+  {% endif %}
+
+  <footer style="background-color: black; position: fixed; bottom: 0; width: 100%; text-align: center;">
+    <p style="color: white; font-size: 18px; margin: 8px 8px;">&copy; 2021 Takahiro Suzuki, Kota Shoji, Wataru
+      Takemoto.
+    </p>
+  </footer>
+</body>
+
 </html>

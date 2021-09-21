@@ -23,15 +23,29 @@
     margin: 0px;
 }
 
-.box{
+.leftbox{
     text-align: left;
     margin: 50px 25px 50px 25px;
     padding: 0px;
     width: 50%;
     height: 80vh;
-    background-color: blanchedalmond;
-    border: 5px double blue;
+    /* background-color: blanchedalmond;
+    border: 5px double blue; */
+    border:1px solid rgba(136, 133, 133, 0.5);
+    border-radius:5px;
 }
+
+.rightbox{
+    text-align: left;
+    margin: 50px 25px 50px 25px;
+    padding: 0px;
+    width: 50%;
+    height: 80vh;
+    border:1px solid rgba(136, 133, 133, 0.5);
+    border-radius:5px;  
+}
+
+
 
 .table-box{
     text-align: left;
@@ -64,3 +78,4 @@
     border-spacing: 0px 10px; 
     border-radius:5px;   
 }
+
