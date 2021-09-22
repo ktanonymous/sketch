@@ -1,5 +1,6 @@
 from bootstrap_datepicker_plus import DateTimePickerInput
 from django import forms
+from allauth.account.forms import SignupForm
 
 from .models import AdjustingEvent, Event, Friend, Information, User
 
@@ -166,3 +167,7 @@ class AdjustingEventForm(forms.Form):
             information.sender = sender
             information.event = event
             information.save()
+
+#formのfieldの表示順序を変更.BaseSignupFormのコンストラクタのset_form_field_orderで用いる.
+class MyCustomSignupForm(SignupForm):
+    field_order = ['username', 'email', 'password'] 
