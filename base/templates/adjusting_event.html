@@ -15,139 +15,157 @@
 <script src="{% static 'packages/timegrid/main.js' %}"></script>
 <script src="{% static 'packages/core/locales-all.js' %}"></script>
 <script>
-    const data = JSON.parse('{{data_json|safe}}');    
+    const data = JSON.parse('{{data_json|safe}}');
 </script>
 <script src="{% static 'js/display.js' %}"></script>
 {{ form.media }}
 {% endblock %}
 
 {% block content %}
-    <div class="container" style="margin: 30px 0px;width:100%;">
-        <!--横幅は良かったけど、縦幅が微妙だった-->
-    <!-- <div class="d-flex justify-content-between"> -->
-        <div class="row" style="width:100%;">
-    <!-- <div id="content-box"> -->
+<!--カレンダーと候補日程リストを要素に持つブロック-->
+<!--左寄せのパターン-->
+<!--縦幅は良かったけど、右が余白が広すぎる-->
+{% comment %} <div class="container" style="margin: 30px 0px;width:100%;"> {% endcomment %}
+<!--中央寄せのパターン-->
+<!--縦幅は良かったけど、左右の余白が広すぎる-->
+{% comment %} <div class="container" style="margin: 30px auto;"> {% endcomment %}
+{% comment %} <div class="mx-auto"> {% endcomment %}
+<!--両端揃えのパターン横幅-->
+<!--は良かったけど、縦にはみ出てしまう-->
+{% comment %} <div class="d-flex justify-content-between"> {% endcomment %}
+<div class="d-flex justify-content-space-between" style="margin: 10px 20px;">
+
+    <div class="row">
+        <!--カレンダーを要素に持つブロック-->
         <div class="col-8">
-            <div class="row">
+            {% comment %} <div class="row"> {% endcomment %}
                 <div id='calendar'></div>
-            </div>
+            {% comment %} </div> {% endcomment %}
         </div>
+        <!--候補日程リストを要素に持つブロック-->
         <div class="col-4">
             <form method="POST" >
                 {% csrf_token %}
-            <table style="list-style-type: none; margin: 10px;" class="table table-bordered">
-                <caption style="color: black; caption-side: top;">
-                    <strong>候補日程リスト</strong>
-                </caption>
-                <thead class="thead-dark">
-                    <tr align="center">
-                        <th>
-                        </th>
-                        <th>
-                            OKな日程にチェックを入れてください
-                        </th>
-                        <th>
-                            日程
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="table-striped">
-                    {% if adjusting_event.date1_start %}
-                    <tr class="field" align="center" valign="center">
-                        <th>
-                            {{ form.date1_is_ok.label_tag }}
-                        </th>
-                        <td>
-                            <div style="width: 20px;">
-                                {{form.date1_is_ok}}
-                                {{ form.date1_is_ok.errors }}
-                            </div>
-                        </td>
-                        <td>
-                            {{ adjusting_event.date1_start|date:"m/d(D) H:i" }} ~ {{ adjusting_event.date1_end|date:"m/d(D) H:i" }}
-                        </td>
-                    </tr>
-                    {% endif %}
-                    
-                    {% if adjusting_event.date2_start %}
-                    <tr class="field" align="center" valign="center">
-                        <th>
-                            {{ form.date2_is_ok.label_tag }}
-                        </th>
-                        <td class="field">
-                            <div style="width: 20px;">
-                                {{form.date2_is_ok}}
-                                {{ form.date2_is_ok.errors }}
-                            </div>
-                        </td>
-                        <td>
-                            {{ adjusting_event.date2_start|date:"m/d(D) H:i" }} ~ {{ adjusting_event.date2_end|date:"m/d(D) H:i" }}
-                        </td>
-                    </tr>
-                    {% endif %}
-                    
-                    {% if adjusting_event.date3_start %}
-                    <tr class="field" align="center" valign="center">
-                        <th>
-                            {{ form.date3_is_ok.label_tag }}
-                        </th>
-                        <td class="field">
-                            <div style="width: 20px;">
-                                {{form.date3_is_ok}}
-                                {{ form.date3_is_ok.errors }}
-                            </div>
-                        </td>
-                        <td>
-                            {{ adjusting_event.date3_start|date:"m/d(D) H:i" }} ~ {{ adjusting_event.date3_end|date:"m/d(D) H:i" }}
-                        </td>
-                    </tr>
-                    {% endif %}
-                    
-                    {% if adjusting_event.date4_start %}
-                    <tr class="field" align="center" valign="center">
-                        <th>
-                            {{ form.date4_is_ok.label_tag }}
-                        </th>
-                        <td class="field">
-                            <div style="width: 20px;">
-                                {{form.date4_is_ok}}
-                                {{ form.date4_is_ok.errors }}
-                            </div>
-                        </td>
-                        <td>
-                            {{ adjusting_event.date4_start|date:"m/d(D) H:i" }} ~ {{ adjusting_event.date4_end|date:"m/d(D) H:i" }}
-                        </td>
-                    </tr>
-                    {% endif %}
-                    
-                    {% if adjusting_event.date5_start %}
-                    <tr class="field" align="center" valign="center">
-                        <th>
-                            {{ form.date5_is_ok.label_tag }}
-                        </th>
-                        <td class="field">
-                            <div style="width: 20px;">
-                                {{form.date5_is_ok}}
-                                {{ form.date5_is_ok.errors }}
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        {{ adjusting_event.date5_start|date:"m/d(D) H:i" }} ~ {{ adjusting_event.date5_end|date:"m/d(D) H:i" }}
-                    </td>
-                </tr>
-                {% endif %}
-                
-            </tbody>
-        </table>
-        
-        <button type="submit" style="margin:30px;" class ="btn btn-outline-dark">送信</button>
-        <button type="reset" style="margin:30px;" class="btn btn-outline-dark">取り消し</button>
-    </form>
+                <table style="list-style-type: none; margin: 10px;" class="table table-bordered">
+                    <caption style="color: black; caption-side: top;">
+                        <strong>候補日程リスト</strong>
+                    </caption>
+                    <thead class="thead-dark">
+                        <tr align="center">
+                            <th>
+                            </th>
+                            <th>
+                                OKな日程にチェックを入れてください
+                            </th>
+                            <th>
+                                日程
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-striped">
+                        {% if adjusting_event.date1_start %}
+                        <tr class="field" align="center" valign="center">
+                            <th>
+                                {{ form.date1_is_ok.label_tag }}
+                            </th>
+                            <td>
+                                <div style="width: 20px;">
+                                    {{form.date1_is_ok}}
+                                    {{ form.date1_is_ok.errors }}
+                                </div>
+                            </td>
+                            <td>
+                                {{ adjusting_event.date1_start|date:"m/d(D) H:i" }} ~ {{ adjusting_event.date1_end|date:"m/d(D) H:i" }}
+                            </td>
+                        </tr>
+                        {% endif %}
+                        
+                        {% if adjusting_event.date2_start %}
+                        <tr class="field" align="center" valign="center">
+                            <th>
+                                {{ form.date2_is_ok.label_tag }}
+                            </th>
+                            <td class="field">
+                                <div style="width: 20px;">
+                                    {{form.date2_is_ok}}
+                                    {{ form.date2_is_ok.errors }}
+                                </div>
+                            </td>
+                            <td>
+                                {{ adjusting_event.date2_start|date:"m/d(D) H:i" }} ~ {{ adjusting_event.date2_end|date:"m/d(D) H:i" }}
+                            </td>
+                        </tr>
+                        {% endif %}
+                        
+                        {% if adjusting_event.date3_start %}
+                        <tr class="field" align="center" valign="center">
+                            <th>
+                                {{ form.date3_is_ok.label_tag }}
+                            </th>
+                            <td class="field">
+                                <div style="width: 20px;">
+                                    {{form.date3_is_ok}}
+                                    {{ form.date3_is_ok.errors }}
+                                </div>
+                            </td>
+                            <td>
+                                {{ adjusting_event.date3_start|date:"m/d(D) H:i" }} ~ {{ adjusting_event.date3_end|date:"m/d(D) H:i" }}
+                            </td>
+                        </tr>
+                        {% endif %}
+                        
+                        {% if adjusting_event.date4_start %}
+                        <tr class="field" align="center" valign="center">
+                            <th>
+                                {{ form.date4_is_ok.label_tag }}
+                            </th>
+                            <td class="field">
+                                <div style="width: 20px;">
+                                    {{form.date4_is_ok}}
+                                    {{ form.date4_is_ok.errors }}
+                                </div>
+                            </td>
+                            <td>
+                                {{ adjusting_event.date4_start|date:"m/d(D) H:i" }} ~ {{ adjusting_event.date4_end|date:"m/d(D) H:i" }}
+                            </td>
+                        </tr>
+                        {% endif %}
+                        
+                        {% if adjusting_event.date5_start %}
+                        <tr class="field" align="center" valign="center">
+                            <th>
+                                {{ form.date5_is_ok.label_tag }}
+                            </th>
+                            <td class="field">
+                                <div style="width: 20px;">
+                                    {{form.date5_is_ok}}
+                                    {{ form.date5_is_ok.errors }}
+                                </div>
+                            </td>
+                            <td>
+                                {{ adjusting_event.date5_start|date:"m/d(D) H:i" }} ~ {{ adjusting_event.date5_end|date:"m/d(D) H:i" }}
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+                <button type="submit" style="margin:30px;" class ="btn btn-outline-dark">送信</button>
+                <button type="reset" style="margin:30px;" class="btn btn-outline-dark">取り消し</button>
+            </form>
+        </div>
     </div>
 </div>
-</div>
-<!-- </div> -->
+
+{% comment %} <div class="justify-content-space-between">
+    <div class="row">
+        <div class="col-8">
+            <div id="calendar"></div>
+        </div>
+        <div style="border: solid red 5px" class="col-4">
+            <h1>候補日程リスト</h1>
+        </div>
+    </div>
+</div> {% endcomment %}
 {% endblock %}
 
 

@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
-        plugins: ['interaction', 'dayGrid', 'timeGrid',],
+        plugins: ['interaction', 'dayGrid', 'timeGrid', ],
         header: {
             left: 'prev,next today',
             center: 'title',
@@ -13,8 +13,13 @@ document.addEventListener('DOMContentLoaded', function () {
         locale: 'ja',
         businessHours: true,
         // timeZone: 'Asia/Tokyo',
-        eventTimeFormat: { hour: 'numeric', minute: '2-digit' },
+        eventTimeFormat: {
+            hour: 'numeric',
+            minute: '2-digit'
+        },
         defaultView: 'dayGridMonth',
+        aspectRatio: 1.6,
+        // height: auto,
         navLinks: true, // can click day/week names to navigate views
         selectable: false,
         selectMirror: true,
@@ -38,8 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // },
     });
 
-    let newEvent = [
-        {
+    let newEvent = [{
             title: '候補',
             start: data.date1_start,
             end: data.date1_end,
@@ -66,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
         },
     ]
     newEventLength = newEvent.length
-    for (i = 0; i < newEventLength; i++){ //TODO:nullのままでいいか
+    for (i = 0; i < newEventLength; i++) { //TODO:nullのままでいいか
         console.log(newEvent[i]);
         calendar.addEvent(newEvent[i]);
     }
@@ -89,4 +93,3 @@ document.addEventListener('DOMContentLoaded', function () {
         return formatedDate + '-' + formatedTime;
     }
 });
-
