@@ -6,9 +6,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var calendar = new FullCalendar.Calendar(calendarEl, {
         plugins: ['list'],
         header: {
-            left: 'prev,next',
-            center: 'title',
-            right: null,
+            left: 'title',
+            center: null,
+            right:'prev,next'
         },
         locale: 'ja',
         businessHours: true,

@@ -37,7 +37,7 @@ bootstrapのコンテナにより、画面の横を3:6:3に3分割している
 
   {% if messages %}
   <!--ひとまず追加、あとで他のブランチ合わせるときに消す-->
-  <div class="container">
+  <div class="container" id="timeout2">
     <div class="row">
       <div class="w-100">
         <ul class="messages" style="list-style: none;">
@@ -57,6 +57,12 @@ bootstrapのコンテナにより、画面の横を3:6:3に3分割している
       Takemoto.
     </p>
   </footer>
+
+  <script type="text/javascript">
+    $(function () {
+        $('#timeout2').fadeOut(5000);
+    })
+  </script>
 </body>
 
 </html>
