@@ -23,23 +23,37 @@
     margin: 0px;
 }
 
-.box{
+.leftbox{
     text-align: left;
     margin: 50px 25px 50px 25px;
     padding: 0px;
     width: 50%;
     height: 80vh;
-    background-color: blanchedalmond;
-    border: 5px double blue;
+    /* background-color: blanchedalmond;
+    border: 5px double blue; */
+    border:1px solid rgba(136, 133, 133, 0.5);
+    border-radius:5px;
+}
+
+.rightbox{
+    text-align: left;
+    margin: 50px 25px 50px 25px;
+    padding: 0px;
+    width: 50%;
+    height: 80vh;
+    border-radius:5px;  
+    border:1px solid rgba(136, 133, 133, 0.5);
+
 }
 
 .table-box{
     text-align: left;
     position: relative;
-    width: 100%;
+    width: 80%;
     height: 92%;
     border-collapse: separate;
     border-spacing: 0px 10px;
+    margin:0px 0px 0px 20px;
 }
 
 .table-display{
@@ -55,3 +69,13 @@
     width: 60%;
     margin: 0px;
 }
+
+#date_table{
+    width: 100%;
+    color:rgb(63, 62, 62);
+    border-collapse: separate; 
+    border:1px solid rgba(136, 133, 133, 0.5); 
+    border-spacing: 0px 10px; 
+    border-radius:5px;   
+}
+

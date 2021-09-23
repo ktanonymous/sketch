@@ -1,0 +1,12 @@
+.fc-button{
+    background-color: rgba(240,240,240,0.8) !important;
+    border:1px solid rgba(136, 133, 133, 0) !important; 
+}
+
+.fc-icon{
+    color: rgba(0,0,0,0.8) !important;
+}
+
+/* .fc-center{
+    font-size:24px;
+} */

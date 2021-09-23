@@ -33,9 +33,35 @@ bootstrapのコンテナにより、画面の横を3:6:3に3分割している
         <div class="col-3"></div>
       </div>
     </div>
-    
-    <footer style="background-color: black; position: fixed; bottom: 0; width: 100%; text-align: center;">
-      <p style="color: white; font-size: 18px; margin: 8px 8px;">&copy; 2021 Takahiro Suzuki, Kota Shoji, Wataru Takemoto.</p>
-    </footer>
-  </body>
+
+  {% if messages %}
+  <!--ひとまず追加、あとで他のブランチ合わせるときに消す-->
+  <div class="container" id="timeout2">
+    <div class="row">
+      <div class="w-100">
+        <ul class="messages" style="list-style: none;">
+          {% for message in messages %}
+          <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+            {{ message }}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <footer style="background-color: black; position: fixed; bottom: 0; width: 100%; text-align: center;">
+    <p style="color: white; font-size: 18px; margin: 8px 8px;">&copy; 2021 Takahiro Suzuki, Kota Shoji, Wataru
+      Takemoto.
+    </p>
+  </footer>
+
+  <script type="text/javascript">
+    $(function () {
+        $('#timeout2').fadeOut(5000);
+    })
+  </script>
+</body>
+
 </html>
