@@ -5,13 +5,15 @@
 {% block is_friends_list %}background-color: skyblue;{% endblock %}
 
 {% block content %}
-<h1>友達一覧</h1>
 
-<div class="border border-dark bg-light">
+<div class="border border-dark rounded bg-light" style="margin: 10px auto; width: 90%;">
     {% for friend in friend_list %}
-    <p><span style="font-size: larger;">{{ friend.follow_user }}</span> <span style="color: gray;font-size: small;">{{ friend.follow_user.email }}</span></p>
+    <p>
+        <span style="font-size: 32px;">&nbsp;{{ friend.follow_user }}</span>
+        <span style="color: gray;font-size: 20px;">{{ friend.follow_user.email }}</span>
+    </p>
     {% empty %}
-    <p>友達がいません。。。</p>
+    <p style="font-size: 24px;"><b>友達がいません。。。</b></p>
     {% endfor %}
 </div>
 

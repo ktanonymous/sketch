@@ -100,7 +100,7 @@ class FriendFollowView(generic.FormView):
 class FriendsListView(generic.ListView):
     model = Friend
     template_name = 'friends_list.html'
-    paginate_by = 3
+    paginate_by = 20
 
     def get_queryset(self):
         friends = Friend.objects.filter(followed_user=self.request.user.id)

@@ -6,14 +6,13 @@
 
 {% block content %}
 
-<h1>メールアドレス</h1>
+<div style="width: 50%;">
+    <p style="margin-top: 20px; font-size: 18px;"><b>友達申請したいユーザーのメールアドレスを記入して下さい</b></p>
 
-<form method="post">
-    {% csrf_token %}
-    <table class="table">
-        {{ form.as_table }}
-    </table>
-    <button type="submit">送信</button>
-</form>
-
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-outline-dark">送信</button>
+    </form>
+</div>
 {% endblock %}
