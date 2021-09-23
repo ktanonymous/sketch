@@ -24,10 +24,10 @@
     <header style="width: 100%; margin: 0px;">
         <nav>
             <div id="header-box">
-                <div class="top-menu" style="background-image: url({% static 'img/background_image.jpg' %})">
-                    <strong style='color: black;'><sapan style="color:#46bd17;">す</sapan><span style="color:#f31818">け</span><span style="color:#1b1ed3">っ</span><span style="color:#f3e418">ち</span></strong>
+                <div class="top-menu" >
+                    <strong style='color: black;letter-spacing: 1em;font-size:18px;'><sapan style="color:#46bd17;">す</sapan><span style="color:#f31818">け</span><span style="color:#1b1ed3">っ</span><span style="color:#f3e418">ち</span></strong>
                 </div>
-                <div class="top-menu"><strong style="color: red;">{{ user.username }}さん</strong></div>
+                <div class="top-menu"><strong>{{ user.username }}さん</strong></div>
                 <div class="top-menu" style="{% block is_home %}{% endblock %}"><a href="{% url 'base:index' %}">ホーム</a>
                 </div>
                 <div class="top-menu" style="{% block is_propose %}{% endblock %}"><a
