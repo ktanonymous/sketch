@@ -29,6 +29,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     # 識別子をメアドにする
     USERNAME_FIELD = 'email'
 
+    REQUIRED_FIELDS = ['username']
+
     class Meta(object):
         verbose_name_plural = 'Users'
         db_table = 'users'

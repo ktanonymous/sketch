@@ -13,7 +13,7 @@ from .models import AdjustingEvent, Friend, Information, User
 class IndexView(generic.ListView):
     model = Information
     template_name = 'index.html'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         informations = self.get_queryset()
@@ -28,7 +28,7 @@ class IndexView(generic.ListView):
             for information in informations
             if information.event
         }
-        
+
         context['informations_data'] = json.dumps(informations_dict)
         return context
 
@@ -152,4 +152,3 @@ class AdjustingEventView(generic.FormView):
     def form_invalid(self, form):
         messages.error(self.request, '候補日程の送信に失敗しました...')
         return super().form_invalid(form)
-    
