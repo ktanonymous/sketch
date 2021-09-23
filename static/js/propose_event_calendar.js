@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
-        plugins: ['interaction', 'dayGrid', 'timeGrid',],
+        plugins: ['interaction', 'dayGrid', 'timeGrid', ],
         header: {
             left: 'prev,next today',
             center: 'title',
@@ -13,8 +13,12 @@ document.addEventListener('DOMContentLoaded', function () {
         locale: 'ja',
         businessHours: true,
         // timeZone: 'Asia/Tokyo',
-        eventTimeFormat: { hour: 'numeric', minute: '2-digit' },
+        eventTimeFormat: {
+            hour: 'numeric',
+            minute: '2-digit'
+        },
         defaultView: 'dayGridMonth',
+        aspectRatio: 1.6,
         navLinks: true, // can click day/week names to navigate views
         selectable: true,
         selectMirror: true,
@@ -70,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function resetEvent() {
         calendar.removeAllEvents();
-        
+
         for (let i = 0; i < 5; i++) {
             date_table.rows[i].cells[1].innerText = '';
             let startElement = document.getElementById(`id_date${i + 1}_start`);
@@ -108,6 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
             endElement.value = endDate2;
         }
     }
+
     function formatDate(dateString) {
         let date = new Date(dateString);
         let month = date.getMonth() + 1;
@@ -137,4 +142,3 @@ document.addEventListener('DOMContentLoaded', function () {
         return true;
     }
 });
-
