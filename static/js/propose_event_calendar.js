@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
             hour: 'numeric',
             minute: '2-digit'
         },
+        // slotDuration: '00:01:00', // set time duration
         defaultView: 'dayGridMonth',
         aspectRatio: 1.6,
         navLinks: true, // can click day/week names to navigate views
@@ -98,8 +99,14 @@ document.addEventListener('DOMContentLoaded', function () {
         let events = calendar.getEvents();
         const eventsLength = events.length;
         for (let i = 0; i < eventsLength; i++) {
+            let end = events[i].end;
+            // 終日イベントの場合に日付のズレを解消するために時間を1分戻す
+            if (events[i].allDay) {
+                end.setMinutes(end.getMinutes() - 1);
+            }
+
             startDateString = events[i].start.toString();
-            endDateString = events[i].end.toString();
+            endDateString = end.toString();
             startDate = formatDate(startDateString);
             endDate = formatDate(endDateString);
             startDate2 = formatDate2(startDateString);
