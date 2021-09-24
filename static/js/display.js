@@ -71,10 +71,8 @@ document.addEventListener('DOMContentLoaded', function () {
     ]
     newEventLength = newEvent.length
     for (i = 0; i < newEventLength; i++) { //TODO:nullのままでいいか
-        console.log(newEvent[i]);
         calendar.addEvent(newEvent[i]);
     }
-    console.log(newEvent);
     calendar.render();
 
     function formatDate(dateString) {
