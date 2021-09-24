@@ -105,13 +105,13 @@ Docs & License: https://fullcalendar.io/
                     (timeHtml || '') +
                     '</td>' :
                     '') +
-                '<td class="fc-list-item-marker ' + theme.getClass('widgetContent') + '">' +
-                '<span class="fc-event-dot"' +
-                (bgColor ?
-                    ' style="background-color:' + bgColor + '"' :
-                    '') +
-                '></span>' +
-                '</td>' +
+                // '<td class="fc-list-item-marker ' + theme.getClass('widgetContent') + '">' +
+                // '<span class="fc-event-dot"' +
+                // (bgColor ?
+                //     ' style="background-color:' + bgColor + '"' :
+                //     '') +
+                // '></span>' +
+                // '</td>' +
                 '<td class="fc-list-item-title ' + theme.getClass('widgetContent') + '">' +
                 '<a' + (url ? ' href="' + core.htmlEscape(url) + '"' : '') + '>' +
                 core.htmlEscape(eventDef.title || '') +
@@ -297,7 +297,7 @@ Docs & License: https://fullcalendar.io/
                         omitTime: true
                     })
                 }, '<td class="' + (this.calendar.theme.getClass('tableListHeading') ||
-                    this.calendar.theme.getClass('widgetHeader')) + '" colspan="3">' +
+                    this.calendar.theme.getClass('widgetHeader')) + '" colspan="2">' +
                 (mainFormat ?
                     core.buildGotoAnchorHtml(this, dayDate, {
                             'class': 'fc-list-heading-main'

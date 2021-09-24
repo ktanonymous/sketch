@@ -24,7 +24,6 @@
 }
 
 .leftbox {
-    text-align: left;
     margin: 50px 25px 50px 25px;
     padding: 0px;
     width: 50%;
@@ -44,6 +43,10 @@
     border-radius: 5px;
     border: 1px solid rgba(136, 133, 133, 0.5);
 
+}
+
+.rightbox td {
+    text-align: center;
 }
 
 .table-box {

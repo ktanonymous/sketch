@@ -8,12 +8,15 @@ document.addEventListener('DOMContentLoaded', function () {
         header: {
             left: 'title',
             center: null,
-            right:'prev,next'
+            right: 'prev,next'
         },
         locale: 'ja',
         businessHours: true,
         // timeZone: 'Asia/Tokyo',
-        eventTimeFormat: { hour: 'numeric', minute: '2-digit' },
+        eventTimeFormat: {
+            hour: 'numeric',
+            minute: '2-digit'
+        },
         defaultView: 'listYear',
         navLinks: false, // can click day/week names to navigate views
         selectable: false,
@@ -39,17 +42,18 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     let newEvent = [];
-    for (let key in data){
+    for (let key in data) {
         newEvent.push({
             title: key,
-            start: data[key].start, 
+            start: data[key].start,
             end: data[key].end,
-        },);
+        }, );
     }
     newEventLength = newEvent.length
-    for (i = 0; i < newEventLength; i++){ //TODO:nullのままでいいか
+    for (i = 0; i < newEventLength; i++) { //TODO:nullのままでいいか
         calendar.addEvent(newEvent[i]);
     }
+    console.log(calendar);
     calendar.render();
 
     function formatDate(dateString) {
@@ -68,4 +72,3 @@ document.addEventListener('DOMContentLoaded', function () {
         return formatedDate + '-' + formatedTime;
     }
 });
-
